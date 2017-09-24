@@ -1,0 +1,16 @@
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="com.deltacom.app.entity.Tariff" table="`tariff`">
+
+        <id name="id" column="idTariff">
+            <generator class="increment"/>
+        </id>
+        <property name="name" column="nameTariff"/>
+        <property name="price" column="priceTariff"/>
+
+        <set name="options" table="tariff_option">
+            <key column="idTariff"/>
+            <many-to-many column="idOption" class="com.deltacom.app.entity.Option"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping">
+    <class name="com.deltacom.app.entity.ClientContract" table="`client_contract`">
+
+        <id name="idClientContract" column="idClient_Contract">
+            <generator class="increment"/>
+        </id>
+
+        <property name="idClient" column="idClient"/>
+        <property name="numberContract" column="numberContract"/>
+
+    </class>
+</hibernate-mapping>
