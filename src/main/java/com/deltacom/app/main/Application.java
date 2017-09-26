@@ -1,20 +1,35 @@
 package com.deltacom.app.main;
 
 import com.deltacom.app.entities.AccessLevel;
-import com.deltacom.app.entities.Option;
-import org.hibernate.SessionFactory;
-import org.springframework.context.ConfigurableApplicationContext;
+import com.deltacom.app.repository.implementation.AccessLevelSqlRepository;
+import com.deltacom.app.repository.implementation.SqlRepository;
+import com.deltacom.app.repository.specifications.implementation.AccessLevelByIdSpecification;
 import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
 
 @Configuration
 public class Application {
+
     public static void main(String[] args) {
-        //SpringApplication.run(Application.class, args);
+
+        SqlRepository aLRepo = new AccessLevelSqlRepository();
+
+        AccessLevel ac = new AccessLevel();
+        ac.setName("USRD");
+
+        aLRepo.add(ac);
+        //List<AccessLevel> alL = aLRepo.query(new AccessLevelByIdSpecification(1));
+        List<AccessLevel> alL = aLRepo.getAll();
+
+        System.out.println(((AccessLevel)(alL.get(1))).getName());
+
+        aLRepo.remove(ac);
+
+        //alL = aLRepo.query(new AccessLevelByIdSpecification(1));
+        alL = aLRepo.getAll();
+
+        System.out.println(((AccessLevel)(alL.get(0))).getName());
     }
 }

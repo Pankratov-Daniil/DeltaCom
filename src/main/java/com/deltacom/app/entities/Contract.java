@@ -3,6 +3,9 @@ package com.deltacom.app.entities;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class for clients contracts.
+ */
 @Entity
 @Table(name = "contract")
 public class Contract {
@@ -27,7 +30,7 @@ public class Contract {
     @JoinColumn(name = "idClient")
     private Client client;
 
-    @ManyToMany(mappedBy = "contracts")
+    @ManyToMany
     @JoinTable(name = "contract_option",
                 joinColumns = @JoinColumn(name = "idContract"),
                 inverseJoinColumns = @JoinColumn(name = "idOption"))

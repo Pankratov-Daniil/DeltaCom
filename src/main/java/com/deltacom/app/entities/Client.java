@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
 
+/**
+ * Class for mobile operators client.
+ */
 @Entity
 @Table(name = "client")
 public class Client {

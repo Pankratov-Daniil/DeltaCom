@@ -1,7 +1,7 @@
-package com.deltacom.app.repository.api;
+package com.deltacom.app.repository.specifications.api;
 
 /**
- * Marker interface for Repository pattern.
+ * Marker interface for Generic Repository.
  */
 public interface Specification {
 }

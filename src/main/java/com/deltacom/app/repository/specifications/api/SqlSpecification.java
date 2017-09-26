@@ -1,7 +1,9 @@
 package com.deltacom.app.repository.specifications.api;
 
-import javax.persistence.Query;
-
-public interface HqlSpecification extends Specification {
-    Query toHqlQuery();
+/**
+ * SqlSpecification for Generic Repository.
+ * Implementing it allows make queries in repository.
+ */
+public interface SqlSpecification extends Specification {
+    String toSqlQuery();
 }

@@ -2,6 +2,10 @@ package com.deltacom.app.entities;
 
 import javax.persistence.*;
 
+/**
+ * Access levels class.
+ * It grants some privileges to user.
+ */
 @Entity
 @Table(name = "access_level")
 public class AccessLevel {

@@ -2,6 +2,9 @@ package com.deltacom.app.entities;
 
 import javax.persistence.*;
 
+/**
+ * Class for tariff.
+ */
 @Entity
 @Table(name = "tariff")
 public class Tariff {

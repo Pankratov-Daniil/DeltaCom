@@ -3,6 +3,9 @@ package com.deltacom.app.entities;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Class for options that can be in tariff.
+ */
 @Entity
 @Table(name = "option")
 public class Option {
