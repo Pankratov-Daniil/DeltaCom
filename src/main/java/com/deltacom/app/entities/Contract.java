@@ -12,7 +12,7 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idContract")
-    private long id;
+    private int id;
     @Basic
     @Column(name = "numberContract")
     private String number;
@@ -44,11 +44,11 @@ public class Contract {
         this.client = client;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -85,6 +85,17 @@ public class Contract {
     }
 
     @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", blocked=" + blocked +
+                ", blockedByOperator=" + blockedByOperator +
+                ", balance=" + balance +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -95,27 +106,20 @@ public class Contract {
         if (blocked != contract.blocked) return false;
         if (blockedByOperator != contract.blockedByOperator) return false;
         if (Float.compare(contract.balance, balance) != 0) return false;
-        return number != null ? number.equals(contract.number) : contract.number == null;
+        if (number != null ? !number.equals(contract.number) : contract.number != null) return false;
+        if (client != null ? !client.equals(contract.client) : contract.client != null) return false;
+        return options != null ? options.equals(contract.options) : contract.options == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (blocked ? 1 : 0);
         result = 31 * result + (blockedByOperator ? 1 : 0);
         result = 31 * result + (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (options != null ? options.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Contract{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", blocked=" + blocked +
-                ", blockedByOperator=" + blockedByOperator +
-                ", balance=" + balance +
-                '}';
     }
 }

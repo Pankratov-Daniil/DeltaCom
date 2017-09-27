@@ -12,16 +12,16 @@ public class AccessLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idAccess_level")
-    private long id;
+    private int id;
     @Basic
     @Column(name = "nameAccess_level")
     private String name;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class AccessLevel {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

@@ -38,11 +38,9 @@ public class SqlRepository<T> implements Repository<T> {
      */
     @Override
     public void add(List<T> items) {
-        entityManager.getTransaction().begin();
         for(T item : items){
             entityManager.persist(item);
         }
-        entityManager.getTransaction().commit();
     }
 
     /**
@@ -51,9 +49,7 @@ public class SqlRepository<T> implements Repository<T> {
      */
     @Override
     public void remove(T item) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(item);
-        entityManager.getTransaction().commit();
+        entityManager.remove(entityManager.merge(item));
     }
 
     /**
@@ -73,9 +69,12 @@ public class SqlRepository<T> implements Repository<T> {
      */
     @Override
     public void update(T item) {
-        entityManager.getTransaction().begin();
         entityManager.merge(item);
-        entityManager.getTransaction().commit();
+    }
+
+    @Override
+    public T getById(int id){
+        return (T)entityManager.find(entityClass, id);
     }
 
     /**

@@ -13,6 +13,7 @@ public interface Repository <T> {
     public void remove(final T item);
     public void remove(Specification specification);
     public void update(final T item);
+    public T getById(int id);
     public List<T> getAll();
 
     public List<T> query(Specification specification);

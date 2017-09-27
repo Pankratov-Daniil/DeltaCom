@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
@@ -13,7 +15,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idClient")
-    private long id;
+    private int id;
     @Basic
     @Column(name = "firstNameClient")
     private String firstName;
@@ -23,6 +25,7 @@ public class Client {
     @Basic
     @Column(name = "birthDateClient")
     @Temporal(value = TemporalType.DATE)
+    @DateTimeFormat(pattern="dd.MM.yyyy")
     private Date birthDate;
     @Basic
     @Column(name = "passportClient")
@@ -44,11 +47,11 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Contract> contracts;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -125,6 +128,22 @@ public class Client {
     }
 
     @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", passport='" + passport + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", accessLevel=" + accessLevel +
+                ", contracts=" + contracts +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -145,7 +164,7 @@ public class Client {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
@@ -156,21 +175,5 @@ public class Client {
         result = 31 * result + (accessLevel != null ? accessLevel.hashCode() : 0);
         result = 31 * result + (contracts != null ? contracts.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", passport='" + passport + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", accessLevel=" + accessLevel +
-                ", contracts=" + contracts +
-                '}';
     }
 }
