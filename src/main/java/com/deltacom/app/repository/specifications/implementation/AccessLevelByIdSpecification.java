@@ -3,7 +3,7 @@ package com.deltacom.app.repository.specifications.implementation;
 import com.deltacom.app.repository.specifications.api.SqlSpecification;
 
 /**
- * Specification that allows find AccessLevel entity in database by id
+ * Allows find AccessLevel entity in database by id
  */
 public class AccessLevelByIdSpecification implements SqlSpecification {
 

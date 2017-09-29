@@ -9,35 +9,59 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Operations with repository for Client entities.
+ */
 @Service("ClientService")
 public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientSqlRepository clientSqlRepository;
 
+    /**
+     * Creates new Client entity in database.
+     * @param entity Client entity to be created
+     */
     @Override
     @Transactional
-    public void createEntity(Client entity) {
+    public void createEntity(final Client entity) {
         clientSqlRepository.add(entity);
     }
 
+    /**
+     * Updates Client entity in database.
+     * @param entity Client entity to be updated
+     */
     @Override
     @Transactional
-    public void updateEntity(Client entity) {
+    public void updateEntity(final Client entity) {
         clientSqlRepository.update(entity);
     }
 
+    /**
+     * Deletes Client entity in database.
+     * @param entity Client entity to be deleted
+     */
     @Override
     @Transactional
-    public void deleteEntity(Client entity) {
+    public void deleteEntity(final Client entity) {
         clientSqlRepository.remove(entity);
     }
 
+    /**
+     * Gets Client entity by its id from database.
+     * @param id id of Client entity to be found
+     * @return founded Client entity
+     */
     @Override
     @Transactional
-    public Client getEntityById(int id) {
-        return (Client)clientSqlRepository.getById(id);
+    public Client getEntityById(final int id) {
+        return (Client) clientSqlRepository.getById(id);
     }
 
+    /**
+     * Gets all Client entities from database.
+     * @return List of Client entities from database
+     */
     @Override
     @Transactional
     public List<Client> getAllEntities() {

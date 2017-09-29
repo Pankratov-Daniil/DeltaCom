@@ -25,7 +25,7 @@ public class Client {
     @Basic
     @Column(name = "birthDateClient")
     @Temporal(value = TemporalType.DATE)
-    @DateTimeFormat(pattern="dd.MM.yyyy")
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date birthDate;
     @Basic
     @Column(name = "passportClient")

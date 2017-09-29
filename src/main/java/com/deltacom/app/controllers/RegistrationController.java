@@ -40,6 +40,11 @@ public class RegistrationController {
         return new ModelAndView("redirect:/registration");
     }
 
+    @RequestMapping(value = "/login")
+    public ModelAndView login(){
+        return new ModelAndView("login");
+    }
+
     /**
      * Converts from forms date string to java.util.Date
      */
