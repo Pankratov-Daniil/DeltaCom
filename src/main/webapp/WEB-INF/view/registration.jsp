@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8">
     <title>Registration page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
 <h3>Add / Delete client</h3>

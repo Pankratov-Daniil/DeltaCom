@@ -8,7 +8,13 @@ import java.security.NoSuchAlgorithmException;
  * Class for password encryption.
  */
 public final class MD5Encoder {
-    private MD5Encoder() { }
+    private static final int HASH_LENGTH = 32,
+                             RADIX = 16,
+                             POSITIVE_HASH_NUMBER = 1;
+
+    private MD5Encoder() throws IllegalAccessException {
+        throw new IllegalAccessException();
+    }
 
     /**
      * Encodes password.
@@ -23,8 +29,8 @@ public final class MD5Encoder {
             e.printStackTrace();
         }
         messageDigest.update(password.getBytes(), 0, password.length());
-        String hashedPass = new BigInteger(1, messageDigest.digest()).toString(16);
-        if (hashedPass.length() < 32) {
+        String hashedPass = new BigInteger(POSITIVE_HASH_NUMBER, messageDigest.digest()).toString(RADIX);
+        if (hashedPass.length() < HASH_LENGTH) {
             hashedPass = "0" + hashedPass;
         }
 

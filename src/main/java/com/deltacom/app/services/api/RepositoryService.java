@@ -9,7 +9,6 @@ public interface RepositoryService<T> {
     public void createEntity(T entity);
     public void updateEntity(T entity);
     public void deleteEntity(T entity);
-
     public T getEntityById(int id);
     public List<T> getAllEntities();
 }

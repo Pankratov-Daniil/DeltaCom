@@ -23,7 +23,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void createEntity(final AccessLevel entity) {
+    public void createEntity(AccessLevel entity) {
         accessLevelRepository.add(entity);
     }
 
@@ -33,7 +33,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void updateEntity(final AccessLevel entity) {
+    public void updateEntity(AccessLevel entity) {
         accessLevelRepository.update(entity);
     }
 
@@ -43,7 +43,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void deleteEntity(final AccessLevel entity) {
+    public void deleteEntity(AccessLevel entity) {
         accessLevelRepository.remove(entity);
     }
 
@@ -54,7 +54,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public AccessLevel getEntityById(final int id) {
+    public AccessLevel getEntityById(int id) {
         return (AccessLevel) accessLevelRepository.getById(id);
     }
 

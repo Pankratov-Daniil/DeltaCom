@@ -8,13 +8,12 @@ import java.util.List;
  * Interface for Generic Repository
  */
 public interface Repository <T> {
-    public void add(final T item);
-    public void add(final List<T> items);
-    public void remove(final T item);
+    public void add(T item);
+    public void add(List<T> items);
+    public void remove(T item);
     public void remove(Specification specification);
-    public void update(final T item);
+    public void update(T item);
     public T getById(int id);
     public List<T> getAll();
-
     public List<T> query(Specification specification);
 }

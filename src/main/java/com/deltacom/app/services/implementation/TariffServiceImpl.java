@@ -23,7 +23,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void createEntity(final Tariff entity) {
+    public void createEntity(Tariff entity) {
         tariffSqlRepository.add(entity);
     }
 
@@ -33,7 +33,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void updateEntity(final Tariff entity) {
+    public void updateEntity(Tariff entity) {
         tariffSqlRepository.update(entity);
     }
 
@@ -43,7 +43,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void deleteEntity(final Tariff entity) {
+    public void deleteEntity(Tariff entity) {
         tariffSqlRepository.remove(entity);
     }
 
@@ -54,7 +54,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getEntityById(final int id) {
+    public Tariff getEntityById(int id) {
         return (Tariff) tariffSqlRepository.getById(id);
     }
 

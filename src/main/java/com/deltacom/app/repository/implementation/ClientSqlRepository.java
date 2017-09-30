@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  * SqlRepository for Client entity
  */
 @Repository("Client")
-public class ClientSqlRepository extends SqlRepository {
+public class ClientSqlRepository extends SqlRepository<Client> {
     public ClientSqlRepository() {
         super(Client.class);
     }

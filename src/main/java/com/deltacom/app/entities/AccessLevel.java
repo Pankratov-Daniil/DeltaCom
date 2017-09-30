@@ -11,10 +11,10 @@ import javax.persistence.*;
 public class AccessLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idAccess_level")
+    @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "nameAccess_level")
+    @Column(name = "name")
     private String name;
 
     public int getId() {

@@ -23,7 +23,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void createEntity(final Option entity) {
+    public void createEntity(Option entity) {
         optionSqlRepository.add(entity);
     }
 
@@ -33,7 +33,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void updateEntity(final Option entity) {
+    public void updateEntity(Option entity) {
         optionSqlRepository.update(entity);
     }
 
@@ -43,7 +43,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void deleteEntity(final Option entity) {
+    public void deleteEntity(Option entity) {
         optionSqlRepository.remove(entity);
     }
 
@@ -54,7 +54,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public Option getEntityById(final int id) {
+    public Option getEntityById(int id) {
         return (Option) optionSqlRepository.getById(id);
     }
 

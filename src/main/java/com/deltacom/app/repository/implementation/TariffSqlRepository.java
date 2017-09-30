@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  * SqlRepository for Tariff entity
  */
 @Repository("Tariff")
-public class TariffSqlRepository extends SqlRepository {
+public class TariffSqlRepository extends SqlRepository<Tariff> {
     public TariffSqlRepository() {
         super(Tariff.class);
     }

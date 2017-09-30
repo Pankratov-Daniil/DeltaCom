@@ -14,36 +14,34 @@ import java.util.Date;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idClient")
+    @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "firstNameClient")
+    @Column(name = "firstName")
     private String firstName;
     @Basic
-    @Column(name = "lastNameClient")
+    @Column(name = "lastName")
     private String lastName;
     @Basic
-    @Column(name = "birthDateClient")
+    @Column(name = "birthDate")
     @Temporal(value = TemporalType.DATE)
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date birthDate;
     @Basic
-    @Column(name = "passportClient")
+    @Column(name = "passport")
     private String passport;
     @Basic
-    @Column(name = "addressClient")
+    @Column(name = "address")
     private String address;
     @Basic
-    @Column(name = "emailClient")
+    @Column(name = "email")
     private String email;
     @Basic
-    @Column(name = "passwordClient")
+    @Column(name = "password")
     private String password;
-
     @ManyToOne
     @JoinColumn(name = "idAccesslevel")
     private AccessLevel accessLevel;
-
     @OneToMany(mappedBy = "client")
     private List<Contract> contracts;
 

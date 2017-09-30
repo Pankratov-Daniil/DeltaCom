@@ -29,13 +29,16 @@ public class RegistrationController {
 
     @RequestMapping(value = "/regNewUser")
     public ModelAndView regUser(@ModelAttribute("newUser") Client client){
+        if(client.getFirstName().equals("") ||
+                client.getLastName().equals("") ||
+                client.getAddress().equals(""))
         client.setPassword(MD5Encoder.encodePassword(client.getPassword()));
         clientService.createEntity(client);
         return new ModelAndView("redirect:/registration");
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public ModelAndView deleteUser(@ModelAttribute("newUser") Client client, @PathVariable("id") int id){
+    public ModelAndView deleteUser(@ModelAttribute("newUser") Client client, @PathVariable("id") int id){    
         clientService.deleteEntity(clientService.getEntityById(id));
         return new ModelAndView("redirect:/registration");
     }

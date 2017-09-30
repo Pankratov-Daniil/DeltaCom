@@ -18,7 +18,7 @@ public class SqlRepository<T> implements Repository<T> {
 
     private final Class<T> entityClass;
 
-    public SqlRepository(final Class<T> entityClass) {
+    public SqlRepository(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -27,7 +27,7 @@ public class SqlRepository<T> implements Repository<T> {
      * @param item entity to addition
      */
     @Override
-    public void add(final T item) {
+    public void add(T item) {
         add(Collections.singletonList(item));
     }
 
@@ -36,7 +36,7 @@ public class SqlRepository<T> implements Repository<T> {
      * @param items entities for addition
      */
     @Override
-    public void add(final List<T> items) {
+    public void add(List<T> items) {
         for (T item : items) {
             entityManager.persist(item);
         }
@@ -47,7 +47,7 @@ public class SqlRepository<T> implements Repository<T> {
      * @param item entity for deleting
      */
     @Override
-    public void remove(final T item) {
+    public void remove(T item) {
         entityManager.remove(entityManager.merge(item));
     }
 
@@ -67,7 +67,7 @@ public class SqlRepository<T> implements Repository<T> {
      * @param item entity for upgrade
      */
     @Override
-    public void update(final T item) {
+    public void update(T item) {
         entityManager.merge(item);
     }
 
@@ -77,7 +77,7 @@ public class SqlRepository<T> implements Repository<T> {
      * @return found entity
      */
     @Override
-    public T getById(final int id) {
+    public T getById(int id) {
         return (T) entityManager.find(entityClass, id);
     }
 
@@ -96,8 +96,8 @@ public class SqlRepository<T> implements Repository<T> {
      * @return List of found entities
      */
     @Override
-    public List<T> query(final Specification specification) {
-        final SqlSpecification sqlSpecification = (SqlSpecification) specification;
+    public List<T> query(Specification specification) {
+        SqlSpecification sqlSpecification = (SqlSpecification) specification;
 
         return (List<T>) entityManager.createQuery(sqlSpecification.toSqlQuery()).getResultList();
     }

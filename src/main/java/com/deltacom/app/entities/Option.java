@@ -11,25 +11,29 @@ import java.util.List;
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idOption")
+    @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "nameOption")
+    @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "priceOption")
+    @Column(name = "price")
     private float price;
     @Basic
-    @Column(name = "connectionCostOption")
+    @Column(name = "connectionCost")
     private float connectionCost;
-
     @ManyToMany(mappedBy = "options")
     private List<Contract> contracts;
-
-    /*@ManyToMany
+    @ManyToMany
     @JoinTable(name = "incompatible_options",
-                joinColumns = @JoinColumn(name = ""))
-    private List<Option> incompatibleOptions;*/
+            joinColumns = @JoinColumn(name = "idOption1"),
+            inverseJoinColumns = @JoinColumn(name = "idOption2"))
+    private List<Option> incompatibleOptions;
+    @ManyToMany
+    @JoinTable(name = "compatible_options",
+            joinColumns = @JoinColumn(name = "idOption1"),
+            inverseJoinColumns = @JoinColumn(name = "idOption2"))
+    private List<Option> compatibleOptions;
 
     public int getId() {
         return id;

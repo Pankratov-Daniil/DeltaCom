@@ -11,10 +11,10 @@ import java.util.List;
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idContract")
+    @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "numberContract")
+    @Column(name = "number")
     private String number;
     @Basic
     @Column(name = "blocked")
@@ -25,11 +25,9 @@ public class Contract {
     @Basic
     @Column(name = "balance")
     private float balance;
-
     @ManyToOne
     @JoinColumn(name = "idClient")
     private Client client;
-
     @ManyToMany
     @JoinTable(name = "contract_option",
                 joinColumns = @JoinColumn(name = "idContract"),

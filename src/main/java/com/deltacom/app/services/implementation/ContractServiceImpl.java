@@ -23,7 +23,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void createEntity(final Contract entity) {
+    public void createEntity(Contract entity) {
         contractSqlRepository.add(entity);
     }
 
@@ -33,7 +33,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void updateEntity(final Contract entity) {
+    public void updateEntity(Contract entity) {
         contractSqlRepository.update(entity);
     }
 
@@ -43,7 +43,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void deleteEntity(final Contract entity) {
+    public void deleteEntity(Contract entity) {
         contractSqlRepository.remove(entity);
     }
 
@@ -54,7 +54,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public Contract getEntityById(final int id) {
+    public Contract getEntityById(int id) {
         return (Contract) contractSqlRepository.getById(id);
     }
 

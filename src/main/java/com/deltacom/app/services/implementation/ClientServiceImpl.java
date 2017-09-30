@@ -23,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void createEntity(final Client entity) {
+    public void createEntity(Client entity) {
         clientSqlRepository.add(entity);
     }
 
@@ -33,7 +33,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void updateEntity(final Client entity) {
+    public void updateEntity(Client entity) {
         clientSqlRepository.update(entity);
     }
 
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void deleteEntity(final Client entity) {
+    public void deleteEntity(Client entity) {
         clientSqlRepository.remove(entity);
     }
 
@@ -54,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public Client getEntityById(final int id) {
+    public Client getEntityById(int id) {
         return (Client) clientSqlRepository.getById(id);
     }
 

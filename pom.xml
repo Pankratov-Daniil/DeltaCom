@@ -94,12 +94,11 @@
       </dependency>
 
   </dependencies>
-  
+
   <build>
     <finalName>DeltaCom</finalName>
-	
 	<plugins>
-	
+
 	  <plugin>
 	    <groupId>org.apache.tomcat.maven</groupId>
 		<artifactId>tomcat7-maven-plugin</artifactId>
@@ -122,8 +121,8 @@
             </configuration>
 			<version>3.7.0</version>
         </plugin>
-	  
+
 	</plugins>
-	
+
   </build>
 </project>

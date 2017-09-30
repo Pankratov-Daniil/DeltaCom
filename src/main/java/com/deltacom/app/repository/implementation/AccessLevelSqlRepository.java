@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  * SqlRepository for AccessLevel entity
  */
 @Repository("AccessLevel")
-public class AccessLevelSqlRepository extends SqlRepository {
+public class AccessLevelSqlRepository extends SqlRepository<AccessLevel> {
     public AccessLevelSqlRepository(){
         super(AccessLevel.class);
     }
