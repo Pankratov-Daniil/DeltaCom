@@ -1,13 +1,11 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
-import com.deltacom.app.services.api.AccessLevelService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.utils.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +21,7 @@ public class RegistrationController {
     @RequestMapping(value = "/registration")
     public ModelAndView registration(@ModelAttribute("newUser") Client client){
         ModelAndView model = new ModelAndView("registration");
-        model.addObject("clientsList", clientService.getAllEntities());
+        model.addObject("clientsList", clientService.getAll());
         return model;
     }
 
@@ -33,13 +31,13 @@ public class RegistrationController {
                 client.getLastName().equals("") ||
                 client.getAddress().equals(""))
         client.setPassword(MD5Encoder.encodePassword(client.getPassword()));
-        clientService.createEntity(client);
+        clientService.create(client);
         return new ModelAndView("redirect:/registration");
     }
 
     @RequestMapping(value = "/delete/{id}")
     public ModelAndView deleteUser(@ModelAttribute("newUser") Client client, @PathVariable("id") int id){    
-        clientService.deleteEntity(clientService.getEntityById(id));
+        clientService.delete(clientService.getById(id));
         return new ModelAndView("redirect:/registration");
     }
 

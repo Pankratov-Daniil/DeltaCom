@@ -1,7 +1,7 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Option;
-import com.deltacom.app.repository.implementation.OptionSqlRepository;
+import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service("OptionService")
 public class OptionServiceImpl implements OptionService {
     @Autowired
-    private OptionSqlRepository optionSqlRepository;
+    private OptionRepositoryImpl optionRepository;
 
     /**
      * Creates new Option entity in database.
@@ -23,8 +23,8 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void createEntity(Option entity) {
-        optionSqlRepository.add(entity);
+    public void create(Option entity) {
+        optionRepository.add(entity);
     }
 
     /**
@@ -33,8 +33,8 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void updateEntity(Option entity) {
-        optionSqlRepository.update(entity);
+    public void update(Option entity) {
+        optionRepository.update(entity);
     }
 
     /**
@@ -43,8 +43,8 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void deleteEntity(Option entity) {
-        optionSqlRepository.remove(entity);
+    public void delete(Option entity) {
+        optionRepository.remove(entity);
     }
 
     /**
@@ -54,8 +54,8 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public Option getEntityById(int id) {
-        return (Option) optionSqlRepository.getById(id);
+    public Option getById(int id) {
+        return (Option) optionRepository.getById(id);
     }
 
     /**
@@ -64,7 +64,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public List<Option> getAllEntities() {
-        return optionSqlRepository.getAll();
+    public List<Option> getAll() {
+        return optionRepository.getAll();
     }
 }

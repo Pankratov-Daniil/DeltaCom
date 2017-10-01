@@ -1,7 +1,7 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.repository.implementation.TariffSqlRepository;
+import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
 import com.deltacom.app.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +15,15 @@ import java.util.List;
 @Service("TariffService")
 public class TariffServiceImpl implements TariffService {
     @Autowired
-    private TariffSqlRepository tariffSqlRepository;
+    private TariffRepositoryImpl tariffRepository;
 
     /**
      * Creates new Tariff entity in database.
      * @param entity Tariff entity to be created
      */
-    @Override
     @Transactional
-    public void createEntity(Tariff entity) {
-        tariffSqlRepository.add(entity);
+    public void create(Tariff entity) {
+        tariffRepository.add(entity);
     }
 
     /**
@@ -33,8 +32,8 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void updateEntity(Tariff entity) {
-        tariffSqlRepository.update(entity);
+    public void update(Tariff entity) {
+        tariffRepository.update(entity);
     }
 
     /**
@@ -43,8 +42,8 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void deleteEntity(Tariff entity) {
-        tariffSqlRepository.remove(entity);
+    public void delete(Tariff entity) {
+        tariffRepository.remove(entity);
     }
 
     /**
@@ -54,8 +53,8 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getEntityById(int id) {
-        return (Tariff) tariffSqlRepository.getById(id);
+    public Tariff getById(int id) {
+        return (Tariff) tariffRepository.getById(id);
     }
 
     /**
@@ -64,7 +63,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public List<Tariff> getAllEntities() {
-        return tariffSqlRepository.getAll();
+    public List<Tariff> getAll() {
+        return tariffRepository.getAll();
     }
 }

@@ -10,13 +10,13 @@ import javax.persistence.*;
 public class Tariff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTariff")
+    @Column(name = "id")
     private int id;
     @Basic
-    @Column(name = "nameTariff")
+    @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "priceTariff")
+    @Column(name = "price")
     private float price;
 
     public void setId(int id) {

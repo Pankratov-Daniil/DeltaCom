@@ -1,7 +1,7 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Contract;
-import com.deltacom.app.repository.implementation.ContractSqlRepository;
+import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
 import com.deltacom.app.services.api.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service("ContractService")
 public class ContractServiceImpl implements ContractService {
     @Autowired
-    private ContractSqlRepository contractSqlRepository;
+    private ContractRepositoryImpl contractRepository;
 
     /**
      * Creates new Contract entity in database.
@@ -23,8 +23,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void createEntity(Contract entity) {
-        contractSqlRepository.add(entity);
+    public void create(Contract entity) {
+        contractRepository.add(entity);
     }
 
     /**
@@ -33,8 +33,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void updateEntity(Contract entity) {
-        contractSqlRepository.update(entity);
+    public void update(Contract entity) {
+        contractRepository.update(entity);
     }
 
     /**
@@ -43,8 +43,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void deleteEntity(Contract entity) {
-        contractSqlRepository.remove(entity);
+    public void delete(Contract entity) {
+        contractRepository.remove(entity);
     }
 
     /**
@@ -54,8 +54,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public Contract getEntityById(int id) {
-        return (Contract) contractSqlRepository.getById(id);
+    public Contract getById(int id) {
+        return (Contract) contractRepository.getById(id);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public List<Contract> getAllEntities() {
-        return contractSqlRepository.getAll();
+    public List<Contract> getAll() {
+        return contractRepository.getAll();
     }
 }

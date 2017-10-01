@@ -1,7 +1,8 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.AccessLevel;
-import com.deltacom.app.repository.implementation.AccessLevelSqlRepository;
+import com.deltacom.app.repository.api.AccessLevelRepository;
+import com.deltacom.app.repository.implementation.AccessLevelRepositoryImpl;
 import com.deltacom.app.services.api.AccessLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 @Service("AccessLevelService")
 public class AccessLevelServiceImpl implements AccessLevelService {
     @Autowired
-    private AccessLevelSqlRepository accessLevelRepository;
+    private AccessLevelRepositoryImpl accessLevelRepository;
 
     /**
      * Creates new AccessLevel entity in database.
@@ -23,7 +24,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void createEntity(AccessLevel entity) {
+    public void create(AccessLevel entity) {
         accessLevelRepository.add(entity);
     }
 
@@ -33,7 +34,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void updateEntity(AccessLevel entity) {
+    public void update(AccessLevel entity) {
         accessLevelRepository.update(entity);
     }
 
@@ -43,7 +44,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public void deleteEntity(AccessLevel entity) {
+    public void delete(AccessLevel entity) {
         accessLevelRepository.remove(entity);
     }
 
@@ -54,7 +55,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public AccessLevel getEntityById(int id) {
+    public AccessLevel getById(int id) {
         return (AccessLevel) accessLevelRepository.getById(id);
     }
 
@@ -64,7 +65,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public List<AccessLevel> getAllEntities() {
+    public List<AccessLevel> getAll() {
         return accessLevelRepository.getAll();
     }
 }

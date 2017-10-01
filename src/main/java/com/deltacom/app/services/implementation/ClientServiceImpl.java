@@ -1,7 +1,7 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Client;
-import com.deltacom.app.repository.implementation.ClientSqlRepository;
+import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,9 @@ import java.util.List;
  * Operations with repository for Client entities.
  */
 @Service("ClientService")
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService{
     @Autowired
-    private ClientSqlRepository clientSqlRepository;
+    private ClientRepositoryImpl clientRepository;
 
     /**
      * Creates new Client entity in database.
@@ -23,8 +23,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void createEntity(Client entity) {
-        clientSqlRepository.add(entity);
+    public void create(Client entity) {
+        clientRepository.add(entity);
     }
 
     /**
@@ -33,8 +33,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void updateEntity(Client entity) {
-        clientSqlRepository.update(entity);
+    public void update(Client entity) {
+        clientRepository.update(entity);
     }
 
     /**
@@ -43,8 +43,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public void deleteEntity(Client entity) {
-        clientSqlRepository.remove(entity);
+    public void delete(Client entity) {
+        clientRepository.remove(entity);
     }
 
     /**
@@ -54,8 +54,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public Client getEntityById(int id) {
-        return (Client) clientSqlRepository.getById(id);
+    public Client getById(int id) {
+        return (Client) clientRepository.getById(id);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     @Transactional
-    public List<Client> getAllEntities() {
-        return clientSqlRepository.getAll();
+    public List<Client> getAll() {
+        return clientRepository.getAll();
     }
 }

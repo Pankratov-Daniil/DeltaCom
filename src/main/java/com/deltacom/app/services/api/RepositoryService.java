@@ -6,9 +6,9 @@ import java.util.List;
  * Interface for repository service.
  */
 public interface RepositoryService<T> {
-    public void createEntity(T entity);
-    public void updateEntity(T entity);
-    public void deleteEntity(T entity);
-    public T getEntityById(int id);
-    public List<T> getAllEntities();
+    public void create(T entity);
+    public void update(T entity);
+    public void delete(T entity);
+    public T getById(int id);
+    public List<T> getAll();
 }
