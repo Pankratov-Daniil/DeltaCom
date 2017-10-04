@@ -1,5 +1,6 @@
 package com.deltacom.app.services.implementation;
 
+import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
@@ -66,5 +67,10 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     public List<Client> getAll() {
         return clientRepository.getAll();
+    }
+
+    @Override
+    public Client getClientByEmail(String email) {
+        return clientRepository.getClientByEmail(email);
     }
 }

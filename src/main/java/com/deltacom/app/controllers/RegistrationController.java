@@ -1,10 +1,11 @@
 package com.deltacom.app.controllers;
 
+import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.services.api.ClientService;
-import com.deltacom.app.utils.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +28,17 @@ public class RegistrationController {
 
     @RequestMapping(value = "/regNewUser")
     public ModelAndView regUser(@ModelAttribute("newUser") Client client){
-        if(client.getFirstName().equals("") ||
-                client.getLastName().equals("") ||
-                client.getAddress().equals(""))
-        client.setPassword(MD5Encoder.encodePassword(client.getPassword()));
-        clientService.create(client);
+        if(!client.getFirstName().equals("") &&
+                !client.getLastName().equals("") &&
+                !client.getAddress().equals("")) {
+            int passwordStrength = 11;
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(passwordStrength);
+            client.setPassword(encoder.encode(client.getPassword()));
+            AccessLevel accessLevel = new AccessLevel();
+            accessLevel.setId(1);
+            client.setAccessLevel(accessLevel);
+            clientService.create(client);
+        }
         return new ModelAndView("redirect:/registration");
     }
 
@@ -39,11 +46,6 @@ public class RegistrationController {
     public ModelAndView deleteUser(@ModelAttribute("newUser") Client client, @PathVariable("id") int id){    
         clientService.delete(clientService.getById(id));
         return new ModelAndView("redirect:/registration");
-    }
-
-    @RequestMapping(value = "/login")
-    public ModelAndView login(){
-        return new ModelAndView("login");
     }
 
     /**

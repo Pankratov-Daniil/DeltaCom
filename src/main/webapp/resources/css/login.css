@@ -1,6 +1,31 @@
-.panel-login {
-    border: none;
-    -webkit-box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
-    -moz-box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
-    box-shadow: 0px 0px 49px 14px rgba(188,190,194,0.39);
+.login-form {
+	margin-top: 60px;
+}
+
+form[role=login] {
+	background: #EDF7F2;
+	padding: 26px;
+    outline: 2px solid #999999;
+}
+form[role=login] img {
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 35px;
+}
+form[role=login] input[type="email"],
+form[role=login] input[type="password"],
+form[role=login] button {
+    font-size: 18px;
+    margin: 16px 0;
+}
+form[role=login] > div {
+    text-align: center;
+}
+
+#checkboxLabel {
+    margin-left: -15px;
+}
+
+#forgot {
+    margin-top: 10px;
 }

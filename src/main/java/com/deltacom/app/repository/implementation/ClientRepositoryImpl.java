@@ -5,6 +5,7 @@ import com.deltacom.app.repository.api.ClientRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Repository("Client")
@@ -13,7 +14,12 @@ public class ClientRepositoryImpl extends HibernateRepository<Client> implements
     private EntityManager entityManager;
 
     @Override
-    public Client getClientByNumber(String number) {
-        return (Client)entityManager.createQuery("select contract.client from Contract contract where contract.number="+number);
+    public Client getClientByEmail(String email) {
+        try {
+            return (Client) entityManager.createQuery("select client from Client client where client.email = :emailStr")
+                    .setParameter("emailStr", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
