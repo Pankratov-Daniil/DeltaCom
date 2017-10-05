@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/accountPages.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -46,13 +47,13 @@
                   <li><a href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
                   <li><a href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
                   <li>
-                    <a onclick="logoutForm.submit();">
-                      <c:url var="logoutUrl" value="/logout"/>
-                      <form id="logoutForm" class="form-inline" action="${logoutUrl}" method="post">
-                        <i class="fa fa-sign-out fa-lg"></i>Logout
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                      </form>
-                    </a>
+                      <a onclick="logoutForm.submit();">
+                          <c:url var="logoutUrl" value="/logout"/>
+                          <form id="logoutForm" class="form-inline" action="${logoutUrl}" method="post">
+                              <i class="fa fa-sign-out fa-lg"></i>Logout
+                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                          </form>
+                      </a>
                   </li>
                 </ul>
               </li>
@@ -69,8 +70,8 @@
       <div class="content-wrapper">
         <div class="page-title">
           <div>
-            <h1><i class="fa fa-wifi"></i> Tariffs</h1>
-            <p>Here you can manage tariffs.</p>
+            <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
+            <p>Start a beautiful journey here</p>
           </div>
           <div>
             <ul class="breadcrumb">
@@ -80,41 +81,11 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <h3 class="card-title">Tariffs</h3>
-
-                  <div class="modal fade" tabindex="-1" id="modalOptions" role="dialog" aria-hidden="true">
-                      <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content">
-                              <%@include file="./options.jsp" %>
-                          </div>
-                      </div>
-                  </div>
-
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th>Options</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                    <tbody>
-                        <c:forEach items="${tariffs}" var="tariff">
-                            <tr>
-                                <td>${tariff.id}</td>
-                                <td>${tariff.name}</td>
-                                <td>${tariff.price}</td>
-                                <td>${tariff.options}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-              </div>
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">Load Your Data Here</div>
             </div>
+          </div>
         </div>
       </div>
     </div>

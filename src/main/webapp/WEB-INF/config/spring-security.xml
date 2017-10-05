@@ -13,8 +13,11 @@
     <intercept-url pattern="/user/**" access="hasRole('USER')"/>
     <intercept-url pattern="/manager/**" access="hasRole('MANAGER')"/>
 
+    <!-- We're using default-target-url because when we are logined
+        LoginController can redirect us to needed page according to role
+     -->
     <form-login login-page="/login"
-                default-target-url="/user/index"
+                default-target-url="/login"
                 authentication-failure-url="/login?error=true"
                 username-parameter="email"
                 password-parameter="password"

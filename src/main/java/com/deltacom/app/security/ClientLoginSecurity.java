@@ -14,11 +14,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for getting client and his access levels from database for Spring Security.
+ */
 @Service("ClientLoginSecurity")
 public class ClientLoginSecurity implements UserDetailsService {
     @Autowired
     private ClientRepository clientRepository;
 
+    /**
+     * Gets client and his access levels from database by his email
+     * @param email clients email
+     * @return UserDetails contains client information
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Client client = clientRepository.getClientByEmail(email);

@@ -8,11 +8,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+/**
+ * Client repository implementation
+ */
 @Repository("Client")
 public class ClientRepositoryImpl extends HibernateRepository<Client> implements ClientRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Gets client by email from database.
+     * @param email user email
+     * @return Client or null if nothing found
+     */
     @Override
     public Client getClientByEmail(String email) {
         try {

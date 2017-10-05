@@ -10,11 +10,19 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * Contract repository implementation
+ */
 @Repository("Contract")
 public class ContractRepositoryImpl extends HibernateRepository<Contract> implements ContractRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Gets all contracts by client id.
+     * @param clientId client id
+     * @return list of contracts for client or null if nothing found
+     */
     @Override
     public List<Contract> getAllClientContractsById(int clientId) {
         try {
