@@ -20,7 +20,7 @@ import java.security.Principal;
  */
 @Controller
 @RequestMapping(value = "/user")
-public class ClientController {
+public class ClientController extends CommonController {
     @Autowired
     ClientService clientService;
     @Autowired
@@ -52,22 +52,5 @@ public class ClientController {
     @RequestMapping(value = "/options")
     public ModelAndView options() {
         return new ModelAndView("user/options");
-    }
-
-    /**
-     * If clientName didn't set on this session, this method does this.
-     * @param session Spring give it for us
-     * @return clients first name + last name
-     */
-    @ModelAttribute("clientName")
-    public String setClientNameToSession(HttpSession session) {
-        String clientName = (String)session.getAttribute("clientName");
-        if (clientName == null) {
-            User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Client client = clientService.getClientByEmail(user.getUsername());
-            clientName = client.getFirstName() + " " + client.getLastName();
-            session.setAttribute("clientName", clientName);
-        }
-        return clientName;
     }
 }
