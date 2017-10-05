@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class RegistrationController {
@@ -36,7 +39,7 @@ public class RegistrationController {
             client.setPassword(encoder.encode(client.getPassword()));
             AccessLevel accessLevel = new AccessLevel();
             accessLevel.setId(1);
-            client.setAccessLevel(accessLevel);
+            client.setAccessLevels(Collections.singletonList(accessLevel));
             clientService.create(client);
         }
         return new ModelAndView("redirect:/registration");

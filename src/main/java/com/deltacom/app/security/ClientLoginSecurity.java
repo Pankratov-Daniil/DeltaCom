@@ -1,5 +1,6 @@
 package com.deltacom.app.security;
 
+import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.repository.api.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class ClientLoginSecurity implements UserDetailsService {
         if (client == null)
             throw new UsernameNotFoundException(email + " not found.");
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
-        auths.add(new SimpleGrantedAuthority(client.getAccessLevel().getName()));
+        for(AccessLevel accessLevel : client.getAccessLevels())
+            auths.add(new SimpleGrantedAuthority(accessLevel.getName()));
         return new User(email, client.getPassword(), true, true, true, true, auths);
     }
 }

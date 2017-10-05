@@ -39,9 +39,11 @@ public class Client {
     @Basic
     @Column(name = "password")
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "idAccesslevel")
-    private AccessLevel accessLevel;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "clients_access_levels",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "access_level_id"))
+    private List<AccessLevel> accessLevels;
     @OneToMany(mappedBy = "client")
     private List<Contract> contracts;
 
@@ -109,12 +111,12 @@ public class Client {
         this.password = password;
     }
 
-    public AccessLevel getAccessLevel() {
-        return accessLevel;
+    public List<AccessLevel> getAccessLevels() {
+        return accessLevels;
     }
 
-    public void setAccessLevel(AccessLevel accessLevel) {
-        this.accessLevel = accessLevel;
+    public void setAccessLevels(List<AccessLevel> accessLevel) {
+        this.accessLevels = accessLevel;
     }
 
     public List<Contract> getContracts() {
@@ -136,7 +138,7 @@ public class Client {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", accessLevel=" + accessLevel +
+                ", accessLevel=" + accessLevels +
                 ", contracts=" + contracts +
                 '}';
     }
@@ -156,7 +158,7 @@ public class Client {
         if (address != null ? !address.equals(client.address) : client.address != null) return false;
         if (email != null ? !email.equals(client.email) : client.email != null) return false;
         if (password != null ? !password.equals(client.password) : client.password != null) return false;
-        if (accessLevel != null ? !accessLevel.equals(client.accessLevel) : client.accessLevel != null) return false;
+        if (accessLevels != null ? !accessLevels.equals(client.accessLevels) : client.accessLevels != null) return false;
         return contracts != null ? contracts.equals(client.contracts) : client.contracts == null;
     }
 
@@ -170,7 +172,7 @@ public class Client {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (accessLevel != null ? accessLevel.hashCode() : 0);
+        result = 31 * result + (accessLevels != null ? accessLevels.hashCode() : 0);
         result = 31 * result + (contracts != null ? contracts.hashCode() : 0);
         return result;
     }
