@@ -62,6 +62,7 @@ public class Tariff {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", options=" + options +
                 '}';
     }
 
@@ -74,7 +75,8 @@ public class Tariff {
 
         if (id != tariff.id) return false;
         if (Float.compare(tariff.price, price) != 0) return false;
-        return name != null ? name.equals(tariff.name) : tariff.name == null;
+        if (name != null ? !name.equals(tariff.name) : tariff.name != null) return false;
+        return options != null ? options.equals(tariff.options) : tariff.options == null;
     }
 
     @Override
@@ -82,6 +84,7 @@ public class Tariff {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
+        result = 31 * result + (options != null ? options.hashCode() : 0);
         return result;
     }
 }

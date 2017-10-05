@@ -8,58 +8,10 @@
     <c:out value="${clientName}"/>
   </div>
 </div>
-<!-- Sidebar Menu-->
 <ul class="sidebar-menu">
   <sec:authorize access="hasRole('USER')">
       <li class="${fn:contains(pageContext.request.requestURI, 'user/index') ? 'active' : ''}"><a href="index"><i class="fa fa-dashboard"></i><span>Overview</span></a></li>
       <li class="${fn:contains(pageContext.request.requestURI, 'user/contracts') ? 'active' : ''}"><a href="contracts"><i class="fa fa-mobile"></i><span>Contracts</span></a></li>
       <li class="${fn:contains(pageContext.request.requestURI, 'user/tariffs') ? 'active' : ''}"><a href="tariffs"><i class="fa fa-wifi"></i><span>Tariffs</span></a></li>
   </sec:authorize>
-
-  <li class="treeview"><a href="#"><i class="fa fa-laptop"></i><span>UI Elements</span><i class="fa fa-angle-right"></i></a>
-    <ul class="treeview-menu">
-      <li><a href="bootstrap-components.html"><i class="fa fa-circle-o"></i> Bootstrap Elements</a></li>
-      <li><a href="http://fontawesome.io/icons/" target="_blank"><i class="fa fa-circle-o"></i> Font Icons</a></li>
-      <li><a href="ui-cards.html"><i class="fa fa-circle-o"></i> Cards</a></li>
-      <li><a href="widgets.html"><i class="fa fa-circle-o"></i> Widgets</a></li>
-    </ul>
-  </li>
-  <li><a href="charts.html"><i class="fa fa-pie-chart"></i><span>Charts</span></a></li>
-  <li class="treeview"><a href="#"><i class="fa fa-edit"></i><span>Forms</span><i class="fa fa-angle-right"></i></a>
-    <ul class="treeview-menu">
-      <li><a href="form-components.html"><i class="fa fa-circle-o"></i> Form Components</a></li>
-      <li><a href="form-custom.html"><i class="fa fa-circle-o"></i> Custom Components</a></li>
-      <li><a href="form-samples.html"><i class="fa fa-circle-o"></i> Form Samples</a></li>
-      <li><a href="form-notifications.html"><i class="fa fa-circle-o"></i> Form Notifications</a></li>
-    </ul>
-  </li>
-  <li class="treeview"><a href="#"><i class="fa fa-th-list"></i><span>Tables</span><i class="fa fa-angle-right"></i></a>
-    <ul class="treeview-menu">
-      <li><a href="table-basic.html"><i class="fa fa-circle-o"></i> Basic Tables</a></li>
-      <li><a href="table-data-table.html"><i class="fa fa-circle-o"></i> Data Tables</a></li>
-    </ul>
-  </li>
-  <li class="treeview"><a href="#"><i class="fa fa-file-text"></i><span>Pages</span><i class="fa fa-angle-right"></i></a>
-    <ul class="treeview-menu">
-      <li><a href="blank-page.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-      <li><a href="page-login.html"><i class="fa fa-circle-o"></i> Login Page</a></li>
-      <li><a href="page-lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen Page</a></li>
-      <li><a href="page-user.html"><i class="fa fa-circle-o"></i> User Page</a></li>
-      <li><a href="page-invoice.html"><i class="fa fa-circle-o"></i> Invoice Page</a></li>
-      <li><a href="page-calendar.html"><i class="fa fa-circle-o"></i> Calendar Page</a></li>
-      <li><a href="page-mailbox.html"><i class="fa fa-circle-o"></i> Mailbox</a></li>
-      <li><a href="page-error.html"><i class="fa fa-circle-o"></i> Error Page</a></li>
-    </ul>
-  </li>
-  <li class="treeview"><a href="#"><i class="fa fa-share"></i><span>Multilevel Menu</span><i class="fa fa-angle-right"></i></a>
-    <ul class="treeview-menu">
-      <li><a href="blank-page.html"><i class="fa fa-circle-o"></i> Level One</a></li>
-      <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i><span> Level One</span><i class="fa fa-angle-right"></i></a>
-        <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i> Level Two</a></li>
-          <li><a href="#"><i class="fa fa-circle-o"></i><span> Level Two</span></a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
 </ul>

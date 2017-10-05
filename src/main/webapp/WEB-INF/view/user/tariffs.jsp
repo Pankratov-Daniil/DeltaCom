@@ -70,7 +70,7 @@
         <div class="page-title">
           <div>
             <h1><i class="fa fa-wifi"></i> Tariffs</h1>
-            <p>Here you can create and manage your own tariffs or read about ready tariffs.</p>
+            <p>Here you can manage tariffs.</p>
           </div>
           <div>
             <ul class="breadcrumb">

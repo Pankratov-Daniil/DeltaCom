@@ -138,7 +138,7 @@ public class Client {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", accessLevel=" + accessLevels +
+                ", accessLevels=" + accessLevels +
                 ", contracts=" + contracts +
                 '}';
     }
@@ -158,7 +158,8 @@ public class Client {
         if (address != null ? !address.equals(client.address) : client.address != null) return false;
         if (email != null ? !email.equals(client.email) : client.email != null) return false;
         if (password != null ? !password.equals(client.password) : client.password != null) return false;
-        if (accessLevels != null ? !accessLevels.equals(client.accessLevels) : client.accessLevels != null) return false;
+        if (accessLevels != null ? !accessLevels.equals(client.accessLevels) : client.accessLevels != null)
+            return false;
         return contracts != null ? contracts.equals(client.contracts) : client.contracts == null;
     }
 

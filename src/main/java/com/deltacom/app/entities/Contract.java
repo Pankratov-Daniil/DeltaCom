@@ -109,6 +109,9 @@ public class Contract {
                 ", blocked=" + blocked +
                 ", blockedByOperator=" + blockedByOperator +
                 ", balance=" + balance +
+                ", tariff=" + tariff +
+                ", client=" + client +
+                ", options=" + options +
                 '}';
     }
 
@@ -124,6 +127,7 @@ public class Contract {
         if (blockedByOperator != contract.blockedByOperator) return false;
         if (Float.compare(contract.balance, balance) != 0) return false;
         if (number != null ? !number.equals(contract.number) : contract.number != null) return false;
+        if (tariff != null ? !tariff.equals(contract.tariff) : contract.tariff != null) return false;
         if (client != null ? !client.equals(contract.client) : contract.client != null) return false;
         return options != null ? options.equals(contract.options) : contract.options == null;
     }
@@ -135,6 +139,7 @@ public class Contract {
         result = 31 * result + (blocked ? 1 : 0);
         result = 31 * result + (blockedByOperator ? 1 : 0);
         result = 31 * result + (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        result = 31 * result + (tariff != null ? tariff.hashCode() : 0);
         result = 31 * result + (client != null ? client.hashCode() : 0);
         result = 31 * result + (options != null ? options.hashCode() : 0);
         return result;
