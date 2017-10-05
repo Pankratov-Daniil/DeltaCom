@@ -69,8 +69,8 @@
       <div class="content-wrapper">
         <div class="page-title">
           <div>
-            <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-            <p>Start a beautiful journey here</p>
+            <h1><i class="fa fa-wifi"></i> Tariffs</h1>
+            <p>Here you can create and manage your own tariffs or read about ready tariffs.</p>
           </div>
           <div>
             <ul class="breadcrumb">
@@ -83,6 +83,15 @@
             <div class="col-md-12">
               <div class="card">
                 <h3 class="card-title">Tariffs</h3>
+
+                  <div class="modal fade" tabindex="-1" id="modalOptions" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                              <%@include file="./options.jsp" %>
+                          </div>
+                      </div>
+                  </div>
+
                 <table class="table table-bordered">
                   <thead>
                     <tr>
@@ -90,28 +99,19 @@
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                  </tbody>
+                    <tbody>
+                        <c:forEach items="${tariffs}" var="tariff">
+                            <tr>
+                                <td>${tariff.id}</td>
+                                <td>${tariff.name}</td>
+                                <td>${tariff.price}</td>
+                                <td>${tariff.options}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
                 </table>
               </div>
             </div>

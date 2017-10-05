@@ -40,7 +40,7 @@ public class Client {
     @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "clients_access_levels",
+    @JoinTable(name = "`clients_access_levels`",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "access_level_id"))
     private List<AccessLevel> accessLevels;

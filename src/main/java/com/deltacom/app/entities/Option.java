@@ -7,7 +7,7 @@ import java.util.List;
  * Class for options that can be in tariff.
  */
 @Entity
-@Table(name = "option")
+@Table(name = "`option`")
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,30 @@ public class Option {
 
     public void setConnectionCost(float connectionCost) {
         this.connectionCost = connectionCost;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
+    public List<Option> getIncompatibleOptions() {
+        return incompatibleOptions;
+    }
+
+    public void setIncompatibleOptions(List<Option> incompatibleOptions) {
+        this.incompatibleOptions = incompatibleOptions;
+    }
+
+    public List<Option> getCompatibleOptions() {
+        return compatibleOptions;
+    }
+
+    public void setCompatibleOptions(List<Option> compatibleOptions) {
+        this.compatibleOptions = compatibleOptions;
     }
 
     @Override

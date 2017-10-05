@@ -32,7 +32,7 @@ public class Contract {
     @JoinColumn(name = "idClient")
     private Client client;
     @ManyToMany
-    @JoinTable(name = "contract_option",
+    @JoinTable(name = "`contract_option`",
                 joinColumns = @JoinColumn(name = "idContract"),
                 inverseJoinColumns = @JoinColumn(name = "idOption"))
     private List<Option> options;
@@ -91,6 +91,14 @@ public class Contract {
 
     public void setBalance(float balance) {
         this.balance = balance;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
     }
 
     @Override

@@ -19,6 +19,11 @@ public class Tariff {
     @Basic
     @Column(name = "price")
     private float price;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "`tariff_option`",
+            joinColumns = @JoinColumn(name = "idTariff"),
+            inverseJoinColumns = @JoinColumn(name = "idOption"))
+    private List<Option> options;
 
 
     public void setId(int id) {
@@ -43,6 +48,13 @@ public class Tariff {
 
     public float getPrice() { return price; }
 
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
 
     @Override
     public String toString() {
