@@ -1,6 +1,7 @@
 package com.deltacom.app.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Class for tariff.
@@ -18,6 +19,7 @@ public class Tariff {
     @Basic
     @Column(name = "price")
     private float price;
+
 
     public void setId(int id) {
         this.id = id;
@@ -40,6 +42,7 @@ public class Tariff {
     }
 
     public float getPrice() { return price; }
+
 
     @Override
     public String toString() {

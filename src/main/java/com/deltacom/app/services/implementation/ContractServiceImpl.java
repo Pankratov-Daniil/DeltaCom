@@ -67,4 +67,9 @@ public class ContractServiceImpl implements ContractService {
     public List<Contract> getAll() {
         return contractRepository.getAll();
     }
+
+    @Override
+    public List<Contract> getAllClientContractsById(int clientId) {
+        return contractRepository.getAllClientContractsById(clientId);
+    }
 }

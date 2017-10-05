@@ -47,6 +47,8 @@
             </tr>
         </table>
     </div>
+    <input type="hidden" name="${_csrf.parameterName}"
+           value="${_csrf.token}" />
 </form>
 <br>
 <h3>List of Clients</h3>

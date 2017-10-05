@@ -26,6 +26,9 @@ public class Contract {
     @Column(name = "balance")
     private float balance;
     @ManyToOne
+    @JoinColumn(name = "idTariff")
+    private Tariff tariff;
+    @ManyToOne
     @JoinColumn(name = "idClient")
     private Client client;
     @ManyToMany
@@ -40,6 +43,14 @@ public class Contract {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Tariff getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
     }
 
     public int getId() {

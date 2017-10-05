@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="../resources/css/accountPages.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -32,11 +31,11 @@
               <li class="dropdown notification-menu"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o fa-lg"></i></a>
                 <ul class="dropdown-menu">
                   <li class="not-head">You have 4 new notifications.</li>
-                  <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
+                  <li><a class="media" href="javascript:"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
                       <div class="media-body"><span class="block">Lisa sent you a mail</span><span class="text-muted block">2min ago</span></div></a></li>
-                  <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
+                  <li><a class="media" href="javascript:"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
                       <div class="media-body"><span class="block">Server Not Working</span><span class="text-muted block">2min ago</span></div></a></li>
-                  <li><a class="media" href="javascript:;"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
+                  <li><a class="media" href="javascript:"><span class="media-left media-icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
                       <div class="media-body"><span class="block">Transaction xyz complete</span><span class="text-muted block">2min ago</span></div></a></li>
                   <li class="not-footer"><a href="#">See all notifications.</a></li>
                 </ul>
@@ -47,13 +46,13 @@
                   <li><a href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
                   <li><a href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>
                   <li>
-                      <a onclick="logoutForm.submit();">
-                          <c:url var="logoutUrl" value="/logout"/>
-                          <form id="logoutForm" class="form-inline" action="${logoutUrl}" method="post">
-                              <i class="fa fa-sign-out fa-lg"></i>Logout
-                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                          </form>
-                      </a>
+                    <a onclick="logoutForm.submit();">
+                      <c:url var="logoutUrl" value="/logout"/>
+                      <form id="logoutForm" class="form-inline" action="${logoutUrl}" method="post">
+                        <i class="fa fa-sign-out fa-lg"></i>Logout
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                      </form>
+                    </a>
                   </li>
                 </ul>
               </li>
@@ -70,8 +69,8 @@
       <div class="content-wrapper">
         <div class="page-title">
           <div>
-            <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-            <p>Start a beautiful journey here</p>
+            <h1><i class="fa fa-mobile"></i> Contracts page</h1>
+            <p>Here you can manage your contracts.</p>
           </div>
           <div>
             <ul class="breadcrumb">
@@ -81,11 +80,35 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-body">Load Your Data Here</div>
+            <div class="col-md-12">
+              <div class="card">
+                <h3 class="card-title">Contracts</h3>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Number</th>
+                      <th>Tariff</th>
+                      <th>Balance</th>
+                      <th>Blocked</th>
+                      <th>Blocked by operator</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach items="${clientContracts}" var="contract">
+                        <tr>
+                            <td>${contract.id}</td>
+                            <td>${contract.number}</td>
+                            <td>${contract.tariff}</td>
+                            <td>${contract.balance}</td>
+                            <td>${contract.blocked}</td>
+                            <td>${contract.blockedByOperator}</td>
+                        </tr>
+                    </c:forEach>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
