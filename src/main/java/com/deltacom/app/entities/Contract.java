@@ -13,9 +13,9 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Basic
-    @Column(name = "number")
-    private String number;
+    @OneToOne
+    @JoinColumn(name = "number")
+    private NumbersPool numbersPool;
     @Basic
     @Column(name = "blocked")
     private boolean blocked;
@@ -61,12 +61,12 @@ public class Contract {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public NumbersPool getNumbersPool() {
+        return numbersPool;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setNumbersPool(NumbersPool numbersPool) {
+        this.numbersPool = numbersPool;
     }
 
     public boolean isBlocked() {
@@ -102,20 +102,6 @@ public class Contract {
     }
 
     @Override
-    public String toString() {
-        return "Contract{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", blocked=" + blocked +
-                ", blockedByOperator=" + blockedByOperator +
-                ", balance=" + balance +
-                ", tariff=" + tariff +
-                ", client=" + client +
-                ", options=" + options +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -126,7 +112,8 @@ public class Contract {
         if (blocked != contract.blocked) return false;
         if (blockedByOperator != contract.blockedByOperator) return false;
         if (Float.compare(contract.balance, balance) != 0) return false;
-        if (number != null ? !number.equals(contract.number) : contract.number != null) return false;
+        if (numbersPool != null ? !numbersPool.equals(contract.numbersPool) : contract.numbersPool != null)
+            return false;
         if (tariff != null ? !tariff.equals(contract.tariff) : contract.tariff != null) return false;
         if (client != null ? !client.equals(contract.client) : contract.client != null) return false;
         return options != null ? options.equals(contract.options) : contract.options == null;
@@ -135,7 +122,7 @@ public class Contract {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (number != null ? number.hashCode() : 0);
+        result = 31 * result + (numbersPool != null ? numbersPool.hashCode() : 0);
         result = 31 * result + (blocked ? 1 : 0);
         result = 31 * result + (blockedByOperator ? 1 : 0);
         result = 31 * result + (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
@@ -143,5 +130,19 @@ public class Contract {
         result = 31 * result + (client != null ? client.hashCode() : 0);
         result = 31 * result + (options != null ? options.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", numbersPool=" + numbersPool +
+                ", blocked=" + blocked +
+                ", blockedByOperator=" + blockedByOperator +
+                ", balance=" + balance +
+                ", tariff=" + tariff +
+                ", client=" + client +
+                ", options=" + options +
+                '}';
     }
 }

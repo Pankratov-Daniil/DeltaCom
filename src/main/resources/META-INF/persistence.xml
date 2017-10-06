@@ -8,6 +8,7 @@
         <class>com.deltacom.app.entities.AccessLevel</class>
         <class>com.deltacom.app.entities.Client</class>
         <class>com.deltacom.app.entities.Contract</class>
+        <class>com.deltacom.app.entities.NumbersPool</class>
         <class>com.deltacom.app.entities.Option</class>
         <class>com.deltacom.app.entities.Tariff</class>
 
