@@ -87,8 +87,8 @@ CREATE TABLE `deltacom`.`clients_access_levels` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_clients_access_levels_client1_idx` (`client_id`),
   KEY `fk_clients_access_levels_access_level1_idx` (`access_level_id`),
-  CONSTRAINT `fk_clients_access_levels_access_level1` FOREIGN KEY (`access_level_id`) REFERENCES `access_level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_clients_access_levels_client1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_clients_access_levels_access_level1` FOREIGN KEY (`access_level_id`) REFERENCES `deltacom`.`access_level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_clients_access_levels_client1` FOREIGN KEY (`client_id`) REFERENCES `deltacom`.`client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -117,8 +117,8 @@ CREATE TABLE `deltacom`.`compatible_options` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_compatible_options_option1_idx` (`idOption1`),
   KEY `fk_compatible_options_option2_idx` (`idOption2`),
-  CONSTRAINT `fk_compatible_options_option1` FOREIGN KEY (`idOption1`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_compatible_options_option2` FOREIGN KEY (`idOption2`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_compatible_options_option1` FOREIGN KEY (`idOption1`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_compatible_options_option2` FOREIGN KEY (`idOption2`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -131,6 +131,31 @@ LOCK TABLES `deltacom`.`compatible_options` WRITE;
 INSERT INTO `deltacom`.`compatible_options` VALUES (4,3,4);
 /*!40000 ALTER TABLE `deltacom`.`compatible_options` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `number_pool`
+--
+DROP TABLE IF EXISTS `deltacom`.`number_pool` ;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE IF NOT EXISTS `deltacom`.`number_pool` (
+  `number` VARCHAR(12) NOT NULL,
+  `used` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`number`),
+  UNIQUE INDEX `number_UNIQUE` (`number` ASC))
+ENGINE = InnoDB;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `number_pool`
+--
+
+LOCK TABLES `deltacom`.`number_pool` WRITE;
+/*!40000 ALTER TABLE `deltacom`.`number_pool` DISABLE KEYS */;
+INSERT INTO `deltacom`.`number_pool` VALUES ('89219999999',1),('89212923412',0),('89314523412',0);
+/*!40000 ALTER TABLE `deltacom`.`number_pool` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `contract`
@@ -152,8 +177,9 @@ CREATE TABLE `deltacom`.`contract` (
   UNIQUE KEY `numberContract_UNIQUE` (`number`),
   KEY `fk_contract_tariff1_idx` (`idTariff`),
   KEY `fk_contract_Client1_idx` (`idClient`),
-  CONSTRAINT `fk_contract_Client1` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_contract_tariff1` FOREIGN KEY (`idTariff`) REFERENCES `tariff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_contract_Client1` FOREIGN KEY (`idClient`) REFERENCES `deltacom`.`client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_contract_tariff1` FOREIGN KEY (`idTariff`) REFERENCES `deltacom`.`tariff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_contract_numberPool1` FOREIGN KEY (`number`) REFERENCES `deltacom`.`number_pool` (`number`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,7 +189,7 @@ CREATE TABLE `deltacom`.`contract` (
 
 LOCK TABLES `deltacom`.`contract` WRITE;
 /*!40000 ALTER TABLE `deltacom`.`contract` DISABLE KEYS */;
-INSERT INTO `deltacom`.`contract` VALUES (3,'849456',1,5,600,0,0);
+INSERT INTO `deltacom`.`contract` VALUES (3,'89219999999',1,5,600,0,0);
 /*!40000 ALTER TABLE `deltacom`.`contract` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,8 +208,8 @@ CREATE TABLE `deltacom`.`contract_option` (
   UNIQUE KEY `idContract_Option_UNIQUE` (`id`),
   KEY `fk_contract_has_option_option1_idx` (`idOption`),
   KEY `fk_contract_option_contract1_idx` (`idContract`),
-  CONSTRAINT `fk_contract_has_option_option1` FOREIGN KEY (`idOption`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_contract_option_contract1` FOREIGN KEY (`idContract`) REFERENCES `contract` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_contract_has_option_option1` FOREIGN KEY (`idOption`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_contract_option_contract1` FOREIGN KEY (`idContract`) REFERENCES `deltacom`.`contract` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -212,8 +238,8 @@ CREATE TABLE `deltacom`.`incompatible_options` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_incompatible_options_option1_idx` (`idOption1`),
   KEY `fk_incompatible_options_option2_idx` (`idOption2`),
-  CONSTRAINT `fk_incompatible_options_option1` FOREIGN KEY (`idOption1`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_incompatible_options_option2` FOREIGN KEY (`idOption2`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_incompatible_options_option1` FOREIGN KEY (`idOption1`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_incompatible_options_option2` FOREIGN KEY (`idOption2`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -324,8 +350,8 @@ CREATE TABLE `deltacom`.`tariff_option` (
   UNIQUE KEY `idTariff_Option_UNIQUE` (`id`),
   KEY `fk_tariff_option_option1_idx` (`idOption`),
   KEY `fk_tariff_option_tariff1` (`idTariff`),
-  CONSTRAINT `fk_tariff_option_option1` FOREIGN KEY (`idOption`) REFERENCES `option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_tariff_option_tariff1` FOREIGN KEY (`idTariff`) REFERENCES `tariff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_tariff_option_option1` FOREIGN KEY (`idOption`) REFERENCES `deltacom`.`option` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tariff_option_tariff1` FOREIGN KEY (`idTariff`) REFERENCES `deltacom`.`tariff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
