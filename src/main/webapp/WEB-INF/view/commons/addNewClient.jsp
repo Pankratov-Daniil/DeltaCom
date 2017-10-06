@@ -14,6 +14,32 @@
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
+
+    <script type="text/javascript" src="../resources/js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="../resources/css/bootstrap-multiselect.css" type="text/css"/>
+
+    <c:if test="${sessionScope.successCreation ne null}">
+        <c:remove var="successCreation" scope="session"/>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $.notify({
+                    title: "User successfully added!",
+                    message: "",
+                    icon: 'fa fa-check'
+                }, {
+                    type: "info"
+                });
+            });
+        </script>
+    </c:if>
+
+    <!-- Initialize the plugin: -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#selectAccessLevel').multiselect();
+        });
+    </script>
 
     <title>My DeltaCom</title>
 </head>
@@ -84,44 +110,65 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-wifi"></i> Tariffs</h1>
-                <p>Here you can manage tariffs.</p>
+                <h1><i class="fa fa-user-plus"></i> Add new client page</h1>
+                <p>Here you can register new user</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <div class="card">
-                    <h3 class="card-title">Tariffs</h3>
-
-                    <div class="modal fade" tabindex="-1" id="modalOptions" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <%@include file="./options.jsp" %>
+                    <h3 class="card-title">Register</h3>
+                    <div class="card-body">
+                        <form method="post" action="regNewClient" name="newUser" acceptCharset="utf8">
+                            <div class="form-group">
+                                <label class="control-label">First name</label>
+                                <input class="form-control" type="text" placeholder="Enter first name" name="firstName">
                             </div>
-                        </div>
-                    </div>
+                            <div class="form-group">
+                                <label class="control-label">Last name</label>
+                                <input class="form-control" type="text" placeholder="Enter last name" name="lastName">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Birth date</label>
+                                <input class="form-control" type="date" name="birthDate">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Passport</label>
+                                <input class="form-control" type="text" placeholder="Enter passport" name="passport">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Address</label>
+                                <textarea class="form-control" rows="2" placeholder="Enter address" name="address"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input class="form-control" type="email" placeholder="Enter email address" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                <input class="form-control" type="password" placeholder="Enter password" name="password">
+                            </div>
+                            <div class="form-group">
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <label class="control-label">Access level</label><br/>
 
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Options</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${tariffs}" var="tariff">
-                            <tr>
-                                <td>${tariff.id}</td>
-                                <td>${tariff.name}</td>
-                                <td>${tariff.price}</td>
-                                <td>${tariff.options}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                                    <select multiple="multiple" id="selectAccessLevel" name="multiselect[]">
+                                        <c:forEach items="${accessLevels}" var="accessLevel">
+                                            <option value="${accessLevel.id}">${accessLevel.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </sec:authorize>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <button class="btn btn-default" type="reset">Clear form</button>
+                            </div>
+                            <input type="hidden" name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

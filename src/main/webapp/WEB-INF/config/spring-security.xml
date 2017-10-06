@@ -13,6 +13,7 @@
     <intercept-url pattern="/user/**" access="hasRole('USER')"/>
     <intercept-url pattern="/manager/**" access="hasRole('MANAGER')"/>
     <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+    <intercept-url pattern="/commons/addNewClient**" access="hasAnyRole('MANAGER', 'ADMIN')"/>
 
     <!-- We're using default-target-url because when we are logined
         LoginController can redirect us to needed page according to role

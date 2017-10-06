@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/accountPages.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -84,44 +85,14 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-wifi"></i> Tariffs</h1>
-                <p>Here you can manage tariffs.</p>
+                <h1><i class="fa fa-user-secret"></i> Manage user roles</h1>
+                <p>Here you can manage user roles</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <h3 class="card-title">Tariffs</h3>
-
-                    <div class="modal fade" tabindex="-1" id="modalOptions" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <%@include file="./options.jsp" %>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Options</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${tariffs}" var="tariff">
-                            <tr>
-                                <td>${tariff.id}</td>
-                                <td>${tariff.name}</td>
-                                <td>${tariff.price}</td>
-                                <td>${tariff.options}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                    <div class="card-body">Load Your Data Here</div>
                 </div>
             </div>
         </div>

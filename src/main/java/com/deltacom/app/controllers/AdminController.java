@@ -11,4 +11,9 @@ public class AdminController extends CommonController {
     public ModelAndView index() {
         return new ModelAndView("admin/index");
     }
+
+    @RequestMapping(value = "/grantAccess")
+    public ModelAndView grantAccess() {
+        return new ModelAndView("admin/grantAccess");
+    }
 }

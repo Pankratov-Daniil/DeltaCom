@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=utf8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=utf8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf8">
     <title>Registration page</title>
-    <link href="./resources/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
 <h3>Add / Delete client</h3>
@@ -15,11 +15,11 @@
         <table class="table table-bordered" style="width: 300px">
             <tr>
                 <td>First Name :</td>
-                <td><input type="text" name="firstName" /></td>
+                <td><input type="text" name="firstName"/></td>
             </tr>
             <tr>
-            <td>Last Name :</td>
-                <td><input type="text" name="lastName" /></td>
+                <td>Last Name :</td>
+                <td><input type="text" name="lastName"/></td>
             </tr>
             <tr>
                 <td>Birth Date :</td>
@@ -27,28 +27,28 @@
             </tr>
             <tr>
                 <td>Passport :</td>
-                <td><input type="text" name="passport" /></td>
+                <td><input type="text" name="passport"/></td>
             </tr>
             <tr>
                 <td>Address :</td>
-                <td><input type="text" name="address" /></td>
+                <td><input type="text" name="address"/></td>
             </tr>
             <tr>
                 <td>Mail :</td>
-                <td><input type="email" name="email" /></td>
+                <td><input type="email" name="email"/></td>
             </tr>
             <tr>
                 <td>Password :</td>
-                <td><input type="text" name="password" /></td>
+                <td><input type="text" name="password"/></td>
             </tr>
             <tr>
                 <td></td>
-                <td><input class="btn btn-primary btn-sm" type="submit" value="Submit" /></td>
+                <td><input class="btn btn-primary btn-sm" type="submit" value="Submit"/></td>
             </tr>
         </table>
     </div>
     <input type="hidden" name="${_csrf.parameterName}"
-           value="${_csrf.token}" />
+           value="${_csrf.token}"/>
 </form>
 <br>
 <h3>List of Clients</h3>

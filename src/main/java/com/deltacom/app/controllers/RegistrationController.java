@@ -22,13 +22,6 @@ public class RegistrationController {
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping(value = "/registration")
-    public ModelAndView registration(@ModelAttribute("newUser") Client client){
-        ModelAndView model = new ModelAndView("registration");
-        model.addObject("clientsList", clientService.getAll());
-        return model;
-    }
-
     @RequestMapping(value = "/regNewUser")
     public ModelAndView regUser(@ModelAttribute("newUser") Client client){
         if(!client.getFirstName().equals("") &&

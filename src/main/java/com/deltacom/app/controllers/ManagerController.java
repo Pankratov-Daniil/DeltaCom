@@ -21,9 +21,4 @@ public class ManagerController extends CommonController {
     public ModelAndView editTariffs() {
         return new ModelAndView("manager/editTariffs");
     }
-
-    @RequestMapping(value = "/addNewClient")
-    public ModelAndView addNewClient() {
-        return new ModelAndView("manager/addNewClient");
-    }
 }
