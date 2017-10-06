@@ -40,7 +40,6 @@ public class CommonController {
     public String setClientNameToSession(HttpSession session) {
         String clientName = (String)session.getAttribute("clientName");
         if (clientName == null) {
-            System.out.println("HEREREAJIROJRAIOFNIAUPSN");
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Client client = clientService.getClientByEmail(user.getUsername());
             clientName = client.getFirstName() + " " + client.getLastName();
@@ -49,6 +48,10 @@ public class CommonController {
         return clientName;
     }
 
+    /**
+     * Here we look if user have ADMIN privileges
+     * if so, transfer all access levels to page
+     */
     @RequestMapping(value = "/commons/addNewClient")
     public ModelAndView addClient() {
         ModelAndView modelAndView = new ModelAndView("commons/addNewClient");
@@ -64,6 +67,9 @@ public class CommonController {
         return modelAndView;
     }
 
+    /**
+     * Here we're register new client
+     */
     @RequestMapping(value = "/commons/regNewClient")
     public void regNewClient(@ModelAttribute(value = "newUser") Client client,
                              HttpServletRequest request, HttpSession session,
@@ -86,7 +92,6 @@ public class CommonController {
 
         int passwordStrength = 11;
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(passwordStrength);
-
         client.setPassword(encoder.encode(client.getPassword()));
         client.setAccessLevels(accessLevels);
 
