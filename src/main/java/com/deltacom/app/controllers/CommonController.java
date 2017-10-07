@@ -73,34 +73,18 @@ public class CommonController {
     @RequestMapping(value = "/commons/regNewClient")
     public void regNewClient(@ModelAttribute(value = "newUser") Client client,
                              HttpServletRequest request, HttpSession session,
-                             HttpServletResponse response) {
-        String[] accessLevelsIds = request.getParameterValues("multiselect[]");
-        List<AccessLevel> accessLevels = new ArrayList<>();
+                             HttpServletResponse response) throws IOException {
+        String[] accessLevelsIds = request.getParameterValues("accessLevelsSelect");
 
-        if(accessLevelsIds == null || accessLevelsIds.length == 0) {
-            AccessLevel accessLevel = new AccessLevel();
-            accessLevel.setId(1);
-            accessLevels = Collections.singletonList(accessLevel);
-        }
-        else {
-            for (String accessLevelId : accessLevelsIds) {
-                AccessLevel accessLevel = new AccessLevel();
-                accessLevel.setId(Integer.parseInt(accessLevelId));
-                accessLevels.add(accessLevel);
-            }
-        }
+        if(clientService.addNewClient(client, accessLevelsIds))
+            session.setAttribute("successClientCreation", true);
 
-        int passwordStrength = 11;
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(passwordStrength);
-        client.setPassword(encoder.encode(client.getPassword()));
-        client.setAccessLevels(accessLevels);
-
-        clientService.create(client);
-        session.setAttribute("successCreation", true);
-        try {
-            response.sendRedirect("addNewClient"); // this is for avoid url like "url?params=values..."
-        } catch (IOException e) {
-            e.printStackTrace();
+        // sendRedirect is for avoid url like "url?params=values..."
+        if(accessLevelsIds != null) { // if we're ADMIN
+            response.sendRedirect("addNewClient");
+        } else { // if we're MANAGER
+            session.setAttribute("clientId", client.getId());
+            response.sendRedirect("../manager/addNewContract");
         }
     }
 

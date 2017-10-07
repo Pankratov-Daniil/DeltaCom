@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
  * Tariff repository implementation
  */
 @Repository("Tariff")
-public class TariffRepositoryImpl extends HibernateRepository<Tariff> implements TariffRepository {
+public class TariffRepositoryImpl extends HibernateRepository<Tariff, Integer> implements TariffRepository {
     @PersistenceContext
     private EntityManager entityManager;
 }

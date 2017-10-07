@@ -14,6 +14,7 @@
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/newContract.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
 
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
@@ -88,64 +89,55 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-user-plus"></i> Add new client page</h1>
-                <p>Here you can register new user</p>
+                <h1><i class="fa fa-dashboard"></i> Add new contract</h1>
+                <p>Here you can add contract for client</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
-                    <h3 class="card-title">Register</h3>
-                    <div class="card-body">
-                        <form method="post" action="regNewClient" name="newUser" acceptCharset="utf8">
-                            <div class="form-group">
-                                <label class="control-label">First name</label>
-                                <input class="form-control" type="text" placeholder="Enter first name" name="firstName">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Last name</label>
-                                <input class="form-control" type="text" placeholder="Enter last name" name="lastName">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Birth date</label>
-                                <input class="form-control" type="date" name="birthDate">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Passport</label>
-                                <input class="form-control" type="text" placeholder="Enter passport" name="passport">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Address</label>
-                                <textarea class="form-control" rows="2" placeholder="Enter address" name="address"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Email</label>
-                                <input class="form-control" type="email" placeholder="Enter email address" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Password</label>
-                                <input class="form-control" type="password" placeholder="Enter password" name="password">
-                            </div>
-                            <div class="form-group">
-                                <sec:authorize access="hasRole('ADMIN')">
-                                    <label class="control-label">Access level</label><br/>
+                    <form method="post" action="regNewContract" name="newContract" acceptCharset="utf8">
+                        <div class="form-group">
+                            <label class="control-label">Avaivable numbers</label><br/>
+                            <select class="selectpicker form-control" data-style="btn-primary" id="selectNumber" name="selectNumber">
+                                <c:forEach items="${unusedNumbers}" var="unusedNumber">
+                                    <option value="${unusedNumber}">${unusedNumber}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" >Avaivable tariffs</label><br/>
+                            <select class="selectpicker form-control" data-style="btn-primary" id="selectTariff" name="selectTariff">
+                                <c:forEach items="${availableTariffs}" var="availableTariff">
+                                    <option data-tariff-price="${availableTariff.price}" value="${availableTariff.id}">${availableTariff.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" >Avaivable options</label><br/>
+                            <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectOptions" name="selectOptions">
 
-                                    <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectAccessLevel" name="accessLevelsSelect">
-                                        <c:forEach items="${accessLevels}" var="accessLevel">
-                                            <option value="${accessLevel.id}">${accessLevel.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </sec:authorize>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit">Submit</button>
-                                <button class="btn btn-default" type="reset">Clear form</button>
-                            </div>
-                            <input type="hidden" name="${_csrf.parameterName}"
-                                   value="${_csrf.token}"/>
-                        </form>
+                            </select>
+                        </div>
+                        <br/>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">Submit</button>
+                        </div>
+                        <input type="hidden" name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <h3>Selected tariff info</h3>
+                    <div id="tariffInfo" class="card-footer">
+
+                    </div>
+
+                    <h3>Avaivable options</h3>
+                    <div id="availableOptions" class="card-footer">
+
                     </div>
                 </div>
             </div>

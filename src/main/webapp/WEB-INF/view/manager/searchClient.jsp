@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/accountPages.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -14,10 +15,6 @@
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/main.js"></script>
-    <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
-
-    <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
-    <link rel="stylesheet" href="../resources/css/bootstrap-select.min.css" type="text/css"/>
 
     <title>My DeltaCom</title>
 </head>
@@ -88,65 +85,14 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-user-plus"></i> Add new client page</h1>
-                <p>Here you can register new user</p>
+                <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
+                <p>Start a beautiful journey here</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card">
-                    <h3 class="card-title">Register</h3>
-                    <div class="card-body">
-                        <form method="post" action="regNewClient" name="newUser" acceptCharset="utf8">
-                            <div class="form-group">
-                                <label class="control-label">First name</label>
-                                <input class="form-control" type="text" placeholder="Enter first name" name="firstName">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Last name</label>
-                                <input class="form-control" type="text" placeholder="Enter last name" name="lastName">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Birth date</label>
-                                <input class="form-control" type="date" name="birthDate">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Passport</label>
-                                <input class="form-control" type="text" placeholder="Enter passport" name="passport">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Address</label>
-                                <textarea class="form-control" rows="2" placeholder="Enter address" name="address"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Email</label>
-                                <input class="form-control" type="email" placeholder="Enter email address" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Password</label>
-                                <input class="form-control" type="password" placeholder="Enter password" name="password">
-                            </div>
-                            <div class="form-group">
-                                <sec:authorize access="hasRole('ADMIN')">
-                                    <label class="control-label">Access level</label><br/>
-
-                                    <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectAccessLevel" name="accessLevelsSelect">
-                                        <c:forEach items="${accessLevels}" var="accessLevel">
-                                            <option value="${accessLevel.id}">${accessLevel.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </sec:authorize>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit">Submit</button>
-                                <button class="btn btn-default" type="reset">Clear form</button>
-                            </div>
-                            <input type="hidden" name="${_csrf.parameterName}"
-                                   value="${_csrf.token}"/>
-                        </form>
-                    </div>
+                    <div class="card-body">Load Your Data Here</div>
                 </div>
             </div>
         </div>

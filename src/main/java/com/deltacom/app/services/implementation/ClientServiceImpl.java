@@ -5,9 +5,12 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +58,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public Client getById(int id) {
+    public Client getById(Integer id) {
         return (Client) clientRepository.getById(id);
     }
 
@@ -70,7 +73,36 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
+    @Transactional
     public Client getClientByEmail(String email) {
         return clientRepository.getClientByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public boolean addNewClient(Client client, String[] accessLevelsIds) {
+        List<AccessLevel> accessLevels = new ArrayList<>();
+
+        if(accessLevelsIds == null || accessLevelsIds.length == 0) {
+            AccessLevel accessLevel = new AccessLevel();
+            accessLevel.setId(1);
+            accessLevels = Collections.singletonList(accessLevel);
+        }
+        else {
+            for (String accessLevelId : accessLevelsIds) {
+                AccessLevel accessLevel = new AccessLevel();
+                accessLevel.setId(Integer.parseInt(accessLevelId));
+                accessLevels.add(accessLevel);
+            }
+        }
+
+        int passwordStrength = 11;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(passwordStrength);
+        client.setPassword(encoder.encode(client.getPassword()));
+        client.setAccessLevels(accessLevels);
+
+        clientRepository.add(client);
+
+        return true;
     }
 }

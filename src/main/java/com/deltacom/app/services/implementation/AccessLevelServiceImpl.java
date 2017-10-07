@@ -55,7 +55,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public AccessLevel getById(int id) {
+    public AccessLevel getById(Integer id) {
         return (AccessLevel) accessLevelRepository.getById(id);
     }
 

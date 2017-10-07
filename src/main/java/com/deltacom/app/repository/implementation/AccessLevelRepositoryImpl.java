@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
  * Access level repository implementation
  */
 @Repository("AccessLevel")
-public class AccessLevelRepositoryImpl extends HibernateRepository<AccessLevel> implements AccessLevelRepository {
+public class AccessLevelRepositoryImpl extends HibernateRepository<AccessLevel, Integer> implements AccessLevelRepository {
     @PersistenceContext
     private EntityManager entityManager;
 }

@@ -5,5 +5,5 @@ import com.deltacom.app.entities.AccessLevel;
 /**
  * Interface for AccessLevel service.
  */
-public interface AccessLevelService extends RepositoryService<AccessLevel> {
+public interface AccessLevelService extends RepositoryService<AccessLevel, Integer> {
 }

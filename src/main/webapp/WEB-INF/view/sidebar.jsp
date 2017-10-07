@@ -21,12 +21,19 @@
     <sec:authorize access="hasRole('MANAGER')">
         <li class="${fn:contains(pageContext.request.requestURI, 'manager/index') ? 'active' : ''}"><a href="/DeltaCom/manager/index"><i
                 class="fa fa-dashboard"></i><span>Overview</span></a></li>
-        <li class="${fn:contains(pageContext.request.requestURI, 'manager/editContracts') ? 'active' : ''}"><a
-                href="/DeltaCom/manager/editContracts"><i class="fa fa-mobile"></i><span>Edit contracts</span></a></li>
-        <li class="${fn:contains(pageContext.request.requestURI, 'manager/editTariffs') ? 'active' : ''}"><a
-                href="/DeltaCom/manager/editTariffs"><i class="fa fa-wifi"></i><span>Edit tariffs</span></a></li>
         <li class="${fn:contains(pageContext.request.requestURI, 'commons/addNewClient') ? 'active' : ''}"><a
                 href="/DeltaCom/commons/addNewClient"><i class="fa fa-user-plus"></i><span>Add new client</span></a></li>
+        <li class="${fn:contains(pageContext.request.requestURI, 'manager/browseAllClients') ? 'active' : ''}"><a
+                href="/DeltaCom/manager/browseAllClients"><i class="fa fa-users"></i><span>Browse all clients</span></a></li>
+        <li class="${fn:contains(pageContext.request.requestURI, 'manager/searchClient') ? 'active' : ''}"><a
+                href="/DeltaCom/manager/searchClient"><i class="fa fa-search"></i><span>Search client</span></a></li>
+        <li class="${fn:contains(pageContext.request.requestURI, 'manager/tariffsActions') ? 'active' : ''}"><a
+                href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs actions</span></a></li>
+        <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsActions') ? 'active' : ''}"><a
+                href="/DeltaCom/manager/optionsActions"><i class="fa fa-filter"></i><span>Options actions</span></a></li>
+        <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsCompatibility') ? 'active' : ''}"><a
+                href="/DeltaCom/manager/optionsCompatibility"><i class="fa fa-plug"></i><span>Options compatibility</span></a></li>
+
     </sec:authorize>
 
     <sec:authorize access="hasRole('ADMIN')">
@@ -36,5 +43,32 @@
                 href="/DeltaCom/commons/addNewClient"><i class="fa fa-user-plus"></i><span>Add new client</span></a></li>
         <li class="${fn:contains(pageContext.request.requestURI, 'admin/grantAccess') ? 'active' : ''}"><a
                 href="/DeltaCom/admin/grantAccess"><i class="fa fa-user-secret"></i><span>Grant access</span></a></li>
+    </sec:authorize>
+
+    <sec:authorize access="hasAnyRole('MANAGER', 'ADMIN')">
+        <c:if test="${sessionScope.successClientCreation ne null or sessionScope.successContractCreation ne null}">
+            <script type="text/javascript">
+                var whatAdded = '';
+                <c:if test='${sessionScope.successClientCreation ne null}'>
+                    <c:remove var="successClientCreation" scope="session"/>
+                    whatAdded = 'Client';
+                </c:if>
+
+                <c:if test='${sessionScope.successContractCreation ne null}'>
+                    <c:remove var="successContractCreation" scope="session"/>
+                    whatAdded = 'Contract';
+                </c:if>
+
+                $(document).ready(function() {
+                    $.notify({
+                        title: whatAdded+" successfully added!",
+                        message: "",
+                        icon: 'fa fa-check'
+                    }, {
+                        type: "info"
+                    });
+                });
+            </script>
+        </c:if>
     </sec:authorize>
 </ul>

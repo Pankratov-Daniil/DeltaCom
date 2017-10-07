@@ -14,7 +14,7 @@ import java.util.List;
  * Contract repository implementation
  */
 @Repository("Contract")
-public class ContractRepositoryImpl extends HibernateRepository<Contract> implements ContractRepository {
+public class ContractRepositoryImpl extends HibernateRepository<Contract, Integer> implements ContractRepository {
     @PersistenceContext
     private EntityManager entityManager;
 

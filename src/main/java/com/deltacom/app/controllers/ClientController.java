@@ -22,8 +22,6 @@ import java.security.Principal;
 @RequestMapping(value = "/user")
 public class ClientController extends CommonController {
     @Autowired
-    ClientService clientService;
-    @Autowired
     ContractService contractService;
     @Autowired
     TariffService tariffService;
@@ -44,8 +42,7 @@ public class ClientController extends CommonController {
     public ModelAndView contracts(Principal principal) {
         ModelAndView model = new ModelAndView("user/contracts");
         model.addObject("clientContracts",
-                contractService.getAllClientContractsById(
-                        clientService.getClientByEmail(principal.getName()).getId()));
+                contractService.getAllClientContractsByEmail(principal.getName()));
         return model;
     }
 

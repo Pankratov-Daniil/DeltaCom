@@ -51,7 +51,7 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
      */
     @Override
     @Transactional
-    public NumbersPool getById(int id) {
+    public NumbersPool getById(String id) {
         return (NumbersPool) numbersPoolRepository.getById(id);
     }
 
@@ -63,5 +63,11 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
     @Transactional
     public List<NumbersPool> getAll() {
         return numbersPoolRepository.getAll();
+    }
+
+    @Override
+    @Transactional
+    public List<String> getAllUnusedNumbers() {
+        return numbersPoolRepository.getAllUnusedNumbers();
     }
 }

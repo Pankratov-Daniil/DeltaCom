@@ -1,12 +1,15 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Contract;
+import com.deltacom.app.entities.NumbersPool;
+import com.deltacom.app.entities.Option;
 import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
-import com.deltacom.app.services.api.ContractService;
+import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +19,14 @@ import java.util.List;
 public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepositoryImpl contractRepository;
+    @Autowired
+    private TariffService tariffService;
+    @Autowired
+    private OptionService optionService;
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private NumbersPoolService numbersPoolService;
 
     /**
      * Creates new Contract entity in database.
@@ -54,7 +65,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public Contract getById(int id) {
+    public Contract getById(Integer id) {
         return (Contract) contractRepository.getById(id);
     }
 
@@ -69,7 +80,30 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<Contract> getAllClientContractsById(int clientId) {
-        return contractRepository.getAllClientContractsById(clientId);
+    @Transactional
+    public List<Contract> getAllClientContractsByEmail(String email) {
+        return contractRepository.getAllClientContractsById(
+                clientService.getClientByEmail(email).getId());
+    }
+
+    @Override
+    @Transactional
+    public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
+        Contract contract = new Contract();
+        contract.setBalance(0);
+        contract.setClient(clientService.getById(clientId));
+        NumbersPool numbersPool = new NumbersPool();
+        numbersPool.setNumber(number);
+        numbersPool.setUsed(true);
+        contract.setNumbersPool(numbersPool);
+        contract.setTariff(tariffService.getById(tariffId));
+        ArrayList<Option> options = new ArrayList<>();
+        for(String optionId : selectedOptions)
+            options.add(optionService.getById(Integer.parseInt(optionId)));
+        contract.setOptions(options);
+
+        contractRepository.add(contract);
+        numbersPoolService.update(numbersPool);
+        return true;
     }
 }

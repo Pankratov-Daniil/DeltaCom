@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
  * Client repository implementation
  */
 @Repository("Client")
-public class ClientRepositoryImpl extends HibernateRepository<Client> implements ClientRepository {
+public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> implements ClientRepository {
     @PersistenceContext
     private EntityManager entityManager;
 

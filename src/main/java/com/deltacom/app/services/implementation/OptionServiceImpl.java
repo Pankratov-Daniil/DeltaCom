@@ -54,7 +54,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public Option getById(int id) {
+    public Option getById(Integer id) {
         return (Option) optionRepository.getById(id);
     }
 
@@ -66,5 +66,11 @@ public class OptionServiceImpl implements OptionService {
     @Transactional
     public List<Option> getAll() {
         return optionRepository.getAll();
+    }
+
+    @Override
+    @Transactional
+    public List<Option> getAllOptionsForTariff(int id) {
+        return optionRepository.getAllOptionsForTariff(id);
     }
 }

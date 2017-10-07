@@ -68,7 +68,7 @@ CREATE TABLE `deltacom`.`client` (
 
 LOCK TABLES `deltacom`.`client` WRITE;
 /*!40000 ALTER TABLE `deltacom`.`client` DISABLE KEYS */;
-INSERT INTO `deltacom`.`client` VALUES (1,'DAniil','Панкратов','1995-06-29','oi','oih','oi','da4abe1793d1de1e8e48f372c037838f'),(2,'Dani','Pani','9999-09-29','oi','oij','oi@gmai.c','7bed657a775c37c2570786d0cbeefd88'),(3,'wqe','qwe','2323-03-31','123124','qwe','sf@gmi.com','cb2c2041d9763d84d7d655e81178f444'),(5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG'),(6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy'),(7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u'),(8,'ajasd','oij','5195-05-26','safkj','ioj','oh@gmai.cm','123'),(9,'Dad','fassa','1111-05-26','sfa156','a5f61a','mo@ga.c','$2a$11$/7rHwacTIbzcTIHI8s6b7.iubViWNQltqdSIZscNDA81z5byhbaAC'),(10,'asdsa','faa','1111-02-21','sadas','asfas','asf@fas.fd','$2a$11$D5a5gwQH3I5Wt.2xnMpAvOTdyfPVS4fhOtObH/BPlSNVoNLDR.tQ6'),(11,'Danill','faspofj','1995-06-29','afsa','safpaj','mo@gmail.com21','$2a$11$vYG/RGfv14asmIuBZ2lN4eVIDzxdKEymlOz5vfOnXnRQofxinkgJG'),(12,'Daniil',';','6222-02-01','sdong','asfji','k@k.f','$2a$11$.lOzaEn/EL8dm830yIFDFegbj170XudnPY4kqCslIoWJvsMeLxhBi'),(13,'asf','asfs','1995-06-29','asf','saf','m@fm.c','$2a$11$Ba6GD.0xoTTNSS/SWO/BR.3JRrgU2lz7tzb8gyCKu/wZI5XRIgn7K');
+INSERT INTO `deltacom`.`client` VALUES (5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG'),(6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy'),(7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u');
 /*!40000 ALTER TABLE `deltacom`.`client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +98,7 @@ CREATE TABLE `deltacom`.`clients_access_levels` (
 
 LOCK TABLES `deltacom`.`clients_access_levels` WRITE;
 /*!40000 ALTER TABLE `deltacom`.`clients_access_levels` DISABLE KEYS */;
-INSERT INTO `deltacom`.`clients_access_levels` VALUES (2,2,3),(3,2,2),(4,5,1),(5,6,3),(6,7,2),(7,8,1),(8,9,1),(9,10,3),(10,10,2),(11,10,1),(12,11,3),(13,11,2),(14,11,1),(15,12,2),(16,13,1);
+INSERT INTO `deltacom`.`clients_access_levels` VALUES (5,6,3),(6,7,2),(7,8,1);
 /*!40000 ALTER TABLE `deltacom`.`clients_access_levels` ENABLE KEYS */;
 UNLOCK TABLES;
 

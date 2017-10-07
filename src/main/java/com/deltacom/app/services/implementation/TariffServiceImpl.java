@@ -53,7 +53,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getById(int id) {
+    public Tariff getById(Integer id) {
         return (Tariff) tariffRepository.getById(id);
     }
 

@@ -15,6 +15,7 @@
       <servlet.version>3.1.0</servlet.version>
       <jstl.version>1.2</jstl.version>
       <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+      <jackson.databind.version>2.9.1</jackson.databind.version>
   </properties>
 
   <dependencies>
@@ -87,6 +88,11 @@
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-taglibs</artifactId>
           <version>${springsecurity.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>${jackson.databind.version}</version>
       </dependency>
 
       <dependency>

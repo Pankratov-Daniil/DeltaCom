@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class HibernateRepository<T> implements GenericRepository<T> {
+public abstract class HibernateRepository<T, K> implements GenericRepository<T, K> {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -50,7 +50,7 @@ public abstract class HibernateRepository<T> implements GenericRepository<T> {
      * @return found entity
      */
     @Override
-    public T getById(int id) {
+    public T getById(K id) {
         return (T) entityManager.find(entityClass, id);
     }
 
