@@ -68,6 +68,11 @@ public class OptionServiceImpl implements OptionService {
         return optionRepository.getAll();
     }
 
+    /**
+     * Gets all options available for tariff by tariff id
+     * @param id tariff id
+     * @return list of options available for tariff
+     */
     @Override
     @Transactional
     public List<Option> getAllOptionsForTariff(int id) {

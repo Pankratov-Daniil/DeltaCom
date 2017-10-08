@@ -8,11 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * Controller for processing requests to login page
+ */
 @Controller
 public class LoginController {
     @RequestMapping(value = "/login")
     public ModelAndView login(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // if user has already logged in - redirect him to index page
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             for(GrantedAuthority authority : auth.getAuthorities()) {
                 if (authority.getAuthority().contains("ADMIN"))

@@ -5,7 +5,7 @@
     <div class="pull-left image"><img class="img-circle" src="../resources/img/user.png" alt="User Image"></div>
     <div class="pull-left info">
         <p class="designation">Welcome,</p>
-        <c:out value="${sessionScope.clientName}"/>
+        <c:out value="${clientName}"/>
     </div>
 </div>
 <ul class="sidebar-menu">

@@ -17,6 +17,11 @@ public class OptionRepositoryImpl extends HibernateRepository<Option, Integer> i
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Gets all option for tariff by its id
+     * @param id tariff id
+     * @return list of all available options for tariff
+     */
     @Override
     public List<Option> getAllOptionsForTariff(int id) {
         try {

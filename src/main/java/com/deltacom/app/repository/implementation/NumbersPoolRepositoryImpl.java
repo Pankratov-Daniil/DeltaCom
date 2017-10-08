@@ -17,6 +17,10 @@ public class NumbersPoolRepositoryImpl extends HibernateRepository<NumbersPool, 
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Gets all unused numbers
+     * @return list of all unused numbers
+     */
     @Override
     public List<String> getAllUnusedNumbers() {
         try {

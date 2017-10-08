@@ -57,7 +57,7 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
 
     /**
      * Gets all NumbersPool entities from database.
-     * @return List of NumbersPool entities from database
+     * @return List of NumbersPool entities
      */
     @Override
     @Transactional
@@ -65,6 +65,10 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
         return numbersPoolRepository.getAll();
     }
 
+    /**
+     * Gets all unused numbers from database.
+     * @return list of unused number
+     */
     @Override
     @Transactional
     public List<String> getAllUnusedNumbers() {

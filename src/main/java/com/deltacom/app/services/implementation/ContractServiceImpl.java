@@ -79,6 +79,11 @@ public class ContractServiceImpl implements ContractService {
         return contractRepository.getAll();
     }
 
+    /**
+     * Gets all Contracts for client by his email
+     * @param email client email
+     * @return list of contracts for client
+     */
     @Override
     @Transactional
     public List<Contract> getAllClientContractsByEmail(String email) {
@@ -86,6 +91,14 @@ public class ContractServiceImpl implements ContractService {
                 clientService.getClientByEmail(email).getId());
     }
 
+    /**
+     * Creates new contract
+     * @param clientId client id
+     * @param number selected number
+     * @param tariffId selected tariff id
+     * @param selectedOptions selected options for tariff
+     * @return true if client successfully created, false otherwise
+     */
     @Override
     @Transactional
     public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {

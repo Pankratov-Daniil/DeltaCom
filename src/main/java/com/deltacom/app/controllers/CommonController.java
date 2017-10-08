@@ -1,6 +1,5 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.services.api.AccessLevelService;
 import com.deltacom.app.services.api.ClientService;
@@ -9,14 +8,11 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,6 +20,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Controller for processing common requests for all controllers
+ */
 @Controller
 public class CommonController {
     @Autowired
@@ -33,8 +32,8 @@ public class CommonController {
 
     /**
      * If clientName didn't set on this session, this method does this.
-     * @param session Spring give it for us
-     * @return clients first name + last name
+     * @param session current session where function will add clientName
+     * @return client first name + last name
      */
     @ModelAttribute("clientName")
     public String setClientNameToSession(HttpSession session) {
@@ -49,8 +48,8 @@ public class CommonController {
     }
 
     /**
-     * Here we look if user have ADMIN privileges
-     * if so, transfer all access levels to page
+     * Processing request to add new client page
+     * @return add new client page
      */
     @RequestMapping(value = "/commons/addNewClient")
     public ModelAndView addClient() {
@@ -58,6 +57,7 @@ public class CommonController {
 
         Collection<GrantedAuthority> authorities =  (Collection<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
+        // if user have ADMIN privileges - transfer all access levels to page.
         for (GrantedAuthority authority : authorities) {
             if(authority.getAuthority().contains("ADMIN")) {
                 modelAndView.addObject("accessLevels", accessLevelService.getAll());
@@ -68,7 +68,7 @@ public class CommonController {
     }
 
     /**
-     * Here we're register new client
+     * Registers new client
      */
     @RequestMapping(value = "/commons/regNewClient")
     public void regNewClient(@ModelAttribute(value = "newUser") Client client,
@@ -76,13 +76,14 @@ public class CommonController {
                              HttpServletResponse response) throws IOException {
         String[] accessLevelsIds = request.getParameterValues("accessLevelsSelect");
 
-        if(clientService.addNewClient(client, accessLevelsIds))
+        if(clientService.addNewClient(client, accessLevelsIds)) {
             session.setAttribute("successClientCreation", true);
+        }
 
         // sendRedirect is for avoid url like "url?params=values..."
-        if(accessLevelsIds != null) { // if we're ADMIN
+        if(accessLevelsIds != null) {                   // if user is ADMIN
             response.sendRedirect("addNewClient");
-        } else { // if we're MANAGER
+        } else {                                        // if user is MANAGER
             session.setAttribute("clientId", client.getId());
             response.sendRedirect("../manager/addNewContract");
         }
