@@ -5,6 +5,7 @@ import com.deltacom.app.services.api.AccessLevelService;
 import com.deltacom.app.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -80,12 +81,16 @@ public class CommonController {
             session.setAttribute("successClientCreation", true);
         }
 
-        // sendRedirect is for avoid url like "url?params=values..."
-        if(accessLevelsIds != null) {                   // if user is ADMIN
-            response.sendRedirect("addNewClient");
-        } else {                                        // if user is MANAGER
-            session.setAttribute("clientId", client.getId());
-            response.sendRedirect("../manager/addNewContract");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        for(GrantedAuthority authority : auth.getAuthorities()) {
+            if (authority.getAuthority().contains("ADMIN")) {
+                // sendRedirect is for avoid url like "url?params=values..."
+                response.sendRedirect("addNewClient");
+                break;
+            } else if (authority.getAuthority().contains("MANAGER")) {
+                session.setAttribute("clientId", client.getId());
+                response.sendRedirect("../manager/addNewContract");
+            }
         }
     }
 

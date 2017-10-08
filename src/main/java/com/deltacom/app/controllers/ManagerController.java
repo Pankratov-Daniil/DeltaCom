@@ -101,7 +101,7 @@ public class ManagerController extends CommonController {
      */
     @RequestMapping(value = "/addNewContract")
     public ModelAndView addNewContract(HttpSession session, HttpServletResponse response) throws IOException {
-        if(session.getAttribute("addNewClient") == null) {
+        if(session.getAttribute("clientId") == null) {
             response.sendRedirect("index");
             return null;
         }
