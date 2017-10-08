@@ -13,7 +13,7 @@ function updateOptions() {
     tariffInfo.empty();
     tariffInfo.html("<p>Name: " + selectedTariff.text() + "<br/>Price: " + selectedTariff.attr('data-tariff-price') + "</p>");
 
-    jQuery.ajax({
+    $.ajax({
         url:"/DeltaCom/manager/getOptionsForContract",
         contentType: "application/json",
         data: {
@@ -37,5 +37,12 @@ function updateOptions() {
             $('#selectOptions').empty();
             availableOptions.empty();
         }
+    });
+}
+
+function beforeUnload() {
+    $.ajax({
+        url:"/DeltaCom/manager/removeClientIdFromSession",
+        contentType: "application/json"
     });
 }

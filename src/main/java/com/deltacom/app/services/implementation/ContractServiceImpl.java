@@ -119,4 +119,17 @@ public class ContractServiceImpl implements ContractService {
         numbersPoolService.update(numbersPool);
         return true;
     }
+
+    /**
+     * Block or unblock contract
+     * @param contractId contract id
+     * @param blockContract true if need to block, false otherwise
+     */
+    @Override
+    @Transactional
+    public void blockContract(int contractId, boolean blockContract) {
+        Contract contract = contractRepository.getById(contractId);
+        contract.setBlocked(blockContract);
+        contractRepository.update(contract);
+    }
 }

@@ -1,12 +1,11 @@
 package com.deltacom.app.controllers;
 
+import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -143,5 +142,50 @@ public class ManagerController extends CommonController {
     @RequestMapping(value = "/getOptionsForContract", produces="application/json")
     public List<Option> getOptionsForContract(@RequestParam("selectTariff") int selectedTariffId) {
         return optionService.getAllOptionsForTariff(selectedTariffId);
+    }
+
+    /**
+     * Processing ajax request from 'browse all clients' page to get clients for table.
+     * @param startId id from which the countdown begins
+     * @param countEntries how many clients need to be returned
+     * @return list of clients
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getClientsForSummaryTable", produces="application/json")
+    public List<Client> getClientsForSummaryTable(@RequestParam("startId") int startId,
+                                                  @RequestParam("countEntries") int countEntries) {
+        return clientService.getClientsForSummaryTable(startId, countEntries);
+    }
+
+    /**
+     * Processing ajax request from 'browse all clients' page to add new client id to session.
+     * @param clientId client id
+     * @param session current session
+     */
+    @RequestMapping(value = "/addNewClientIdToSession")
+    public void addNewClientIdToSession(@RequestParam("clientId") int clientId, HttpSession session) {
+        session.setAttribute("clientId", clientId);
+    }
+
+    /**
+     * Processing ajax request from 'add new contract' page to remove client id from session.
+     * @param session current session
+     */
+    @RequestMapping(value = "/removeClientIdFromSession")
+    public void removeClientIdFromSession(HttpSession session) {
+        session.removeAttribute("clientId");
+    }
+
+    /**
+     * Processing ajax request from 'browse all clients' page to block or unblock contract.
+     * @param contractId contract id
+     * @param blockContract true if need to block, false otherwise
+     */
+    @ResponseBody
+    @RequestMapping(value = "/blockContract", produces="application/json")
+    public boolean blockContract(@RequestParam("contractId") int contractId,
+                              @RequestParam("block") boolean blockContract) {
+        contractService.blockContract(contractId, blockContract);
+        return true;
     }
 }

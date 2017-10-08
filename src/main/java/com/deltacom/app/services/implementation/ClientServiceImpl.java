@@ -2,6 +2,7 @@ package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.Contract;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,12 +73,23 @@ public class ClientServiceImpl implements ClientService{
         return clientRepository.getAll();
     }
 
+    /**
+     * Gets client by his email
+     * @param email client email
+     * @return client
+     */
     @Override
     @Transactional
     public Client getClientByEmail(String email) {
         return clientRepository.getClientByEmail(email);
     }
 
+    /**
+     * Adds new client
+     * @param client client without accessLevels and hash password
+     * @param accessLevelsIds ids of access levels
+     * @return true if addition successful, false otherwise
+     */
     @Override
     @Transactional
     public boolean addNewClient(Client client, String[] accessLevelsIds) {
@@ -104,5 +116,17 @@ public class ClientServiceImpl implements ClientService{
         clientRepository.add(client);
 
         return true;
+    }
+
+    /**
+     * Gets clients for summary table
+     * @param startId start id of client in database
+     * @param countEntries how many clients need to be returned
+     * @return list of client
+     */
+    @Override
+    @Transactional
+    public List<Client> getClientsForSummaryTable(int startId, int countEntries) {
+        return clientRepository.getClientsForSummaryTable(startId, countEntries);
     }
 }

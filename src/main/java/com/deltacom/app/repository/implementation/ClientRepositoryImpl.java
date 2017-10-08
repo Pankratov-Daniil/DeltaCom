@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Client repository implementation
@@ -26,6 +27,26 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
         try {
             return (Client) entityManager.createQuery("select client from Client client where client.email = :emailStr")
                     .setParameter("emailStr", email).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets 'countEntries' clients from 'startId'
+     * @param startId start id
+     * @param countEntries how many clients need to be returned
+     * @return list of clients
+     */
+    @Override
+    public List<Client> getClientsForSummaryTable(int startId, int countEntries) {
+        try {
+            return (List<Client>) entityManager
+                    .createQuery("select client from Client client where client.id >= :id ")
+                    .setParameter("id", startId)
+                    .setFirstResult(0)
+                    .setMaxResults(countEntries)
+                    .getResultList();
         } catch (NoResultException e) {
             return null;
         }

@@ -1,5 +1,6 @@
 package com.deltacom.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -44,7 +45,8 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "access_level_id"))
     private List<AccessLevel> accessLevels;
-    @OneToMany(mappedBy = "client")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "client")
+    @JsonManagedReference
     private List<Contract> contracts;
 
     public int getId() {
@@ -139,7 +141,6 @@ public class Client {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", accessLevels=" + accessLevels +
-                ", contracts=" + contracts +
                 '}';
     }
 

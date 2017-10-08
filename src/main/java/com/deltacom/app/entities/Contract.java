@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -30,8 +32,9 @@ public class Contract {
     private Tariff tariff;
     @ManyToOne
     @JoinColumn(name = "idClient")
+    @JsonBackReference
     private Client client;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "`contract_option`",
                 joinColumns = @JoinColumn(name = "idContract"),
                 inverseJoinColumns = @JoinColumn(name = "idOption"))
@@ -141,7 +144,6 @@ public class Contract {
                 ", blockedByOperator=" + blockedByOperator +
                 ", balance=" + balance +
                 ", tariff=" + tariff +
-                ", client=" + client +
                 ", options=" + options +
                 '}';
     }
