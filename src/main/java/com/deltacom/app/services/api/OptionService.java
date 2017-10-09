@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Interface for Option service.
  */
-public interface OptionService extends RepositoryService<Option, Integer> {
+public interface OptionService {
+    public Option getOptionById(Integer id);
     public List<Option> getAllOptionsForTariff(int id);
 }

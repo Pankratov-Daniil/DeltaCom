@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Interface for Contract service.
  */
-public interface ContractService extends RepositoryService<Contract, Integer> {
+public interface ContractService {
     public List<Contract> getAllClientContractsByEmail(String email);
     public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions);
     public void blockContract(int contractId, boolean blockContract, boolean blockedByAdmin);

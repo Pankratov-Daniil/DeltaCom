@@ -61,7 +61,7 @@ public class CommonController {
         // if user have ADMIN privileges - transfer all access levels to page.
         for (GrantedAuthority authority : authorities) {
             if(authority.getAuthority().contains("ADMIN")) {
-                modelAndView.addObject("accessLevels", accessLevelService.getAll());
+                modelAndView.addObject("accessLevels", accessLevelService.getAllAccessLevels());
                 break;
             }
         }

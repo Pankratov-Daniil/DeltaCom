@@ -29,57 +29,6 @@ public class ContractServiceImpl implements ContractService {
     private NumbersPoolService numbersPoolService;
 
     /**
-     * Creates new Contract entity in database.
-     * @param entity Contract entity to be created
-     */
-    @Override
-    @Transactional
-    public void create(Contract entity) {
-        contractRepository.add(entity);
-    }
-
-    /**
-     * Updates Contract entity in database.
-     * @param entity Contract entity to be updated
-     */
-    @Override
-    @Transactional
-    public void update(Contract entity) {
-        contractRepository.update(entity);
-    }
-
-    /**
-     * Deletes Contract entity in database.
-     * @param entity Contract entity to be deleted
-     */
-    @Override
-    @Transactional
-    public void delete(Contract entity) {
-        contractRepository.remove(entity);
-    }
-
-    /**
-     * Gets Contract entity by its id from database.
-     * @param id id of Contract entity to be found
-     * @return founded Contract entity
-     */
-    @Override
-    @Transactional
-    public Contract getById(Integer id) {
-        return (Contract) contractRepository.getById(id);
-    }
-
-    /**
-     * Gets all Contract entities from database.
-     * @return List of Contract entities from database
-     */
-    @Override
-    @Transactional
-    public List<Contract> getAll() {
-        return contractRepository.getAll();
-    }
-
-    /**
      * Gets all Contracts for client by his email
      * @param email client email
      * @return list of contracts for client
@@ -102,21 +51,23 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
-        Contract contract = new Contract();
-        contract.setBalance(0);
-        contract.setClient(clientService.getById(clientId));
         NumbersPool numbersPool = new NumbersPool();
         numbersPool.setNumber(number);
         numbersPool.setUsed(true);
-        contract.setNumbersPool(numbersPool);
-        contract.setTariff(tariffService.getById(tariffId));
+
         ArrayList<Option> options = new ArrayList<>();
         for(String optionId : selectedOptions)
-            options.add(optionService.getById(Integer.parseInt(optionId)));
+            options.add(optionService.getOptionById(Integer.parseInt(optionId)));
+
+        Contract contract = new Contract();
+        contract.setBalance(0);
+        contract.setClient(clientService.getClientById(clientId));
+        contract.setNumbersPool(numbersPool);
+        contract.setTariff(tariffService.getTariffById(tariffId));
         contract.setOptions(options);
 
         contractRepository.add(contract);
-        numbersPoolService.update(numbersPool);
+        numbersPoolService.updateNumbersPool(numbersPool);
         return true;
     }
 

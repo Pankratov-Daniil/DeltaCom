@@ -108,7 +108,7 @@ public class ManagerController extends CommonController {
 
         // pass to model unused numbers and available tariffs
         modelAndView.addObject("unusedNumbers", numbersPoolService.getAllUnusedNumbers());
-        modelAndView.addObject("availableTariffs", tariffService.getAll());
+        modelAndView.addObject("availableTariffs", tariffService.getAllTariffs());
 
         return modelAndView;
     }
@@ -154,7 +154,7 @@ public class ManagerController extends CommonController {
     @RequestMapping(value = "/getClientsForSummaryTable", produces="application/json")
     public List<Client> getClientsForSummaryTable(@RequestParam("startId") int startId,
                                                   @RequestParam("countEntries") int countEntries) {
-        return clientService.getClientsForSummaryTable(startId, countEntries);
+        return clientService.getClientsByIds(startId, countEntries);
     }
 
     /**

@@ -37,7 +37,7 @@ public class ClientController extends CommonController {
     @RequestMapping(value = "/tariffs")
     public ModelAndView tariffs() {
         ModelAndView model = new ModelAndView("user/tariffs");
-        model.addObject("tariffs", tariffService.getAll());
+        model.addObject("tariffs", tariffService.getAllTariffs());
         return model;
     }
 

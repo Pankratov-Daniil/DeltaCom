@@ -18,54 +18,13 @@ public class OptionServiceImpl implements OptionService {
     private OptionRepositoryImpl optionRepository;
 
     /**
-     * Creates new Option entity in database.
-     * @param entity Option entity to be created
-     */
-    @Override
-    @Transactional
-    public void create(Option entity) {
-        optionRepository.add(entity);
-    }
-
-    /**
-     * Updates Option entity in database.
-     * @param entity Option entity to be updated
-     */
-    @Override
-    @Transactional
-    public void update(Option entity) {
-        optionRepository.update(entity);
-    }
-
-    /**
-     * Deletes Option entity in database.
-     * @param entity Option entity to be deleted
-     */
-    @Override
-    @Transactional
-    public void delete(Option entity) {
-        optionRepository.remove(entity);
-    }
-
-    /**
      * Gets Option entity by its id from database.
      * @param id id of Option entity to be found
      * @return founded Option entity
      */
-    @Override
     @Transactional
-    public Option getById(Integer id) {
+    public Option getOptionById(Integer id) {
         return (Option) optionRepository.getById(id);
-    }
-
-    /**
-     * Gets all Option entities from database.
-     * @return List of Option entities from database
-     */
-    @Override
-    @Transactional
-    public List<Option> getAll() {
-        return optionRepository.getAll();
     }
 
     /**

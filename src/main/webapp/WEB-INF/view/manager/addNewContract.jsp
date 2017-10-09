@@ -22,7 +22,7 @@
 
     <title>My DeltaCom</title>
 </head>
-<body class="sidebar-mini fixed" onbeforeunload="beforeUnload()">
+<body class="sidebar-mini fixed">
 <div class="wrapper">
     <!-- Navbar-->
     <%@include file="../header.jsp" %>

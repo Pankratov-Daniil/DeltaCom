@@ -39,10 +39,3 @@ function updateOptions() {
         }
     });
 }
-
-function beforeUnload() {
-    $.ajax({
-        url:"/DeltaCom/manager/removeClientIdFromSession",
-        contentType: "application/json"
-    });
-}

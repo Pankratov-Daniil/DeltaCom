@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Interface for Numbers Pool service.
  */
-public interface NumbersPoolService extends RepositoryService<NumbersPool, String> {
+public interface NumbersPoolService {
+    public void updateNumbersPool(NumbersPool entity);
     public List<String> getAllUnusedNumbers();
 }

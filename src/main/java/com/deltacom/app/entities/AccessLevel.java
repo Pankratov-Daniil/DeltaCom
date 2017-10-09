@@ -17,6 +17,12 @@ public class AccessLevel {
     @Column(name = "name")
     private String name;
 
+    public AccessLevel() {}
+
+    public AccessLevel(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

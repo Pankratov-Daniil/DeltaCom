@@ -35,17 +35,17 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
     /**
      * Gets 'countEntries' clients from 'startId'
      * @param startId start id
-     * @param countEntries how many clients need to be returned
+     * @param amount how many clients need to be returned
      * @return list of clients
      */
     @Override
-    public List<Client> getClientsForSummaryTable(int startId, int countEntries) {
+    public List<Client> getClientsByIds(int startId, int amount) {
         try {
             return (List<Client>) entityManager
                     .createQuery("select client from Client client where client.id >= :id ")
                     .setParameter("id", startId)
                     .setFirstResult(0)
-                    .setMaxResults(countEntries)
+                    .setMaxResults(amount)
                     .getResultList();
         } catch (NoResultException e) {
             return null;

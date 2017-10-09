@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface ClientRepository {
     public Client getClientByEmail(String email);
-    public List<Client> getClientsForSummaryTable(int startId, int countEntries);
+    public List<Client> getClientsByIds(int startId, int amount);
 }
