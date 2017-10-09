@@ -71,17 +71,16 @@ function updateTable (minId) {
                     tableRecords += '<th>' + item.email + '</th>';
 
                     tableRecords += '<th>';
-                    var contractCount = 0;
                     $.each(item.contracts, function (contractIndex, contract) {
                         tableRecords += '<div class="btn-group">';
-                        tableRecords += '<a class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'primary') + ' dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">';
+                        tableRecords += '<a id="blockContractBtn' + contractIndex + '" class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'primary') + ' dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">';
                         tableRecords += contract.numbersPool.number;
                         tableRecords += '<span class="caret"></span></a>';
                         tableRecords += '<ul class="dropdown-menu">';
                         tableRecords += '<li><a href="#">Manage tariff</a></li>';
                         tableRecords += '<li class="divider"></li>';
                         tableRecords += '<li><a id="';
-                        tableRecords += 'blockContract'+contractCount;
+                        tableRecords += 'blockContractLink'+contractIndex;
                         tableRecords += '" href="';
                         tableRecords += (contract.blocked ?
                             'javascript:void(0);">Unblock contract' :
@@ -90,7 +89,6 @@ function updateTable (minId) {
                         tableRecords += '</ul>';
                         tableRecords += '</div>';
                         tableRecords += '<p></p>';
-                        contractCount++;
                     });
 
                     tableRecords += '<a id="addToSession'+userCounter+'" class="btn btn-primary btn-sm" href="addNewContract">Add new contract</a>';
@@ -103,10 +101,15 @@ function updateTable (minId) {
                 tableBody.append(tableRecords);
                 tableRecords = '';
                 $('#addToSession'+userCounter).click({param1: item.id}, addClientToSession);
-                contractCount = 0;
                 $.each(item.contracts, function (contractIndex, contract) {
-                    $('#blockContract'+contractCount).click({param1: contract.id, param2: !contract.blocked, param3: '#blockContract'+contractCount}, blockContract);
-                    contractCount++;
+                    $('#blockContractLink'+contractIndex).click(function () {
+                        blockContract(contract.id, !contract.blocked, true, onSuccessfullBlock,
+                            {'btnId' : '#blockContractBtn'+contractIndex,
+                             'linkId' : '#blockContractLink'+contractIndex,
+                             'blocked' : !contract.blocked,
+                                'contract' : contract
+                            });
+                    });
                 });
 
             });
@@ -114,22 +117,13 @@ function updateTable (minId) {
     });
 }
 
-function addClientToSession (event) {
-    $.ajax({
-        url: 'addNewClientIdToSession',
-        data: {'clientId': event.data.param1}
-    });
-}
-
-function blockContract (event) {
-    $.ajax({
-        url: '/DeltaCom/manager/blockContract',
-        data: {'contractId': event.data.param1,
-               'block' : event.data.param2},
-        success: function(data) {
-            $(event.data.param3).text(event.data.param2 ? 'Unblock contract' : 'Block contract');
-            $(event.data.param3).parent().parent().parent().children(".btn").removeClass('btn-' + (event.data.param2 ? 'primary' : 'danger'))
-            $(event.data.param3).parent().parent().parent().children(".btn").addClass('btn-' + (event.data.param2 ? 'danger' : 'primary'));
-        }
-    });
+function onSuccessfullBlock(successData) {
+    var removeClassBtn = 'btn-' + (successData.blocked ? 'primary' : 'danger');
+    var addClassBtn = 'btn-' + (successData.blocked ? 'danger' : 'primary');
+    var textLink = successData.blocked ? 'Unblock contract' : 'Block contract';
+    $(successData.btnId).removeClass(removeClassBtn);
+    $(successData.btnId).addClass(addClassBtn);
+    $(successData.linkId).text(textLink);
+    
+    successData.contract.blocked = successData.blocked;
 }

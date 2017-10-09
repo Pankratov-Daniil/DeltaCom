@@ -124,12 +124,15 @@ public class ContractServiceImpl implements ContractService {
      * Block or unblock contract
      * @param contractId contract id
      * @param blockContract true if need to block, false otherwise
+     * @param blockedByOperator true if blicked by operator, false otherwise
      */
     @Override
     @Transactional
-    public void blockContract(int contractId, boolean blockContract) {
+    public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) {
         Contract contract = contractRepository.getById(contractId);
         contract.setBlocked(blockContract);
+        if(blockedByOperator)
+            contract.setBlockedByOperator(blockContract);
         contractRepository.update(contract);
     }
 }

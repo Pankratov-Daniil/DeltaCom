@@ -185,7 +185,7 @@ public class ManagerController extends CommonController {
     @RequestMapping(value = "/blockContract", produces="application/json")
     public boolean blockContract(@RequestParam("contractId") int contractId,
                               @RequestParam("block") boolean blockContract) {
-        contractService.blockContract(contractId, blockContract);
+        contractService.blockContract(contractId, blockContract, true);
         return true;
     }
 }

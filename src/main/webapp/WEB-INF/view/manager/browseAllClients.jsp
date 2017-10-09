@@ -15,7 +15,7 @@
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/main.js"></script>
-
+    <script src="../resources/js/commonFunctions.js"></script>
     <script src="../resources/js/browseAllClients.js"></script>
 
     <title>My DeltaCom</title>
