@@ -40,6 +40,10 @@ $(document).ready(function () {
         }
     });
 
+    $(".openTariffManager").click(function () {
+        $(manageTariffModal).modal('show');
+    });
+
     $("#startSearchByNumber").click(findUserByNumber);
     $("#resetFindUserByNumber").click(resetFindUserByNumber);
 });
@@ -127,11 +131,11 @@ function passTableToPage (data, minId, countEntries) {
             tableRecords += '<th>';
             $.each(item.contracts, function (contractIndex, contract) {
                 tableRecords += '<div class="btn-group">';
-                tableRecords += '<a id="blockContractBtn' + contractIndex + '" class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'primary') + ' dropdown-toggle contractNum" href="javascript:void(0);" data-toggle="dropdown">';
+                tableRecords += '<a id="blockContractBtn' + contractIndex + '" class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'default') + ' dropdown-toggle contractNum" href="javascript:void(0);" data-toggle="dropdown">';
                 tableRecords += contract.numbersPool.number;
                 tableRecords += '<span class="caret"></span></a>';
                 tableRecords += '<ul class="dropdown-menu">';
-                tableRecords += '<li><a href="#">Manage tariff</a></li>';
+                tableRecords += '<li data-toggle="modal" data-target="#manageTariffModal"><a href="#">Manage tariff</a></li>';
                 tableRecords += '<li class="divider"></li>';
                 tableRecords += '<li><a id="';
                 tableRecords += 'blockContractLink'+contractIndex;
@@ -170,8 +174,8 @@ function passTableToPage (data, minId, countEntries) {
 }
 
 function onSuccessfullBlock(successData) {
-    var removeClassBtn = 'btn-' + (successData.blocked ? 'primary' : 'danger');
-    var addClassBtn = 'btn-' + (successData.blocked ? 'danger' : 'primary');
+    var removeClassBtn = 'btn-' + (successData.blocked ? 'default' : 'danger');
+    var addClassBtn = 'btn-' + (successData.blocked ? 'danger' : 'default');
     var textLink = successData.blocked ? 'Unblock contract' : 'Block contract';
     $(successData.btnId).removeClass(removeClassBtn);
     $(successData.btnId).addClass(addClassBtn);

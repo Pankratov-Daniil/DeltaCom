@@ -1,8 +1,6 @@
 package com.deltacom.app.services.implementation;
 
-import com.deltacom.app.entities.Contract;
-import com.deltacom.app.entities.NumbersPool;
-import com.deltacom.app.entities.Option;
+import com.deltacom.app.entities.*;
 import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,23 +49,60 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
-        NumbersPool numbersPool = new NumbersPool();
-        numbersPool.setNumber(number);
-        numbersPool.setUsed(true);
-
         ArrayList<Option> options = new ArrayList<>();
         for(String optionId : selectedOptions)
             options.add(optionService.getOptionById(Integer.parseInt(optionId)));
 
+        if(!checkOptions(options))
+            return false;
+
+        NumbersPool numbersPool = createNewNumberPool(number);
+        contractRepository.add(createNewContract(clientService.getClientById(clientId),
+                numbersPool,
+                tariffService.getTariffById(tariffId),
+                options));
+        numbersPoolService.updateNumbersPool(numbersPool);
+        return true;
+    }
+
+    private NumbersPool createNewNumberPool(String number) {
+        NumbersPool numbersPool = new NumbersPool();
+        numbersPool.setNumber(number);
+        numbersPool.setUsed(true);
+
+        return numbersPool;
+    }
+
+    private Contract createNewContract(Client client, NumbersPool numbersPool, Tariff tariff, List<Option> options) {
         Contract contract = new Contract();
         contract.setBalance(0);
-        contract.setClient(clientService.getClientById(clientId));
+        contract.setClient(client);
         contract.setNumbersPool(numbersPool);
-        contract.setTariff(tariffService.getTariffById(tariffId));
+        contract.setTariff(tariff);
         contract.setOptions(options);
 
-        contractRepository.add(contract);
-        numbersPoolService.updateNumbersPool(numbersPool);
+        return contract;
+    }
+
+    /**
+     * Checks if options have correct incompatible and compatible options
+     * @param options options to check
+     * @return true if check passed, false if not
+     */
+    private boolean checkOptions(List<Option> options) {
+        for(Option option : options) {
+            for(Option compOption : option.getCompatibleOptions()) {
+                if(!options.contains(compOption))
+                    return false;
+            }
+
+            for(Option anotherOtion : options) {
+                if((anotherOtion.getId() != option.getId())&&
+                        (anotherOtion.getIncompatibleOptions().contains(option) ||
+                        option.getIncompatibleOptions().contains(anotherOtion)))
+                    return false;
+            }
+        }
         return true;
     }
 
