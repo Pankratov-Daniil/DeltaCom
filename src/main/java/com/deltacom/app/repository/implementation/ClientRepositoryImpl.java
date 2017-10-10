@@ -51,4 +51,20 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
             return null;
         }
     }
+
+    /**
+     * Gets client by number
+     * @param number number of client
+     * @return found client
+     */
+    @Override
+    public Client getClientByNumber(String number) {
+        try {
+            return (Client) entityManager.createQuery("select client from Client client, Contract contract " +
+                    "where contract.client.id = client.id and contract.numbersPool.number = :number")
+                    .setParameter("number", number).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface ClientRepository {
     public Client getClientByEmail(String email);
     public List<Client> getClientsByIds(int startId, int amount);
+    public Client getClientByNumber(String number);
 }

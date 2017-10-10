@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 

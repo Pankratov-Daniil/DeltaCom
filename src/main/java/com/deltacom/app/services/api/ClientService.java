@@ -12,4 +12,5 @@ public interface ClientService {
     public Client getClientByEmail(String email);
     public boolean addNewClient(Client client, String[] accessLevelsIds);
     public List<Client> getClientsByIds(int startId, int amount);
+    public Client getClientByNumber(String number);
 }

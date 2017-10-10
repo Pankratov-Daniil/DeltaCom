@@ -4,6 +4,7 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -145,13 +146,25 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Processing ajax request from 'browse all clients' page to get client by his number.
+     * @param number number of client
+     * @return list of clients
+     */
+    @ResponseBody
+    @RequestMapping(value = "/searchClientByNumber", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Client searchClientByNumber(@RequestParam("number") String number) {
+        System.out.println(number);
+        return clientService.getClientByNumber(number);
+    }
+
+    /**
      * Processing ajax request from 'browse all clients' page to get clients for table.
      * @param startId id from which the countdown begins
      * @param countEntries how many clients need to be returned
      * @return list of clients
      */
     @ResponseBody
-    @RequestMapping(value = "/getClientsForSummaryTable", produces="application/json")
+    @RequestMapping(value = "/getClientsForSummaryTable", produces=MediaType.APPLICATION_JSON_VALUE)
     public List<Client> getClientsForSummaryTable(@RequestParam("startId") int startId,
                                                   @RequestParam("countEntries") int countEntries) {
         return clientService.getClientsByIds(startId, countEntries);
@@ -182,7 +195,7 @@ public class ManagerController extends CommonController {
      * @param blockContract true if need to block, false otherwise
      */
     @ResponseBody
-    @RequestMapping(value = "/blockContract", produces="application/json")
+    @RequestMapping(value = "/blockContract", produces=MediaType.APPLICATION_JSON_VALUE)
     public boolean blockContract(@RequestParam("contractId") int contractId,
                               @RequestParam("block") boolean blockContract) {
         contractService.blockContract(contractId, blockContract, true);

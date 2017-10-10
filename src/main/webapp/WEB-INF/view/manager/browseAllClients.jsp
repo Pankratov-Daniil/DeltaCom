@@ -6,8 +6,7 @@
     <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="../resources/css/accountPages.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -38,36 +37,53 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <p>Show
-                            <select id="countEntries">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                            </select>
-                            entries
-                        </p>
-                        <table class="table table-hover" id="clientsTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Birth date</th>
-                                    <th>Passport</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Contracts</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody">
+                        <div>
+                            Show
+                                <select id="countEntries">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                </select>
+                                entries
+                            <div class="col-md-2  pull-right">
+                                <form id="searchNumberForm">
+                                    <div class=" input-group input-group-sm">
+                                        <input class="form-control" type="text" id="numberForSearch" name="numberForSearch" pattern="\d+"><span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="startSearchByNumber"><i class="fa fa-search"></i></button>
+                                        <button class="btn btn-default" type="button" id="resetFindUserByNumber"><i class="fa fa-times"></i></button></span>
+                                        <button type="submit" class="hidden"></button>
+                                        <input type="hidden" name="${_csrf.parameterName}"
+                                               value="${_csrf.token}"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <label class="control-label pull-right">Search by number:</label>
+                        </div>
+                        <br/><br/>
+                        <div>
+                            <table class="table table-hover" id="clientsTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Birth date</th>
+                                        <th>Passport</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Contracts</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
 
-                            </tbody>
-                        </table>
-                        <div class="bs-component">
-                            <ul class="pager">
-                                <li class=""><a href="javascript:void(0);" id="prevButton">Previous</a></li>
-                                <li class=""><a href="javascript:void(0);" id="nextButton">Next</a></li>
-                            </ul>
+                                </tbody>
+                            </table>
+                            <div class="bs-component">
+                                <ul class="pager">
+                                    <li class=""><a href="javascript:void(0);" id="prevButton">Previous</a></li>
+                                    <li class=""><a href="javascript:void(0);" id="nextButton">Next</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

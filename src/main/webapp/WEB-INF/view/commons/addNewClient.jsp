@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -44,31 +44,31 @@
                         <form method="post" action="regNewClient" name="newUser" acceptCharset="utf8">
                             <div class="form-group">
                                 <label class="control-label">First name</label>
-                                <input class="form-control" type="text" placeholder="Enter first name" name="firstName">
+                                <input class="form-control" type="text" placeholder="Enter first name" name="firstName" required pattern="[A-Za-zА-Яа-яЁё]+">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Last name</label>
-                                <input class="form-control" type="text" placeholder="Enter last name" name="lastName">
+                                <input class="form-control" type="text" placeholder="Enter last name" name="lastName" required pattern="[A-Za-zА-Яа-яЁё]+">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Birth date</label>
-                                <input class="form-control" type="date" name="birthDate">
+                                <input class="form-control" type="date" name="birthDate" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Passport</label>
-                                <input class="form-control" type="text" placeholder="Enter passport" name="passport">
+                                <input class="form-control" type="text" placeholder="Enter passport" name="passport" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Address</label>
-                                <textarea class="form-control" rows="2" placeholder="Enter address" name="address"></textarea>
+                                <textarea class="form-control" rows="2" placeholder="Enter address" name="address" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Email</label>
-                                <input class="form-control" type="email" placeholder="Enter email address" name="email">
+                                <input class="form-control" type="email" placeholder="Enter email address" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Password</label>
-                                <input class="form-control" type="password" placeholder="Enter password" name="password">
+                                <input class="form-control" type="password" placeholder="Enter password" name="password" required pattern=".{6,}">
                             </div>
                             <div class="form-group">
                                 <sec:authorize access="hasRole('ADMIN')">

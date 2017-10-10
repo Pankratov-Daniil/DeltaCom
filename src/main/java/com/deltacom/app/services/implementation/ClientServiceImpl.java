@@ -80,4 +80,15 @@ public class ClientServiceImpl implements ClientService{
     public List<Client> getClientsByIds(int startId, int amount) {
         return clientRepository.getClientsByIds(startId, amount);
     }
+
+    /**
+     * Gets client by his number
+     * @param number number of client
+     * @return found client
+     */
+    @Override
+    @Transactional
+    public Client getClientByNumber(String number) {
+        return clientRepository.getClientByNumber(number);
+    }
 }
