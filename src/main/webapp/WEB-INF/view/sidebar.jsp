@@ -26,8 +26,6 @@
                         href="/DeltaCom/commons/addNewClient"><i class="fa fa-user-plus"></i><span>Add new client</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/browseAllClients') ? 'active' : ''}"><a
                         href="/DeltaCom/manager/browseAllClients"><i class="fa fa-users"></i><span>Browse all clients</span></a></li>
-                <li class="${fn:contains(pageContext.request.requestURI, 'manager/searchClient') ? 'active' : ''}"><a
-                        href="/DeltaCom/manager/searchClient"><i class="fa fa-search"></i><span>Search client</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/tariffsActions') ? 'active' : ''}"><a
                         href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs actions</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsActions') ? 'active' : ''}"><a
