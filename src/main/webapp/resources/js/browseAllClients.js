@@ -4,6 +4,14 @@ var userCounter = 0;
 var recordsInTable = 0;
 var countEntriesVal;
 var searchedByNumber = false;
+var savedTariffId = -1;
+var savedOptions = [];
+var selectOptionsName = "#selectOptions";
+var compatibleOptions = [];
+var incompatibleOptions = [];
+var prevSelected = [];
+var curSelected = [];
+
 $(document).ready(function () {
     countEntriesVal = parseInt($("#countEntries").val(),10);
     updateTable(-1);
@@ -40,8 +48,17 @@ $(document).ready(function () {
         }
     });
 
-    $(".openTariffManager").click(function () {
-        $(manageTariffModal).modal('show');
+    $("#numberForSearch").keypress(function (event) {
+        // try to prevent submitting search number form on 'enter' press
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            $("#startSearchByNumber").click();
+        }
+    });
+
+    $("#changeContract").submit(function (event) {
+        $("#numberModal").removeAttr('disabled');
+        $(manageTariffModal).modal('hide');
     });
 
     $("#startSearchByNumber").click(findUserByNumber);
@@ -135,7 +152,7 @@ function passTableToPage (data, minId, countEntries) {
                 tableRecords += contract.numbersPool.number;
                 tableRecords += '<span class="caret"></span></a>';
                 tableRecords += '<ul class="dropdown-menu">';
-                tableRecords += '<li data-toggle="modal" data-target="#manageTariffModal"><a href="#">Manage tariff</a></li>';
+                tableRecords += '<li><a class="openTariffManager" href="#">Manage tariff</a></li>';
                 tableRecords += '<li class="divider"></li>';
                 tableRecords += '<li><a id="';
                 tableRecords += 'blockContractLink'+contractIndex;
@@ -169,8 +186,106 @@ function passTableToPage (data, minId, countEntries) {
                     });
             });
         });
-
     });
+
+    $(".openTariffManager").click(onOpenTariffManager);
+}
+
+function onOpenTariffManager() {
+    var number = $(this).closest("div").children(".contractNum").text();
+    $("#numberModal").val(number);
+
+    var curTariff = $("#curTariff");
+    var tariffInfo = $("#tariffInfo");
+    var availableOptions = $("#availableOptions");
+    var selectTariff = $("#selectTariff");
+    var selectOptions = $("#selectOptions");
+
+    savedTariffId = -1;
+    savedOptions = [];
+
+    var tariffHtml = '';
+    $.ajax({
+        contentType: "application/json",
+        url: "/DeltaCom/manager/getContractByNumber",
+        data: {
+            "number" : number
+        },
+        success: function (data) {
+            savedTariffId = data.tariff.id;
+            var curTariffHtml = "<p>Tariff name: " + data.tariff.name + "<br/>" +
+                                "Options: ";
+            $.each(data.options, function (index, item) {
+                curTariffHtml += item.name;
+                if(index < data.options.length - 1)
+                    curTariffHtml += ", ";
+                savedOptions.push(item.id);
+            });
+            curTariff.empty();
+            curTariff.html(curTariffHtml + "</p>");
+
+        }
+    }).done(function () {
+        if(savedTariffId < 0)
+            savedTariffId = 1;
+        $.ajax({
+            contentType: "application/json",
+            url: "/DeltaCom/manager/getAllTariffs",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    tariffHtml += '<option data-tariff-price="' + item.price + '" value="' + item.id + '">' + item.name + '</option>';
+                });
+                updateSelect(selectTariff, tariffHtml);
+                selectTariff.selectpicker('val', savedTariffId);
+                if(data.length > 0) {
+                    $.ajax({
+                        url: "/DeltaCom/manager/getOptionsForContract",
+                        contentType: "application/json",
+                        data: {
+                            "selectTariff": savedTariffId
+                        },
+                        success: function (optionsData) {
+                            var optionsHtml = createOptionsHtml(optionsData);
+                            compatibleOptions = optionsHtml.compatibleOptions;
+                            incompatibleOptions = optionsHtml.incompatibleOptions;
+                            updateSelect(selectOptions, optionsHtml.optionsList);
+
+                            $.each(savedOptions, function (index, item) {
+                                var values = $('#selectOptions [value=' + item + ']');
+                                if(values.text() != '') {
+                                    values.prop('selected', 'true');
+                                    curSelected.push(item);
+                                }
+                            });
+                            selectOptions.selectpicker('refresh');
+                            optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
+
+                            $(selectOptionsName).change(function () {
+                                var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
+                                prevSelected = optChanged.prevSelected;
+                                curSelected = optChanged.curSelected;
+                            });
+
+                            selectTariff.change(function () {
+                                optionsUpdated();
+                            });
+                            tariffInfo.empty();
+                            tariffInfo.html("<p>Name: " + data[0].name + "<br/>Price: " + data[0].price + "</p>");
+
+                            availableOptions.empty();
+                            availableOptions.append(optionsHtml.optionsInfo);
+                        },
+                        error: function () {
+                            selectOptions.empty();
+                            availableOptions.empty();
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    $(manageTariffModal).modal('show');
 }
 
 function onSuccessfullBlock(successData) {

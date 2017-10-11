@@ -32,4 +32,21 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
             return null;
         }
     }
+
+    /**
+     * Gets contract by number
+     * @param number number of contract
+     * @return found contract
+     */
+    @Override
+    public Contract getContractByNumber(String number) {
+        try {
+            return (Contract) entityManager.createQuery("select contract from Contract contract where contract.numbersPool.number = :number")
+                    .setParameter("number", number).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+
 }

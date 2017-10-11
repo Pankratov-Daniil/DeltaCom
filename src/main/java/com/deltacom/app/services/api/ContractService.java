@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface ContractService {
     public List<Contract> getAllClientContractsByEmail(String email);
-    public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions);
+    public Contract getContractByNumber(String number);
+    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions);
     public void blockContract(int contractId, boolean blockContract, boolean blockedByAdmin);
+    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId);
 }

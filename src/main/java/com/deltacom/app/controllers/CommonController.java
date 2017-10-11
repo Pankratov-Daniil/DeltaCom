@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,11 +73,10 @@ public class CommonController {
      * Registers new client
      */
     @RequestMapping(value = "/commons/regNewClient")
-    public void regNewClient(@ModelAttribute(value = "newUser") Client client,
+    public ModelAndView regNewClient(@ModelAttribute(value = "newUser") Client client,
                              HttpServletRequest request, HttpSession session,
-                             HttpServletResponse response) throws IOException {
+                                     RedirectAttributes ra) throws IOException {
         String[] accessLevelsIds = request.getParameterValues("accessLevelsSelect");
-
         if(clientService.addNewClient(client, accessLevelsIds)) {
             session.setAttribute("successClientCreation", true);
         }
@@ -84,14 +84,13 @@ public class CommonController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         for(GrantedAuthority authority : auth.getAuthorities()) {
             if (authority.getAuthority().contains("ADMIN")) {
-                // sendRedirect is for avoid url like "url?params=values..."
-                response.sendRedirect("addNewClient");
-                break;
+                return new ModelAndView("redirect:/admin/addNewClient");
             } else if (authority.getAuthority().contains("MANAGER")) {
                 session.setAttribute("clientId", client.getId());
-                response.sendRedirect("../manager/addNewContract");
+                return new ModelAndView("redirect:/manager/addNewContract");
             }
         }
+        return new ModelAndView("redirect:/index");
     }
 
     /**

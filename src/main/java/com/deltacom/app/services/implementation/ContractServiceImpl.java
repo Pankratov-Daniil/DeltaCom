@@ -39,6 +39,17 @@ public class ContractServiceImpl implements ContractService {
     }
 
     /**
+     * Gets contract by number
+     * @param number number of contract
+     * @return found contract
+     */
+    @Override
+    @Transactional
+    public Contract getContractByNumber(String number) {
+        return contractRepository.getContractByNumber(number);
+    }
+
+    /**
      * Creates new contract
      * @param clientId client id
      * @param number selected number
@@ -48,10 +59,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public boolean createNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
-        ArrayList<Option> options = new ArrayList<>();
-        for(String optionId : selectedOptions)
-            options.add(optionService.getOptionById(Integer.parseInt(optionId)));
+    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
+        List<Option> options = getOptionsFromIds(selectedOptions);
 
         if(!checkOptions(options))
             return false;
@@ -120,5 +129,33 @@ public class ContractServiceImpl implements ContractService {
         if(blockedByOperator)
             contract.setBlockedByOperator(blockContract);
         contractRepository.update(contract);
+    }
+
+    /**
+     * Updates contract
+     * @param contractNumber number of contract
+     * @param newTariffId new tariff id
+     * @param newOptionsId new options id
+     */
+    @Override
+    @Transactional
+    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) {
+        Contract contract = getContractByNumber(contractNumber);
+        contract.setTariff(tariffService.getTariffById(Integer.parseInt(newTariffId)));
+        contract.setOptions(getOptionsFromIds(newOptionsId));
+
+        contractRepository.update(contract);
+    }
+
+    /**
+     * Creates new options list
+     * @param optionsIds ids of options
+     * @return list of options
+     */
+    private List<Option> getOptionsFromIds(String[] optionsIds) {
+        ArrayList<Option> options = new ArrayList<>();
+        for(String optionId : optionsIds)
+            options.add(optionService.getOptionById(Integer.parseInt(optionId)));
+        return options;
     }
 }

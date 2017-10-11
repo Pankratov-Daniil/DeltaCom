@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ContractRepository {
     public List<Contract> getAllClientContractsById(int clientId);
+    public Contract getContractByNumber(String number);
 }

@@ -1,13 +1,16 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Option;
+import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,14 +99,12 @@ public class ManagerController extends CommonController {
     /**
      * Processing request to managers 'add new contract' page
      * @param session current session
-     * @param response http response
      * @return 'add new contract' page or 'index' page if there is no client in session
      */
     @RequestMapping(value = "/addNewContract")
-    public ModelAndView addNewContract(HttpSession session, HttpServletResponse response) throws IOException {
+    public ModelAndView addNewContract(HttpSession session, RedirectAttributes ra) throws IOException {
         if(session.getAttribute("clientId") == null) {
-            response.sendRedirect("index");
-            return null;
+            return new ModelAndView("redirect:/manager/index");
         }
         ModelAndView modelAndView = new ModelAndView("manager/addNewContract");
 
@@ -116,22 +117,36 @@ public class ManagerController extends CommonController {
 
     /**
      * Processing request to 'registrate new contract' and register new client
-     * @param request http request
      * @param session current session
-     * @param response http response
      */
     @RequestMapping(value = "/regNewContract")
-    public void regNewContract(HttpServletRequest request,
-                                       HttpSession session, HttpServletResponse response) throws IOException{
-        String selectedNumber = request.getParameterValues("selectNumber")[0];
-        String selectedTariff = request.getParameterValues("selectTariff")[0];
-        String[] selectedOptions = request.getParameterValues("selectOptions");
+    public ModelAndView regNewContract(@RequestParam("selectNumber") String selectedNumber,
+                                       @RequestParam("selectTariff") String selectedTariff,
+                                       @RequestParam("selectOptions") String[] selectedOptions,
+                                       HttpSession session, RedirectAttributes ra) throws IOException{
         int clientId = (int)session.getAttribute("clientId");
 
-        if(contractService.createNewContract(clientId, selectedNumber, Integer.parseInt(selectedTariff), selectedOptions)) {
+        if(contractService.addNewContract(clientId, selectedNumber, Integer.parseInt(selectedTariff), selectedOptions)) {
             session.setAttribute("successContractCreation", true);
         }
-        response.sendRedirect("index");
+        return new ModelAndView("redirect:/manager/index");
+    }
+
+    /**
+     * Changes contract
+     * @param selectedNumber selected number
+     * @param selectedTariffId selected tariff id
+     * @param selectedOptionsIds selected options ids
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/changeContract")
+    public ModelAndView changeContract(@RequestParam("numberModal") String selectedNumber,
+                                       @RequestParam("selectTariff") String selectedTariffId,
+                                       @RequestParam("selectOptions") String[] selectedOptionsIds,
+                                       RedirectAttributes ra) {
+        contractService.updateContract(selectedNumber, selectedTariffId, selectedOptionsIds);
+
+        return new ModelAndView("redirect:/manager/browseAllClients");
     }
 
     /**
@@ -146,6 +161,27 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Processing ajax request from 'browse all clients' page when open change tariff modal page.
+     * @param number number of contract
+     * @return list of options for contract
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getContractByNumber", produces="application/json")
+    public Contract getOptionsFromContractByNumber(@RequestParam("number") String number) {
+        return contractService.getContractByNumber(number);
+    }
+
+    /**
+     * Gets all tariffs
+     * @return list of all tariifs
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getAllTariffs", produces="application/json")
+    public List<Tariff> getAllTariffs() {
+        return tariffService.getAllTariffs();
+    }
+
+    /**
      * Processing ajax request from 'browse all clients' page to get client by his number.
      * @param number number of client
      * @return list of clients
@@ -153,7 +189,6 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/searchClientByNumber", produces = MediaType.APPLICATION_JSON_VALUE)
     public Client searchClientByNumber(@RequestParam("number") String number) {
-        System.out.println(number);
         return clientService.getClientByNumber(number);
     }
 

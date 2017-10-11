@@ -15,6 +15,7 @@
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/main.js"></script>
     <script src="../resources/js/newContract.js"></script>
+    <script src="../resources/js/commonFunctions.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
 
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
@@ -80,7 +81,7 @@
 
                         <h3>Avaivable options</h3>
                         <div id="availableOptions" class="card-footer">
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
