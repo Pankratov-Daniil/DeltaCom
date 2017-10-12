@@ -19,7 +19,61 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
     });
 }
 
-function createOptionsHtml(data) {
+function seachInOptsArray(arr, id) {
+    var foundItem = null;
+    arr.forEach(function (item, index, array) {
+        if(item.id == id) {
+            foundItem = item;
+        }
+    });
+    return foundItem;
+}
+
+function makeCompatibilityText(arr, curText, curOptions, compatible) {
+    var text = curText;
+    var arrForCompatibility = [];
+    var curOptOptions;
+    if(compatible) {
+        curOptOptions = curOptions.compatibleOptions;
+    } else {
+        curOptOptions = curOptions.incompatibleOptions;
+    }
+    $.each(curOptOptions, function (compatIndex, option) {
+        if(seachInOptsArray(arr, option.id) != null) {
+            if(text == '') {
+                text = compatible ? "Comes with: " : "Incompatible with: ";
+            }
+            arrForCompatibility.push([curOptions.id, option.id]);
+            text += option.name;
+            if (compatIndex < curOptOptions.length - 1)
+                text += ", ";
+
+            var compElem = seachInOptsArray(arr, option.id);
+            if (compElem != null) {
+                if(compatible) {
+                    if (compElem.compOpts == '') {
+                        compElem.compOpts = "Comes with: " + curOptions.name + " ";
+                    } else {
+                        compElem.compOpts += ", " + curOptions.name;
+                    }
+                } else {
+                    if (compElem.incompOpts == '') {
+                        compElem.incompOpts = "Incompatible with: " + curOptions.name;
+                    } else {
+                        compElem.incompOpts += ", " + curOptions.name;
+                    }
+                }
+            }
+        }
+    });
+    return {"text" : text, "arrForCompatibility" : arrForCompatibility};
+}
+
+function createOptionsHtml(data, cardLen) {
+    var opts = [];
+    $.each(data, function (index, item) {
+        opts.push({'id': item.id, 'body': '', 'compOpts': '', 'incompOpts': '', 'ends': ''});
+    });
     var optionsList = '';
     var optionsInfo = '';
     var compatibleOptions = [];
@@ -28,31 +82,33 @@ function createOptionsHtml(data) {
     optionsInfo += "<div class='row'>";
     $.each(data, function (index, item) {
         optionsList += '<option value="' + item.id + '">' + item.name + '</option>';
-        optionsInfo += "<div class='col-md-6'><div class='card'><div class='card-body'>";
-        optionsInfo += "<p>Name: " + item.name + "<br/>Price: " + item.price + "<br/>Connection cost: " + item.connectionCost + "</p>";
+        if(index % (12 / cardLen) == 0) {
+            opts[index].body += "<div class='clearfix'></div>";
+        }
+        opts[index].body += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
+        opts[index].body += "<p>Name: " + item.name + "<br/>Price: " + item.price + "<br/>Connection cost: " + item.connectionCost + "</p>";
+
         if(item.compatibleOptions.length > 0) {
-            optionsInfo += "<p>Comes with: ";
-            $.each(item.compatibleOptions, function (compatIndex, option) {
-                compatibleOptions.push([item.id, option.id]);
-                optionsInfo += option.name;
-                if(compatIndex < item.compatibleOptions.length - 1)
-                    optionsInfo += ", ";
-            });
-            optionsInfo += "</p>";
-        } else
-            optionsInfo += "<br/><p></p>";
+            var compatabilityText =  makeCompatibilityText(opts, opts[index].compOpts, item, true);
+            opts[index].compOpts = compatabilityText.text;
+            compatibleOptions = compatabilityText.arrForCompatibility;
+        }
+
         if(item.incompatibleOptions.length > 0) {
-            optionsInfo += "<p>Incompatible with: ";
-            $.each(item.incompatibleOptions, function (incompatIndex, option) {
-                incompatibleOptions.push([item.id, option.id]);
-                optionsInfo += option.name;
-                if(incompatIndex < item.incompatibleOptions.length - 1)
-                    optionsInfo += ", ";
-            });
-            optionsInfo += "</p>";
-        }else
-            optionsInfo += "<br/><p></p>";
-        optionsInfo += "</div></div></div>";
+            var incompatibilityText =  makeCompatibilityText(opts, opts[index].incompOpts, item, false);
+            opts[index].incompOpts = incompatibilityText.text;
+            incompatibleOptions = incompatibilityText.arrForCompatibility;
+        }
+        opts[index].ends = "</div></div></div>";
+    });
+    opts.forEach(function (item, index) {
+        if(item.compOpts == '') {
+            item.compOpts = "<br/><p></p>";
+        }
+        if(item.incompOpts == '') {
+            item.incompOpts = "<br/><p></p>";
+        }
+        optionsInfo += item.body + "<p>" + item.compOpts + "</p><p>" + item.incompOpts + "</p>" + item.ends;
     });
     optionsInfo += "</div>";
     return {"optionsList" : optionsList,
@@ -119,7 +175,6 @@ function optionsChanged(selectOptionsName, prevSelected, curSelected, compatible
 }
 
 function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptions, tariffId) {
-    tariffInfo.empty();
     tariffInfo.html("<p>Name: " + selectedTariff.text() + "<br/>Price: " + selectedTariff.attr('data-tariff-price') + "</p>");
 
     $.ajax({
@@ -129,10 +184,9 @@ function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptio
             "selectTariff" : tariffId
         },
         success: function(data) {
-            var optionsHtml = createOptionsHtml(data);
+            var optionsHtml = createOptionsHtml(data, 6);
             updateSelect(selectOptions, optionsHtml.optionsList);
-            availableOptions.empty();
-            availableOptions.append(optionsHtml.optionsInfo);
+            availableOptions.html(optionsHtml.optionsInfo);
             compatibleOptions = optionsHtml.compatibleOptions;
             incompatibleOptions = optionsHtml.incompatibleOptions;
         },

@@ -13,7 +13,8 @@ var prevSelected = [];
 var curSelected = [];
 
 $(document).ready(function () {
-    countEntriesVal = parseInt($("#countEntries").val(),10);
+    var countEntries = $("#countEntries");
+    countEntriesVal = parseInt(countEntries.val(),10);
     updateTable(-1);
 
     $('#prevButton').click(function () {
@@ -37,7 +38,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#countEntries").change(function () {
+    countEntries.change(function () {
         if(!searchedByNumber) {
             countEntriesVal = parseInt($(this).val(), 10);
             ids = [];
@@ -91,7 +92,6 @@ function findUserByNumber() {
         if ($(this).text() == nubmerForSearchInput.val()) {
             found = true;
             var savedStr = "<tr>" + $(this).closest("tr").html() + "</tr>";
-            tableBody.empty();
             tableBody.html(savedStr);
         }
     });
@@ -221,7 +221,6 @@ function onOpenTariffManager() {
                     curTariffHtml += ", ";
                 savedOptions.push(item.id);
             });
-            curTariff.empty();
             curTariff.html(curTariffHtml + "</p>");
 
         }
@@ -245,7 +244,7 @@ function onOpenTariffManager() {
                             "selectTariff": savedTariffId
                         },
                         success: function (optionsData) {
-                            var optionsHtml = createOptionsHtml(optionsData);
+                            var optionsHtml = createOptionsHtml(optionsData, 6);
                             compatibleOptions = optionsHtml.compatibleOptions;
                             incompatibleOptions = optionsHtml.incompatibleOptions;
                             updateSelect(selectOptions, optionsHtml.optionsList);
@@ -258,22 +257,18 @@ function onOpenTariffManager() {
                                 }
                             });
                             selectOptions.selectpicker('refresh');
-                            optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
+                            optsChanged();
 
                             $(selectOptionsName).change(function () {
-                                var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
-                                prevSelected = optChanged.prevSelected;
-                                curSelected = optChanged.curSelected;
+                                optsChanged();
                             });
 
                             selectTariff.change(function () {
                                 optionsUpdated();
                             });
-                            tariffInfo.empty();
                             tariffInfo.html("<p>Name: " + data[0].name + "<br/>Price: " + data[0].price + "</p>");
 
-                            availableOptions.empty();
-                            availableOptions.append(optionsHtml.optionsInfo);
+                            availableOptions.html(optionsHtml.optionsInfo);
                         },
                         error: function () {
                             selectOptions.empty();
@@ -286,6 +281,12 @@ function onOpenTariffManager() {
     });
 
     $(manageTariffModal).modal('show');
+}
+
+function optsChanged() {
+    var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
+    prevSelected = optChanged.prevSelected;
+    curSelected = optChanged.curSelected;
 }
 
 function onSuccessfullBlock(successData) {

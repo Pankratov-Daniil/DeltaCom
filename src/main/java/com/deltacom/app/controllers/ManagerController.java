@@ -79,24 +79,6 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing request to managers 'options compatibility' page
-     * @return options compatibility page
-     */
-    @RequestMapping(value = "/optionsCompatibility")
-    public ModelAndView optionsCompatibility() {
-        return new ModelAndView("manager/optionsCompatibility");
-    }
-
-    /**
-     * Processing request to managers 'client blocking actions' page
-     * @return client blocking actions page
-     */
-    @RequestMapping(value = "/blockActions")
-    public ModelAndView blockActions() {
-        return new ModelAndView("manager/blockActions");
-    }
-
-    /**
      * Processing request to managers 'add new contract' page
      * @param session current session
      * @return 'add new contract' page or 'index' page if there is no client in session
@@ -150,6 +132,48 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Changes option
+     * @param option option from page
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/changeOption")
+    public ModelAndView changeOption(@ModelAttribute("newOption") Option option,
+                                     @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
+                                     @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
+                                     @RequestParam(value = "deletedCompOpts", required = false) String[] deletedCompOptions,
+                                     @RequestParam(value = "deletedIncompOpts", required = false) String[] deletedIncompOptions,
+                                     RedirectAttributes ra) {
+        optionService.updateOption(option, incompatibleOptionsListIds, compatibleOptionsIds, deletedCompOptions, deletedIncompOptions);
+        return new ModelAndView("redirect:/manager/optionsActions");
+    }
+
+    /**
+     * Creates new option
+     * @param option option from page
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/createOption")
+    public ModelAndView createOption(@ModelAttribute("newOption") Option option,
+                                     @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
+                                     @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
+                                     RedirectAttributes ra) {
+        optionService.createOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
+        return new ModelAndView("redirect:/manager/optionsActions");
+    }
+
+    /**
+     * Deletes option
+     * @param optionId id of option to delete
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/deleteOption")
+    public ModelAndView deleteOption(@RequestParam(value = "idDelOption") int optionId,
+                                     RedirectAttributes ra) {
+        optionService.deleteOption(optionId);
+        return new ModelAndView("redirect:/manager/optionsActions");
+    }
+
+    /**
      * Processing ajax request from 'add new contract' page.
      * @param selectedTariffId id of selected tariff
      * @return list of options available for selected tariff
@@ -173,12 +197,22 @@ public class ManagerController extends CommonController {
 
     /**
      * Gets all tariffs
-     * @return list of all tariifs
+     * @return list of all tariffs
      */
     @ResponseBody
     @RequestMapping(value = "/getAllTariffs", produces="application/json")
     public List<Tariff> getAllTariffs() {
         return tariffService.getAllTariffs();
+    }
+
+    /**
+     * Gets all options
+     * @return list of all options
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getAllOptions", produces="application/json")
+    public List<Option> getAllOptions() {
+        return optionService.getAllOptions();
     }
 
     /**

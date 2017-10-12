@@ -26,8 +26,8 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-                <p>Start a beautiful journey here</p>
+                <h1><i class="fa fa-mobile"></i> Tariff actions</h1>
+                <p>Here you can manage tariffs.</p>
             </div>
         </div>
         <div class="row">

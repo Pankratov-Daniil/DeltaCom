@@ -30,9 +30,6 @@
                         href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs actions</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsActions') ? 'active' : ''}"><a
                         href="/DeltaCom/manager/optionsActions"><i class="fa fa-filter"></i><span>Options actions</span></a></li>
-                <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsCompatibility') ? 'active' : ''}"><a
-                        href="/DeltaCom/manager/optionsCompatibility"><i class="fa fa-plug"></i><span>Options compatibility</span></a></li>
-
             </sec:authorize>
 
             <sec:authorize access="hasRole('ADMIN')">

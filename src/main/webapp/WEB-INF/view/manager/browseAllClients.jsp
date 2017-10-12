@@ -111,7 +111,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label" >Avaivable options</label><br/>
-                                                                <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectOptions" name="selectOptions">
+                                                                <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectOptions" required name="selectOptions">
 
                                                                 </select>
                                                             </div>
