@@ -259,15 +259,10 @@ function onOpenTariffManager() {
                             selectOptions.selectpicker('refresh');
                             optsChanged();
 
-                            $(selectOptionsName).change(function () {
-                                optsChanged();
-                            });
+                            $(selectOptionsName).change(optsChanged);
+                            selectTariff.change(optionsUpdated);
 
-                            selectTariff.change(function () {
-                                optionsUpdated();
-                            });
                             tariffInfo.html("<p>Name: " + data[0].name + "<br/>Price: " + data[0].price + "</p>");
-
                             availableOptions.html(optionsHtml.optionsInfo);
                         },
                         error: function () {

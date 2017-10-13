@@ -1,3 +1,7 @@
+/**
+ * Adds client id to session  (for new contract)
+ * @param event
+ */
 function addClientToSession (event) {
     $.ajax({
         url: 'addNewClientIdToSession',
@@ -5,6 +9,14 @@ function addClientToSession (event) {
     });
 }
 
+/**
+ * Try to block contract
+ * @param contractId contract id
+ * @param block true if need to block, false otherwise
+ * @param blockByOperator is blocked by operator
+ * @param funcOnSuccess what to do on success block
+ * @param successData parameters for funcOnSuccess
+ */
 function blockContract (contractId, block, blockByOperator, funcOnSuccess, successData) {
     $.ajax({
         url: '/DeltaCom/manager/blockContract',
@@ -19,6 +31,12 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
     });
 }
 
+/**
+ * Searches item by id in array
+ * @param arr where we should find item
+ * @param id id of item
+ * @returns found item or null if didn't find
+ */
 function seachInOptsArray(arr, id) {
     var foundItem = null;
     arr.forEach(function (item, index, array) {
@@ -29,46 +47,46 @@ function seachInOptsArray(arr, id) {
     return foundItem;
 }
 
-function makeCompatibilityText(arr, curText, curOptions, compatible) {
+/**
+ * Makes text for options compatibility (like:"Comes with: option2, ..." or "Incompatible with: Opt4,..."
+ * @param arr options array
+ * @param curText current option compatibility text
+ * @param curOption current option
+ * @param compatible if text for compatible options
+ * @returns {{text: *, arrForCompatibility: Array}} text for option compatibility and where we writes new compatibility options id
+ */
+function makeCompatibilityText(arr, curText, curOption, compatible) {
     var text = curText;
     var arrForCompatibility = [];
     var curOptOptions;
     if(compatible) {
-        curOptOptions = curOptions.compatibleOptions;
+        curOptOptions = curOption.compatibleOptions;
     } else {
-        curOptOptions = curOptions.incompatibleOptions;
+        curOptOptions = curOption.incompatibleOptions;
     }
+    // for each (in)compatible option
     $.each(curOptOptions, function (compatIndex, option) {
-        if(seachInOptsArray(arr, option.id) != null) {
-            if(text == '') {
-                text = compatible ? "Comes with: " : "Incompatible with: ";
-            }
-            arrForCompatibility.push([curOptions.id, option.id]);
-            text += option.name;
-            if (compatIndex < curOptOptions.length - 1)
-                text += ", ";
-
-            var compElem = seachInOptsArray(arr, option.id);
-            if (compElem != null) {
-                if(compatible) {
-                    if (compElem.compOpts == '') {
-                        compElem.compOpts = "Comes with: " + curOptions.name + " ";
-                    } else {
-                        compElem.compOpts += ", " + curOptions.name;
-                    }
-                } else {
-                    if (compElem.incompOpts == '') {
-                        compElem.incompOpts = "Incompatible with: " + curOptions.name;
-                    } else {
-                        compElem.incompOpts += ", " + curOptions.name;
-                    }
-                }
+        // if this option is on a page
+        var foundCompOption = seachInOptsArray(arr, option.id);
+        if(foundCompOption != null) {
+            text += (text == '' ? ((compatible ? "Comes with: " : "Incompatible with: ") + option.name) : ", "+option.name);
+            arrForCompatibility.push([curOption.id, option.id]);
+            if(compatible) {
+                foundCompOption.compOpts += (foundCompOption.compOpts == '' ? "Comes with: " + curOption.name : ", " + curOption.name);
+            } else {
+                foundCompOption.incompOpts += (foundCompOption.incompOpts == '' ? "Incompatible with: " + curOption.name : ", " + curOption.name);
             }
         }
     });
     return {"text" : text, "arrForCompatibility" : arrForCompatibility};
 }
 
+/**
+ * creates options for select, options for info, comp. and incomp. options
+ * @param data list of options
+ * @param cardLen length of card (like: "col-md-" + cardLen)
+ * @returns {{optionsList: string, optionsInfo: string, compatibleOptions: Array, incompatibleOptions: Array}}
+ */
 function createOptionsHtml(data, cardLen) {
     var opts = [];
     $.each(data, function (index, item) {
@@ -117,8 +135,11 @@ function createOptionsHtml(data, cardLen) {
         "incompatibleOptions" : incompatibleOptions};
 }
 
+/**
+ * Fires when option changed in select users contract options
+ * @returns {{prevSelected: (*|jQuery), curSelected: (*|jQuery)}}
+ */
 function optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions) {
-    // incompatible section
     $.each($(selectOptionsName + " option:disabled"), function () {
         $(this).removeAttr('disabled');
     });
@@ -136,13 +157,15 @@ function optionsChanged(selectOptionsName, prevSelected, curSelected, compatible
                 var containsComp = checkContains(compatibleOptions, item, $(this).val());
                 if(containsComp) {
                     var deletedVal = -1;
-                    if(prevSelected)
+                    if (prevSelected) {
                         $.each(prevSelected, function (indexPrev, itemPrev) {
-                            if(curSelected.indexOf(itemPrev) < 0){
+                            if (curSelected.indexOf(itemPrev) < 0) {
                                 deletedVal = itemPrev;
                                 return false;
                             }
                         });
+                    }
+                    // check if option was deselect
                     if(deletedVal > -1) {
                         $.each(compatibleOptions, function (compInd, compItm) {
                             if(compItm[0] == deletedVal || compItm[1] == deletedVal) {
@@ -193,17 +216,25 @@ function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptio
         error: function () {
             availableOptions.empty();
         }
-    }).done(function () {
-        
     });
 }
 
+/**
+ * Fires when tariff changes
+ */
 function optionsUpdated() {
     curSelected = [];
     prevSelected = [];
     updateOptions($('#selectOptions'), $('#selectTariff option:selected'), $('#tariffInfo'), $('#availableOptions'), $('#selectTariff').val());
 }
 
+/**
+ * Check if array have two elem in [elem1, elem2]
+ * @param array find in this array
+ * @param item1 first item to compare
+ * @param item2 second item to compare
+ * @returns {boolean} true if exits, false otherwise
+ */
 function checkContains(array, item1, item2) {
     return array.some(elem => (item1 != item2)&&
         ((elem[0] == item1 && elem[1] == item2) ||
@@ -211,7 +242,6 @@ function checkContains(array, item1, item2) {
 }
 
 function updateSelect(sel, data) {
-    sel.empty();
-    sel.append(data);
+    sel.html(data);
     sel.selectpicker('refresh');
 }
