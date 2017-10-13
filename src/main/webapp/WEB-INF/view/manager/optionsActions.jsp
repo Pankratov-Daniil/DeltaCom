@@ -47,7 +47,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div id="changeOptionModal" class="modal fade" role="dialog">

@@ -238,7 +238,7 @@ function onOpenTariffManager() {
                 selectTariff.selectpicker('val', savedTariffId);
                 if(data.length > 0) {
                     $.ajax({
-                        url: "/DeltaCom/manager/getOptionsForContract",
+                        url: "/DeltaCom/manager/getOptionsForTariff",
                         contentType: "application/json",
                         data: {
                             "selectTariff": savedTariffId

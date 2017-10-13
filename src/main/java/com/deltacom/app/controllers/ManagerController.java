@@ -174,12 +174,38 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Creates tariff
+     * @param tariff tariff without options
+     * @param tariffOptionsId ids of tariff options
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/createTariff")
+    public ModelAndView createTariff(@ModelAttribute("newTariff") Tariff tariff,
+                                     @RequestParam(value = "tariffOptions") String[] tariffOptionsId,
+                                     RedirectAttributes ra) {
+        tariffService.createTariff(tariff, tariffOptionsId);
+        return new ModelAndView("redirect:/manager/tariffsActions");
+    }
+
+    /**
+     * Deletes tariff
+     * @param tariffId id of tariff to delete
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/deleteTariff")
+    public ModelAndView deleteTariff(@RequestParam(value = "idDelTariff") int tariffId,
+                                     RedirectAttributes ra) {
+        tariffService.deleteTariff(tariffId);
+        return new ModelAndView("redirect:/manager/tariffsActions");
+    }
+
+    /**
      * Processing ajax request from 'add new contract' page.
      * @param selectedTariffId id of selected tariff
      * @return list of options available for selected tariff
      */
     @ResponseBody
-    @RequestMapping(value = "/getOptionsForContract", produces="application/json")
+    @RequestMapping(value = "/getOptionsForTariff", produces="application/json")
     public List<Option> getOptionsForContract(@RequestParam("selectTariff") int selectedTariffId) {
         return optionService.getAllOptionsForTariff(selectedTariffId);
     }
@@ -212,7 +238,8 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/getAllOptions", produces="application/json")
     public List<Option> getAllOptions() {
-        return optionService.getAllOptions();
+        List<Option> opts = optionService.getAllOptions();
+        return opts;
     }
 
     /**
