@@ -4,15 +4,17 @@ var userCounter = 0;
 var recordsInTable = 0;
 var countEntriesVal;
 var searchedByNumber = false;
-var savedTariffId = -1;
+var savedTariff = null;
 var savedOptions = [];
 var selectOptionsName = "#selectOptions";
 var compatibleOptions = [];
 var incompatibleOptions = [];
 var prevSelected = [];
 var curSelected = [];
+var options = [];
 
 $(document).ready(function () {
+    getAllOptions(saveAllOptions);
     var countEntries = $("#countEntries");
     countEntriesVal = parseInt(countEntries.val(),10);
     updateTable(-1);
@@ -65,6 +67,10 @@ $(document).ready(function () {
     $("#startSearchByNumber").click(findUserByNumber);
     $("#resetFindUserByNumber").click(resetFindUserByNumber);
 });
+
+function saveAllOptions(allOptions) {
+    options = allOptions;
+}
 
 function updateTable (minId) {
     var countEntries = countEntriesVal + 1;
@@ -201,9 +207,10 @@ function onOpenTariffManager() {
     var selectTariff = $("#selectTariff");
     var selectOptions = $("#selectOptions");
 
-    savedTariffId = -1;
+    savedTariff = null;
     savedOptions = [];
-
+    prevSelected = [];
+    curSelected = [];
     var tariffHtml = '';
     $.ajax({
         contentType: "application/json",
@@ -212,9 +219,10 @@ function onOpenTariffManager() {
             "number" : number
         },
         success: function (data) {
-            savedTariffId = data.tariff.id;
+            savedTariff = data.tariff;
             var curTariffHtml = "<p>Tariff name: " + data.tariff.name + "<br/>" +
                                 "Options: ";
+            data.options = idsToObjectInOptionsCompatibilityArr(data.options, options);
             $.each(data.options, function (index, item) {
                 curTariffHtml += item.name;
                 if(index < data.options.length - 1)
@@ -222,11 +230,8 @@ function onOpenTariffManager() {
                 savedOptions.push(item.id);
             });
             curTariff.html(curTariffHtml + "</p>");
-
         }
     }).done(function () {
-        if(savedTariffId < 0)
-            savedTariffId = 1;
         $.ajax({
             contentType: "application/json",
             url: "/DeltaCom/manager/getAllTariffs",
@@ -235,18 +240,20 @@ function onOpenTariffManager() {
                     tariffHtml += '<option data-tariff-price="' + item.price + '" value="' + item.id + '">' + item.name + '</option>';
                 });
                 updateSelect(selectTariff, tariffHtml);
-                selectTariff.selectpicker('val', savedTariffId);
+                selectTariff.selectpicker('val', savedTariff.id);
                 if(data.length > 0) {
                     $.ajax({
                         url: "/DeltaCom/manager/getOptionsForTariff",
                         contentType: "application/json",
                         data: {
-                            "selectTariff": savedTariffId
+                            "selectTariff": savedTariff.id
                         },
                         success: function (optionsData) {
+                            optionsData = prepareOptions(optionsData);
+
                             var optionsHtml = createOptionsHtml(optionsData, 6);
-                            compatibleOptions = optionsHtml.compatibleOptions;
-                            incompatibleOptions = optionsHtml.incompatibleOptions;
+                            compatibleOptions = (optionsHtml.compatibleOptions);
+                            incompatibleOptions = (optionsHtml.incompatibleOptions);
                             updateSelect(selectOptions, optionsHtml.optionsList);
 
                             $.each(savedOptions, function (index, item) {
@@ -262,7 +269,7 @@ function onOpenTariffManager() {
                             $(selectOptionsName).change(optsChanged);
                             selectTariff.change(optionsUpdated);
 
-                            tariffInfo.html("<p>Name: " + data[0].name + "<br/>Price: " + data[0].price + "</p>");
+                            tariffInfo.html("<p>Name: " + savedTariff.name + "<br/>Price: " + savedTariff.price + "</p>");
                             availableOptions.html(optionsHtml.optionsInfo);
                         },
                         error: function () {
@@ -279,7 +286,7 @@ function onOpenTariffManager() {
 }
 
 function optsChanged() {
-    var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
+    var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected);
     prevSelected = optChanged.prevSelected;
     curSelected = optChanged.curSelected;
 }

@@ -2,6 +2,7 @@ package com.deltacom.app.repository.implementation;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
+import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.repository.api.ContractRepository;
 import org.springframework.stereotype.Repository;
 
@@ -43,6 +44,21 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
         try {
             return (Contract) entityManager.createQuery("select contract from Contract contract where contract.numbersPool.number = :number")
                     .setParameter("number", number).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Gets contract by tariff
+     * @param tariff tariff of contract
+     * @return list of contracts
+     */
+    @Override
+    public List<Contract> getAllContractsByTariff(Tariff tariff) {
+        try {
+            return (List<Contract>) entityManager.createQuery("select contract from Contract contract where contract.tariff = :tariff")
+                    .setParameter("tariff", tariff).getResultList();
         } catch (NoResultException e) {
             return null;
         }

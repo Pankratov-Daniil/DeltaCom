@@ -140,10 +140,8 @@ public class ManagerController extends CommonController {
     public ModelAndView changeOption(@ModelAttribute("newOption") Option option,
                                      @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
                                      @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
-                                     @RequestParam(value = "deletedCompOpts", required = false) String[] deletedCompOptions,
-                                     @RequestParam(value = "deletedIncompOpts", required = false) String[] deletedIncompOptions,
                                      RedirectAttributes ra) {
-        optionService.updateOption(option, incompatibleOptionsListIds, compatibleOptionsIds, deletedCompOptions, deletedIncompOptions);
+        optionService.updateOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
         return new ModelAndView("redirect:/manager/optionsActions");
     }
 
@@ -184,6 +182,20 @@ public class ManagerController extends CommonController {
                                      @RequestParam(value = "tariffOptions") String[] tariffOptionsId,
                                      RedirectAttributes ra) {
         tariffService.createTariff(tariff, tariffOptionsId);
+        return new ModelAndView("redirect:/manager/tariffsActions");
+    }
+
+    /**
+     * Changes tariff
+     * @param tariff tariff from page
+     * @param tariffOptionsIds ids of selected options
+     * @return redirect to previous page
+     */
+    @RequestMapping(value = "/changeTariff")
+    public ModelAndView changeTariff(@ModelAttribute("newTariff") Tariff tariff,
+                                     @RequestParam(value = "tariffOptions") String[] tariffOptionsIds,
+                                     RedirectAttributes ra) {
+        tariffService.updateTariff(tariff, tariffOptionsIds);
         return new ModelAndView("redirect:/manager/tariffsActions");
     }
 
@@ -238,8 +250,7 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/getAllOptions", produces="application/json")
     public List<Option> getAllOptions() {
-        List<Option> opts = optionService.getAllOptions();
-        return opts;
+        return optionService.getAllOptions();
     }
 
     /**

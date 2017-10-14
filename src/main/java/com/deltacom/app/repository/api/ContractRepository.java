@@ -1,6 +1,7 @@
 package com.deltacom.app.repository.api;
 
 import com.deltacom.app.entities.Contract;
+import com.deltacom.app.entities.Tariff;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
 public interface ContractRepository {
     public List<Contract> getAllClientContractsById(int clientId);
     public Contract getContractByNumber(String number);
+    public List<Contract> getAllContractsByTariff(Tariff tariff);
 }

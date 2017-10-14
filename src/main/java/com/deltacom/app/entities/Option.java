@@ -11,6 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "`option`")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

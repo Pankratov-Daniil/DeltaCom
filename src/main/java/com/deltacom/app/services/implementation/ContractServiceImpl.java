@@ -39,6 +39,17 @@ public class ContractServiceImpl implements ContractService {
     }
 
     /**
+     * Gets all Contracts by tariff
+     * @param tariff tariff of contract
+     * @return list of contracts
+     */
+    @Override
+    @Transactional
+    public List<Contract> getAllContractsByTariff(Tariff tariff) {
+        return contractRepository.getAllContractsByTariff(tariff);
+    }
+
+    /**
      * Gets contract by number
      * @param number number of contract
      * @return found contract
