@@ -20,7 +20,6 @@ function loadAllTariffs() {
             var cardLen = 4;
             var tariffsHtml = "<div class='row'>";
             tariffs.forEach(function (tariff) {
-                tariffsList.push({'id' : tariff.id, 'name' : tariff.name, 'price' : tariff.price, 'options' : tariff.options});
                 tariffsHtml += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
                 tariffsHtml += "<p>Name: " + tariff.name + "<br/>Price: " + tariff.price + "</p><br/>Options: ";
 
@@ -29,6 +28,8 @@ function loadAllTariffs() {
                     option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, tariff.options);
                     option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, tariff.options);
                 });
+
+                tariffsList.push({'id' : tariff.id, 'name' : tariff.name, 'price' : tariff.price, 'options' : tariff.options});
 
                 tariff.options.forEach(function (tariffOption, index) {
                     tariffsHtml += tariffOption.name;
@@ -115,7 +116,20 @@ function onOpenChangeTariff() {
         $("#idTariff").val(tariff.id);
     });
     tariffOptionsSelect.html(createSelectList(options));
-    tariffOptionsSelect.trigger('change');
 
+    var curTariffInfo = '<p>Name: ' + tariff.name + '<br/>Price: ' + tariff.price + '<br/>';
+    var idsOptionsForSelect = [];
+    tariff.options.forEach(function (opt, index) {
+        idsOptionsForSelect.push(opt.id);
+        curTariffInfo += opt.name;
+        if(index < tariff.options.length -1) {
+            curTariffInfo += ', ';
+        }
+    });
+    curTariffInfo += '</p>';
+    $("#curTariff").html(curTariffInfo);
+    tariffOptionsSelect.selectpicker('val', idsOptionsForSelect);
+
+    $(this).selectpicker('refresh');
     $("#changeTariffModal").modal('show');
 }

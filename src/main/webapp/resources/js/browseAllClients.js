@@ -243,7 +243,7 @@ function onOpenTariffManager() {
                 selectTariff.selectpicker('val', savedTariff.id);
                 if(data.length > 0) {
                     $.ajax({
-                        url: "/DeltaCom/manager/getOptionsForTariff",
+                        url: "/DeltaCom/commons/getOptionsForTariff",
                         contentType: "application/json",
                         data: {
                             "selectTariff": savedTariff.id
