@@ -234,7 +234,7 @@ function onOpenTariffManager() {
     }).done(function () {
         $.ajax({
             contentType: "application/json",
-            url: "/DeltaCom/manager/getAllTariffs",
+            url: "/DeltaCom/commons/getAllTariffs",
             success: function (data) {
                 $.each(data, function (index, item) {
                     tariffHtml += '<option data-tariff-price="' + item.price + '" value="' + item.id + '">' + item.name + '</option>';

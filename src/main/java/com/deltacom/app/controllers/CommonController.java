@@ -1,10 +1,15 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.Option;
+import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.services.api.AccessLevelService;
 import com.deltacom.app.services.api.ClientService;
+import com.deltacom.app.services.api.OptionService;
+import com.deltacom.app.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +36,10 @@ public class CommonController {
     ClientService clientService;
     @Autowired
     AccessLevelService accessLevelService;
+    @Autowired
+    OptionService optionService;
+    @Autowired
+    TariffService tariffService;
 
     /**
      * If clientName didn't set on this session, this method does this.
@@ -91,6 +100,37 @@ public class CommonController {
             }
         }
         return new ModelAndView("redirect:/index");
+    }
+
+    /**
+     * Processing ajax request from 'add new contract' page.
+     * @param selectedTariffId id of selected tariff
+     * @return list of options available for selected tariff
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commons/getOptionsForTariff", produces=MediaType.APPLICATION_JSON_VALUE)
+    public List<Option> getOptionsForContract(@RequestParam("selectTariff") int selectedTariffId) {
+        return optionService.getAllOptionsForTariff(selectedTariffId);
+    }
+
+    /**
+     * Gets all options
+     * @return list of all options
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commons/getAllOptions", produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<Option> getAllOptions() {
+        return optionService.getAllOptions();
+    }
+
+    /**
+     * Gets all tariffs
+     * @return list of all tariffs
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commons/getAllTariffs", produces=MediaType.APPLICATION_JSON_VALUE)
+    public List<Tariff> getAllTariffs() {
+        return tariffService.getAllTariffs();
     }
 
     /**

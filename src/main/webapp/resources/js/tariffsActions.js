@@ -14,7 +14,7 @@ function loadAllOptions(allOptions) {
 
 function loadAllTariffs() {
     $.ajax({
-        url: "/DeltaCom/manager/getAllTariffs",
+        url: "/DeltaCom/commons/getAllTariffs",
         contentType: "application/json",
         success: function (tariffs) {
             var cardLen = 4;
@@ -91,9 +91,6 @@ function loadAllTariffs() {
 }
 
 function onTariffOptionsSelectChange() {
-    var optChanged = optionsChanged("#tariffOptions", prevSelected, curSelected);
-    prevSelected = optChanged.prevSelected;
-    curSelected = optChanged.curSelected;
     $(this).selectpicker('refresh');
 }
 

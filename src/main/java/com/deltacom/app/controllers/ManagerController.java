@@ -212,45 +212,14 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing ajax request from 'add new contract' page.
-     * @param selectedTariffId id of selected tariff
-     * @return list of options available for selected tariff
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getOptionsForTariff", produces="application/json")
-    public List<Option> getOptionsForContract(@RequestParam("selectTariff") int selectedTariffId) {
-        return optionService.getAllOptionsForTariff(selectedTariffId);
-    }
-
-    /**
      * Processing ajax request from 'browse all clients' page when open change tariff modal page.
      * @param number number of contract
      * @return list of options for contract
      */
     @ResponseBody
-    @RequestMapping(value = "/getContractByNumber", produces="application/json")
+    @RequestMapping(value = "/getContractByNumber", produces=MediaType.APPLICATION_JSON_VALUE)
     public Contract getOptionsFromContractByNumber(@RequestParam("number") String number) {
         return contractService.getContractByNumber(number);
-    }
-
-    /**
-     * Gets all tariffs
-     * @return list of all tariffs
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getAllTariffs", produces="application/json")
-    public List<Tariff> getAllTariffs() {
-        return tariffService.getAllTariffs();
-    }
-
-    /**
-     * Gets all options
-     * @return list of all options
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getAllOptions", produces="application/json")
-    public List<Option> getAllOptions() {
-        return optionService.getAllOptions();
     }
 
     /**

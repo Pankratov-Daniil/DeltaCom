@@ -225,7 +225,7 @@ function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptio
     tariffInfo.html("<p>Name: " + selectedTariff.text() + "<br/>Price: " + selectedTariff.attr('data-tariff-price') + "</p>");
 
     $.ajax({
-        url:"/DeltaCom/manager/getOptionsForTariff",
+        url:"/DeltaCom/commons/getOptionsForTariff",
         contentType: "application/json",
         data: {
             "selectTariff" : tariffId
@@ -273,7 +273,7 @@ function updateSelect(sel, data) {
 
 function getAllOptions(functionOnSuccess) {
     $.ajax({
-        url: "/DeltaCom/manager/getAllOptions",
+        url: "/DeltaCom/commons/getAllOptions",
         contentType: "application/json",
         success: function (data) {
             functionOnSuccess(prepareOptions(data));

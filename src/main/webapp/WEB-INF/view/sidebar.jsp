@@ -13,10 +13,8 @@
             <sec:authorize access="hasRole('USER')">
                 <li class="${fn:contains(pageContext.request.requestURI, 'user/index') ? 'active' : ''}"><a href="/DeltaCom/user/index"><i
                         class="fa fa-dashboard"></i><span>Overview</span></a></li>
-                <li class="${fn:contains(pageContext.request.requestURI, 'user/contracts') ? 'active' : ''}"><a
+                <li id="contractSidebarList" class="${fn:contains(pageContext.request.requestURI, 'user/contracts') ? 'active' : ''}"><a
                         href="/DeltaCom/user/contracts"><i class="fa fa-mobile"></i><span>Contracts</span></a></li>
-                <li class="${fn:contains(pageContext.request.requestURI, 'user/tariffs') ? 'active' : ''}"><a href="/DeltaCom/user/tariffs"><i
-                        class="fa fa-wifi"></i><span>Tariffs</span></a></li>
             </sec:authorize>
 
             <sec:authorize access="hasRole('MANAGER')">
