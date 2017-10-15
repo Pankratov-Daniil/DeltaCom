@@ -136,20 +136,6 @@ function findDeselectedCompatibleOptionLinks(selectOptionsName, deselectedOption
             }
         }
     });
-
-}
-
-function selectCompatibleOptions(curSelected, selectOptionsName, compatibleOptions) {
-    compatibleOptions.forEach(function (item) {
-        var foundItem = $(selectOptionsName + " [value='" + item.id + "']");
-        if(!foundItem.attr('disabled')) {
-            foundItem.prop('selected', 'true');
-            if (!curSelected.includes(item.id)) {
-                curSelected.push(item.id);
-            }
-        }
-    });
-    return curSelected;
 }
 
 function disableOption(option) {

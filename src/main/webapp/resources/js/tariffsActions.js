@@ -65,7 +65,6 @@ function loadAllTariffs() {
                 $(".showMe").removeClass('hidden');
                 $("#modalColumns").removeClass("col-md-6").addClass("col-md-12");
                 $(".modal-dialog").removeClass("modal-lg");
-
                 tariffOptionsSelect.html(createSelectList(options));
                 tariffOptionsSelect.trigger('change');
                 form.attr('action', 'createTariff');
@@ -81,6 +80,9 @@ function loadAllTariffs() {
             });
 
             $("#changeTariffModal").on('hidden.bs.modal',function () {
+                prevSelected = [];
+                curSelected = [];
+
                 $(".hideMe").removeClass('hidden');
                 $(".showMe").addClass('hidden');
                 $("#modalColumns").removeClass("col-md-12").addClass("col-md-6");
@@ -92,6 +94,23 @@ function loadAllTariffs() {
 }
 
 function onTariffOptionsSelectChange() {
+    var select = $("#tariffOptions");
+    prevSelected = curSelected;
+    curSelected = getCurSelected(select);
+    // if element deselected
+    if(curSelected.length < prevSelected.length) {
+        var removedOptionId = $.grep(prevSelected, function (prevItem) {
+            return (curSelected.indexOf(prevItem) < 0);
+        })[0];
+        options.forEach(function (option) {
+            if(option.compatibleOptions.find(function (item) { return item.id == removedOptionId;})) {
+                select.children("option[value='" + option.id + "']").removeAttr('selected');
+            }
+        });
+        curSelected = getCurSelected(select);
+    }
+    selectCompatible(select);
+    curSelected = getCurSelected(select);
     $(this).selectpicker('refresh');
 }
 
@@ -116,8 +135,8 @@ function onOpenChangeTariff() {
         $("#idTariff").val(tariff.id);
     });
     tariffOptionsSelect.html(createSelectList(options));
-
-    var curTariffInfo = '<p>Name: ' + tariff.name + '<br/>Price: ' + tariff.price + '<br/>';
+    $(this).selectpicker('refresh');
+    var curTariffInfo = '<p>Name: ' + tariff.name + '<br/>Price: ' + tariff.price + '<br/>Options: ';
     var idsOptionsForSelect = [];
     tariff.options.forEach(function (opt, index) {
         idsOptionsForSelect.push(opt.id);
@@ -129,7 +148,7 @@ function onOpenChangeTariff() {
     curTariffInfo += '</p>';
     $("#curTariff").html(curTariffInfo);
     tariffOptionsSelect.selectpicker('val', idsOptionsForSelect);
-
+    tariffOptionsSelect.trigger('change');
     $(this).selectpicker('refresh');
     $("#changeTariffModal").modal('show');
 }
