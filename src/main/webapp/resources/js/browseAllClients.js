@@ -154,14 +154,14 @@ function passTableToPage (data, minId, countEntries) {
             tableRecords += '<th>';
             $.each(item.contracts, function (contractIndex, contract) {
                 tableRecords += '<div class="btn-group">';
-                tableRecords += '<a id="blockContractBtn' + contractIndex + '" class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'default') + ' dropdown-toggle contractNum" href="javascript:void(0);" data-toggle="dropdown">';
+                tableRecords += '<a id="blockContractBtn' + contract.id + '" class="btn btn-sm btn-' + (contract.blocked ? 'danger' : 'default') + ' dropdown-toggle contractNum" href="javascript:void(0);" data-toggle="dropdown">';
                 tableRecords += contract.numbersPool.number;
                 tableRecords += '<span class="caret"></span></a>';
                 tableRecords += '<ul class="dropdown-menu">';
                 tableRecords += '<li><a class="openTariffManager" href="#">Manage tariff</a></li>';
                 tableRecords += '<li class="divider"></li>';
                 tableRecords += '<li><a id="';
-                tableRecords += 'blockContractLink'+contractIndex;
+                tableRecords += 'blockContractLink'+contract.id;
                 tableRecords += '" href="';
                 tableRecords += (contract.blocked ?
                     'javascript:void(0);">Unblock contract' :
@@ -183,10 +183,10 @@ function passTableToPage (data, minId, countEntries) {
         tableRecords = '';
         $('#addToSession'+userCounter).click({param1: item.id}, addClientToSession);
         $.each(item.contracts, function (contractIndex, contract) {
-            $('#blockContractLink'+contractIndex).click(function () {
+            $('#blockContractLink'+contract.id).click(function () {
                 blockContract(contract.id, !contract.blocked, true, onSuccessfullBlock,
-                    {'btnId' : '#blockContractBtn'+contractIndex,
-                        'linkId' : '#blockContractLink'+contractIndex,
+                    {'btnId' : '#blockContractBtn'+contract.id,
+                        'linkId' : '#blockContractLink'+contract.id,
                         'blocked' : !contract.blocked,
                         'contract' : contract
                     });

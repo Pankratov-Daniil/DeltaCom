@@ -50,6 +50,7 @@ function updateContractsTable() {
         tableRecords += '<th>' + contract.tariff.name + '</th>';
         tableRecords += '<th>';
         tableBody.html(tableRecords);
+        contract.tariff.options = idsToObjectInOptionsCompatibilityArr(contract.tariff.options, options);
         contract.tariff.options.forEach(function (option) {
             option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, options);
             option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, options);
@@ -88,8 +89,9 @@ function openChangeContractModal() {
     var tariffSelect = $("#selectTariff");
     var optionsSelect = $("#selectOptions");
     var curTariffInfoDiv = $("#curTariff");
-    var curTariffInfo = '<p>Name: ' + contract.tariff.name + '<br/>Price: ' + contract.tariff.price +
-        '<br/>Selected options: ';
+    var curTariffInfo = '<p>Name: ' + contract.tariff.name + '<br/>Price: ' + contract.tariff.price;
+    $("#tariffInfo").html(curTariffInfo);
+    curTariffInfo += '<br/>Selected options: ';
     contract.options.forEach(function (option, index) {
         curTariffInfo += option.name;
         if(index < contract.options.length - 1) {
@@ -98,6 +100,8 @@ function openChangeContractModal() {
     });
     curTariffInfo += '</p>';
     curTariffInfoDiv.html(curTariffInfo);
+
+
 
     $("#numberModal").val(contract.numbersPool.number);
     tariffSelect.html(makeOptionsForSelect(tariffs));
