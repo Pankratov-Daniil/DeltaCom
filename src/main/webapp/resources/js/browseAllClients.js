@@ -41,8 +41,8 @@ $(document).ready(function () {
     });
 
     countEntries.change(function () {
+        countEntriesVal = parseInt($(this).val(), 10);
         if(!searchedByNumber) {
-            countEntriesVal = parseInt($(this).val(), 10);
             ids = [];
             pointerIds = -1;
             userCounter = 0;
@@ -57,11 +57,6 @@ $(document).ready(function () {
             event.preventDefault();
             $("#startSearchByNumber").click();
         }
-    });
-
-    $("#changeContract").submit(function (event) {
-        $("#numberModal").removeAttr('disabled');
-        $(manageTariffModal).modal('hide');
     });
 
     $("#startSearchByNumber").click(findUserByNumber);
@@ -99,6 +94,9 @@ function findUserByNumber() {
             found = true;
             var savedStr = "<tr>" + $(this).closest("tr").html() + "</tr>";
             tableBody.html(savedStr);
+            $('#nextButton').parent().attr('class', 'disabled');
+            $('#prevButton').parent().attr('class', 'disabled');
+            searchedByNumber = true;
         }
     });
 

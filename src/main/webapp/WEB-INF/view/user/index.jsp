@@ -38,6 +38,7 @@
             </div>
         </div>
     </div>
+    <%@include file="userCart.jsp" %>
 </div>
 </body>
 </html>

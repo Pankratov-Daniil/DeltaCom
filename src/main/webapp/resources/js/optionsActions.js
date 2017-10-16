@@ -122,20 +122,7 @@ function disableInOtherLists(selects) {
 
 function disableOnChange() {
     var select = $("#"+$(this).attr('id'));
-    prevSelected = curSelected;
-    curSelected = getCurSelected(select);
-
-    if(curSelected.length < prevSelected.length) {
-        var removedOptionId = $.grep(prevSelected, function (prevItem) {
-            return (curSelected.indexOf(prevItem) < 0);
-        })[0];
-        options.forEach(function (option) {
-            if(option.compatibleOptions.find(function (item) { return item.id == removedOptionId;})) {
-                select.children("option[value='" + option.id + "']").removeAttr('selected');
-            }
-        });
-        curSelected = getCurSelected(select);
-    }
+    onOptionsSelectChange(select);
 
     if($(this).attr('id') == 'compatibleOptions') {
         selectCompatible($("#compatibleOptions"));

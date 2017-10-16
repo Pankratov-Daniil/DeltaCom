@@ -4,29 +4,12 @@ var prevSelected = [];
 var curSelected = [];
 var tariffs = [];
 
-$(document).ready(function () {
-    $("#changeContract").submit(function (event) {
-        $("#numberModal").removeAttr('disabled');
-        $(changeContractModal).modal('hide');
-    });
-});
-
 getAllOptions(saveAllOptions);
 
 function saveAllOptions(allOptions) {
     options = allOptions;
     getAllTariffs();
     getClient();
-}
-
-function getAllTariffs() {
-    $.ajax({
-        url: "/DeltaCom/commons/getAllTariffs",
-        contentType: "application/json",
-        success: function (data) {
-            tariffs = data;
-        }
-    });
 }
 
 function getClient() {
@@ -63,7 +46,7 @@ function updateContractsTable() {
         tableRecords += '</th>';
         tableRecords += '<th>' + contract.balance + '</th>';
         tableRecords += '<th>' +
-            (contract.blocked ? '' : '<a href="javascript:void(0);" id="changeContractButton" data-id="'+contract.id+'" class="btn btn-success">Change contract</a><p></p>') +
+            (contract.blocked ? '' : '<a href="javascript:void(0);" data-id="'+contract.id+'" class="btn btn-success changeContractButton">Change contract</a><p></p>') +
             (contract.blockedByOperator ? '' : '<a href="javascript:void(0);" id="blockButton" data-id="'+contract.id+'" class="btn btn-' + (contract.blocked ? 'success"> Unblock' : 'danger">Block') + '</a>') +
             '</th>';
         tableRecords += '</tr>';
@@ -71,7 +54,7 @@ function updateContractsTable() {
             tableBody.html(tableRecords);
 
         if(!contract.blocked) {
-            $("#changeContractButton").click(openChangeContractModal);
+            $(".changeContractButton").click(openChangeContractModal);
         }
         if(!contract.blockedByOperator) {
             $("#blockButton").click(blockContract);
@@ -79,66 +62,6 @@ function updateContractsTable() {
     });
 
 
-}
-
-function openChangeContractModal() {
-    var button = $(this);
-    var contractId = button.attr('data-id');
-    var contract = client.contracts.find(function (item) {
-        return item.id == contractId;
-    });
-    var tariffSelect = $("#selectTariff");
-    var optionsSelect = $("#selectOptions");
-    var curTariffInfoDiv = $("#curTariff");
-    var curTariffInfo = '<p>Name: ' + contract.tariff.name + '<br/>Price: ' + contract.tariff.price;
-    $("#tariffInfo").html(curTariffInfo);
-    curTariffInfo += '<br/>Selected options: ';
-    contract.options.forEach(function (option, index) {
-        curTariffInfo += option.name;
-        if(index < contract.options.length - 1) {
-            curTariffInfo += ', ';
-        }
-    });
-    curTariffInfo += '</p>';
-    curTariffInfoDiv.html(curTariffInfo);
-
-
-
-    $("#numberModal").val(contract.numbersPool.number);
-    tariffSelect.html(makeOptionsForSelect(tariffs));
-    tariffSelect.selectpicker('val', contract.tariff.id);
-    tariffSelect.change(optionsUpdated);
-
-    var optionsHtml = createOptionsHtml(contract.tariff.options, 6);
-    updateSelect(optionsSelect, optionsHtml.optionsList);
-    $('#availableOptions').html(optionsHtml.optionsInfo);
-
-    optionsSelect.html(makeOptionsForSelect(contract.tariff.options));
-    var opts = [];
-    contract.options.forEach(function (option) {
-        opts.push(option.id);
-    });
-    optionsSelect.selectpicker('val', opts);
-    optionsSelect.change(onOptionsSelectChange);
-
-    $("select").selectpicker('refresh');
-
-    $("#changeContractModal").modal('show');
-}
-
-function onOptionsSelectChange() {
-    var optChanged = optionsChanged("#selectOptions", prevSelected, curSelected);
-    prevSelected = optChanged.prevSelected;
-    curSelected = optChanged.curSelected;
-    $(this).selectpicker('refresh');
-}
-
-function makeOptionsForSelect(arr) {
-    var res = '';
-    arr.forEach(function (item) {
-        res += '<option data-tariff-price="' + item.price + '" value="' + item.id + '">' + item.name + '</option>';
-    });
-    return res;
 }
 
 function blockContract() {
@@ -160,10 +83,10 @@ function blockContract() {
             button.parent().parent().css('background', contract.blocked ? 'grey' : '');
 
             if(contract.blocked) {
-                $("#changeContractButton").remove();
+                $(".changeContractButton").remove();
             } else {
-                button.before('<a href="javascript:void(0);" id="changeContractButton" data-id="'+contractId+'" class="btn btn-success">Change contract</a><p></p>');
-                $("#changeContractButton").click(openChangeContractModal);
+                button.before('<a href="javascript:void(0);" data-id="'+contractId+'" class="btn btn-success changeContractButton">Change contract</a><p></p>');
+                $(".changeContractButton").click(openChangeContractModal);
             }
 
             button.removeClass('btn-' + (contract.blocked ? 'danger' : 'success'));

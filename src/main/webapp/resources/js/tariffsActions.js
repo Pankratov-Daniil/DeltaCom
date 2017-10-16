@@ -95,20 +95,7 @@ function loadAllTariffs() {
 
 function onTariffOptionsSelectChange() {
     var select = $("#tariffOptions");
-    prevSelected = curSelected;
-    curSelected = getCurSelected(select);
-    // if element deselected
-    if(curSelected.length < prevSelected.length) {
-        var removedOptionId = $.grep(prevSelected, function (prevItem) {
-            return (curSelected.indexOf(prevItem) < 0);
-        })[0];
-        options.forEach(function (option) {
-            if(option.compatibleOptions.find(function (item) { return item.id == removedOptionId;})) {
-                select.children("option[value='" + option.id + "']").removeAttr('selected');
-            }
-        });
-        curSelected = getCurSelected(select);
-    }
+    onOptionsSelectChange(select);
     selectCompatible(select);
     curSelected = getCurSelected(select);
     $(this).selectpicker('refresh');

@@ -1,6 +1,8 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.ClientCart;
+import com.deltacom.app.entities.Contract;
 import com.deltacom.app.services.api.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 /**
@@ -53,6 +56,17 @@ public class ClientController extends CommonController {
     }
 
     /**
+     * Gets contract by its number
+     * @param number number of contract
+     * @return found contract
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getContractByNumber", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Contract getContractByNumber(@RequestParam("number") String number) {
+        return contractService.getContractByNumber(number);
+    }
+
+    /**
      * Changes contract
      * @param selectedNumber selected number
      * @param selectedTariffId selected tariff id
@@ -84,5 +98,45 @@ public class ClientController extends CommonController {
         }
         contractService.blockContract(contractId, blockContract, blockedByOperator);
         return true;
+    }
+
+    /**
+     * Saves cart to session
+     * @param number contract number
+     * @param tariffId selected tariff id
+     * @param optionsIds selected options ids
+     * @param session current session
+     */
+    @ResponseBody
+    @RequestMapping(value = "/saveCart", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ClientCart saveCart(@RequestParam("numberModal") String number,
+                                     @RequestParam("selectTariff")  String tariffId,
+                                     @RequestParam(value = "selectOptions[]", required = false) String[] optionsIds,
+                                     HttpSession session) {
+        ClientCart clientCart = new ClientCart(number, tariffId, optionsIds == null ? new String[0] : optionsIds);
+        session.setAttribute("cart", clientCart);
+        return clientCart;
+    }
+
+    /**
+     * Processing ajax request from client contracts page to get cart from session.
+     * @param session current session
+     * @return clients cart
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getCart", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ClientCart getCart(HttpSession session) {
+        Object cart = session.getAttribute("cart");
+        return (ClientCart) (cart == null ? new ClientCart() : cart);
+    }
+
+    /**
+     * Processing ajax request from client contracts page to remove cart from session.
+     * @param session current session
+     */
+    @ResponseBody
+    @RequestMapping(value = "/removeCart", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeCart(HttpSession session) {
+        session.removeAttribute("cart");
     }
 }

@@ -101,7 +101,7 @@
                                                         <form action="changeContract" id="changeContract" name="changeContract" acceptCharset="utf8">
                                                             <div class="form-group">
                                                                 <label class="control-label">Selected number</label><br/>
-                                                                <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" disabled value="" />
+                                                                <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="control-label" >Avaivable tariffs</label><br/>
