@@ -16,6 +16,7 @@
       <jstl.version>1.2</jstl.version>
       <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
       <jackson.databind.version>2.9.1</jackson.databind.version>
+      <log4j.version>2.9.1</log4j.version>
   </properties>
 
   <dependencies>
@@ -115,6 +116,17 @@
           <version>${jstl.version}</version>
       </dependency>
 
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+          <version>${log4j.version}</version>
+      </dependency>
+
   </dependencies>
 
   <build>
@@ -142,6 +154,12 @@
                 <target>1.8</target>
             </configuration>
 			<version>3.7.0</version>
+        </plugin>
+
+        <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.3.0.603</version>
         </plugin>
 
 	</plugins>

@@ -47,7 +47,7 @@ function updateContractsTable() {
         tableRecords += '<th>' + contract.balance + '</th>';
         tableRecords += '<th>' +
             (contract.blocked ? '' : '<a href="javascript:void(0);" data-id="'+contract.id+'" class="btn btn-success changeContractButton">Change contract</a><p></p>') +
-            (contract.blockedByOperator ? '' : '<a href="javascript:void(0);" id="blockButton" data-id="'+contract.id+'" class="btn btn-' + (contract.blocked ? 'success"> Unblock' : 'danger">Block') + '</a>') +
+            (contract.blockedByOperator ? '' : '<a href="javascript:void(0);" data-id="'+contract.id+'" class="blockButton btn btn-' + (contract.blocked ? 'success"> Unblock' : 'danger">Block') + '</a>') +
             '</th>';
         tableRecords += '</tr>';
 
@@ -57,7 +57,7 @@ function updateContractsTable() {
             $(".changeContractButton").click(openChangeContractModal);
         }
         if(!contract.blockedByOperator) {
-            $("#blockButton").click(blockContract);
+            $(".blockButton").click(blockContract);
         }
     });
 
@@ -83,7 +83,8 @@ function blockContract() {
             button.parent().parent().css('background', contract.blocked ? 'grey' : '');
 
             if(contract.blocked) {
-                $(".changeContractButton").remove();
+                $(".changeContractButton[data-id='" + contractId + "']").remove();
+                removeCartFromSession();
             } else {
                 button.before('<a href="javascript:void(0);" data-id="'+contractId+'" class="btn btn-success changeContractButton">Change contract</a><p></p>');
                 $(".changeContractButton").click(openChangeContractModal);

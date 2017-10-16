@@ -211,7 +211,7 @@ function removeCartFromSession() {
         url: "/DeltaCom/user/removeCart",
         contentType: "application/json",
         success: function (data) {
-            cart = data;
+            cart = undefined;
         }
     });
 }
