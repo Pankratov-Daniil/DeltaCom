@@ -1641,7 +1641,6 @@
         if (!that.options.container) {
           that.setSize();
           that.$menu.parent().addClass('open');
-          isActive = true;
         } else {
           that.$button.trigger('click');
         }

@@ -25,7 +25,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Transactional
     public Option getOptionById(Integer id) {
-        return (Option) optionRepository.getById(id);
+        return optionRepository.getById(id);
     }
 
     /**

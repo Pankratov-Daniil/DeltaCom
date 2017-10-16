@@ -2,7 +2,6 @@ package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.services.api.ContractService;
-import com.deltacom.app.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.List;
 
 /**
  * Controller for processing requests from/to user pages
@@ -23,8 +21,6 @@ import java.util.List;
 public class ClientController extends CommonController {
     @Autowired
     ContractService contractService;
-    @Autowired
-    TariffService tariffService;
 
     /**
      * Processing request to client index page

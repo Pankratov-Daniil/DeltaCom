@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,11 +24,9 @@ public class ManagerController extends CommonController {
     @Autowired
     NumbersPoolService numbersPoolService;
     @Autowired
-    TariffService tariffService;
-    @Autowired
-    OptionService optionService;
-    @Autowired
     ContractService contractService;
+
+    private static final String CLIENT_ID_NAME = "clientId";
 
     /**
      * Processing request to manager 'index' page
@@ -84,8 +79,8 @@ public class ManagerController extends CommonController {
      * @return 'add new contract' page or 'index' page if there is no client in session
      */
     @RequestMapping(value = "/addNewContract")
-    public ModelAndView addNewContract(HttpSession session, RedirectAttributes ra) throws IOException {
-        if(session.getAttribute("clientId") == null) {
+    public ModelAndView addNewContract(HttpSession session, RedirectAttributes ra) {
+        if(session.getAttribute(CLIENT_ID_NAME) == null) {
             return new ModelAndView("redirect:/manager/index");
         }
         ModelAndView modelAndView = new ModelAndView("manager/addNewContract");
@@ -105,8 +100,8 @@ public class ManagerController extends CommonController {
     public ModelAndView regNewContract(@RequestParam("selectNumber") String selectedNumber,
                                        @RequestParam("selectTariff") String selectedTariff,
                                        @RequestParam("selectOptions") String[] selectedOptions,
-                                       HttpSession session, RedirectAttributes ra) throws IOException{
-        int clientId = (int)session.getAttribute("clientId");
+                                       HttpSession session, RedirectAttributes ra) {
+        int clientId = (int)session.getAttribute(CLIENT_ID_NAME);
 
         if(contractService.addNewContract(clientId, selectedNumber, Integer.parseInt(selectedTariff), selectedOptions)) {
             session.setAttribute("successContractCreation", true);
@@ -252,8 +247,8 @@ public class ManagerController extends CommonController {
      * @param session current session
      */
     @RequestMapping(value = "/addNewClientIdToSession")
-    public void addNewClientIdToSession(@RequestParam("clientId") int clientId, HttpSession session) {
-        session.setAttribute("clientId", clientId);
+    public void addNewClientIdToSession(@RequestParam(CLIENT_ID_NAME) int clientId, HttpSession session) {
+        session.setAttribute(CLIENT_ID_NAME, clientId);
     }
 
     /**
@@ -262,7 +257,7 @@ public class ManagerController extends CommonController {
      */
     @RequestMapping(value = "/removeClientIdFromSession")
     public void removeClientIdFromSession(HttpSession session) {
-        session.removeAttribute("clientId");
+        session.removeAttribute(CLIENT_ID_NAME);
     }
 
     /**

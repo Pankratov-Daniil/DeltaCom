@@ -51,7 +51,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      */
     @Override
     public T getById(K id) {
-        return (T) entityManager.find(entityClass, id);
+        return entityManager.find(entityClass, id);
     }
 
     /**

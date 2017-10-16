@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class OptionRepositoryImpl extends HibernateRepository<Option, Integer> i
                     .setParameter("id", id)
                     .getResultList();
         } catch (NoResultException e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 }

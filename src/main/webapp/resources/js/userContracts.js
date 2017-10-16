@@ -2,6 +2,7 @@ var options = [];
 var client = null;
 var prevSelected = [];
 var curSelected = [];
+var tariffs = [];
 
 $(document).ready(function () {
     $("#changeContract").submit(function (event) {

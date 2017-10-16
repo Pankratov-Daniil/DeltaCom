@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Transactional
     public Client getClientById(Integer id) {
-        return (Client) clientRepository.getById(id);
+        return clientRepository.getById(id);
     }
 
     /**

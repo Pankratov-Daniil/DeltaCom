@@ -1,6 +1,5 @@
 package com.deltacom.app.repository.implementation;
 
-import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.repository.api.ContractRepository;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
             return (List<Contract>) entityManager.createQuery("select contract from Contract contract where contract.client.id = :id")
                     .setParameter("id", clientId).getResultList();
         } catch (NoResultException e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -60,7 +60,7 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
             return (List<Contract>) entityManager.createQuery("select contract from Contract contract where contract.tariff = :tariff")
                     .setParameter("tariff", tariff).getResultList();
         } catch (NoResultException e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 

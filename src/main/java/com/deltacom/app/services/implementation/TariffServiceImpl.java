@@ -3,8 +3,6 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.repository.api.ContractRepository;
-import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
 import com.deltacom.app.services.api.ContractService;
@@ -36,7 +34,7 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public Tariff getTariffById(Integer id) {
-        return (Tariff) tariffRepository.getById(id);
+        return tariffRepository.getById(id);
     }
 
     /**
@@ -95,7 +93,7 @@ public class TariffServiceImpl implements TariffService {
     public void deleteTariff(int id) {
         Tariff tariff = getTariffById(id);
         List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
-        if(contracts.size() > 0) {
+        if(!contracts.isEmpty()) {
             //try to add another tariff to contracts
             Tariff newTariff = getAllTariffs().get(0);
             if(newTariff != null) {
