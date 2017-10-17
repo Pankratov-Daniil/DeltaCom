@@ -3,8 +3,6 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.exceptions.ContractException;
-import com.deltacom.app.exceptions.OptionException;
 import com.deltacom.app.exceptions.TariffException;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
