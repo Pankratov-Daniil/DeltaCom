@@ -40,6 +40,18 @@ public class Contract {
                 inverseJoinColumns = @JoinColumn(name = "idOption"))
     private List<Option> options;
 
+    public Contract() {
+
+    }
+
+    public Contract(Client client, NumbersPool numbersPool, Tariff tariff, List<Option> options) {
+        this.balance = 0;
+        this.client = client;
+        this.numbersPool = numbersPool;
+        this.tariff = tariff;
+        this.options = options;
+    }
+
     public Client getClient() {
         return client;
     }

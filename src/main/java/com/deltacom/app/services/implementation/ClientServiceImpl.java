@@ -2,6 +2,7 @@ package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.exceptions.ClientException;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.utils.PasswordEncrypt;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,12 @@ public class ClientServiceImpl implements ClientService{
      * @return founded Client entity
      */
     @Transactional
-    public Client getClientById(Integer id) {
-        return clientRepository.getById(id);
+    public Client getClientById(Integer id) throws ClientException {
+        try {
+            return clientRepository.getById(id);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't gotten by id: ", ex);
+        }
     }
 
     /**
@@ -37,8 +43,12 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public Client getClientByEmail(String email) {
-        return clientRepository.getClientByEmail(email);
+    public Client getClientByEmail(String email) throws ClientException {
+        try {
+            return clientRepository.getClientByEmail(email);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't gotten by email: ", ex);
+        }
     }
 
     /**
@@ -49,7 +59,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public boolean addNewClient(Client client, String[] accessLevelsIds) {
+    public boolean addNewClient(Client client, String[] accessLevelsIds) throws ClientException {
         List<AccessLevel> accessLevels = new ArrayList<>();
 
         if(accessLevelsIds == null || accessLevelsIds.length == 0) {
@@ -60,11 +70,14 @@ public class ClientServiceImpl implements ClientService{
                 accessLevels.add(new AccessLevel(Integer.parseInt(accessLevelId)));
             }
         }
-
         client.setPassword(PasswordEncrypt.encryptPassword(client.getPassword()));
         client.setAccessLevels(accessLevels);
 
-        clientRepository.add(client);
+        try {
+            clientRepository.add(client);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't added: ", ex);
+        }
 
         return true;
     }
@@ -77,8 +90,12 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public List<Client> getClientsByIds(int startId, int amount) {
-        return clientRepository.getClientsByIds(startId, amount);
+    public List<Client> getClientsByIds(int startId, int amount) throws ClientException {
+        try {
+            return clientRepository.getClientsByIds(startId, amount);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Clients wasn't gotten by ids: ", ex);
+        }
     }
 
     /**
@@ -88,7 +105,11 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public Client getClientByNumber(String number) {
-        return clientRepository.getClientByNumber(number);
+    public Client getClientByNumber(String number) throws ClientException {
+        try {
+            return clientRepository.getClientByNumber(number);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't gotten by number: ", ex);
+        }
     }
 }

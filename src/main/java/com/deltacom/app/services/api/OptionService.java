@@ -12,6 +12,6 @@ public interface OptionService {
     public List<Option> getAllOptionsForTariff(int id);
     public List<Option> getAllOptions();
     public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds);
-    public void createOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds);
+    public void addOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds);
     public void deleteOption(int id);
 }

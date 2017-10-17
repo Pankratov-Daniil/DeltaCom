@@ -150,7 +150,7 @@ public class ManagerController extends CommonController {
                                      @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
                                      @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
                                      RedirectAttributes ra) {
-        optionService.createOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
+        optionService.addOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
         return new ModelAndView("redirect:/manager/optionsActions");
     }
 
@@ -176,7 +176,7 @@ public class ManagerController extends CommonController {
     public ModelAndView createTariff(@ModelAttribute("newTariff") Tariff tariff,
                                      @RequestParam(value = "tariffOptions") String[] tariffOptionsId,
                                      RedirectAttributes ra) {
-        tariffService.createTariff(tariff, tariffOptionsId);
+        tariffService.addTariff(tariff, tariffOptionsId);
         return new ModelAndView("redirect:/manager/tariffsActions");
     }
 

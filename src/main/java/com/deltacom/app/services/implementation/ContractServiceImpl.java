@@ -1,12 +1,14 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.*;
+import com.deltacom.app.exceptions.ContractException;
 import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +35,13 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public List<Contract> getAllClientContractsByEmail(String email) {
-        return contractRepository.getAllClientContractsById(
-                clientService.getClientByEmail(email).getId());
+    public List<Contract> getAllClientContractsByEmail(String email) throws ContractException {
+        int id = clientService.getClientByEmail(email).getId();
+        try {
+            return contractRepository.getAllClientContractsById(id);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contracts wasn't gotten by email: ", ex);
+        }
     }
 
     /**
@@ -45,8 +51,12 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public List<Contract> getAllContractsByTariff(Tariff tariff) {
-        return contractRepository.getAllContractsByTariff(tariff);
+    public List<Contract> getAllContractsByTariff(Tariff tariff) throws ContractException {
+        try {
+            return contractRepository.getAllContractsByTariff(tariff);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contracts wasn't gotten: ", ex);
+        }
     }
 
     /**
@@ -56,8 +66,12 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public Contract getContractByNumber(String number) {
-        return contractRepository.getContractByNumber(number);
+    public Contract getContractByNumber(String number) throws ContractException {
+        try {
+            return contractRepository.getContractByNumber(number);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't gotten by number: ", ex);
+        }
     }
 
     /**
@@ -70,38 +84,24 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
+    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) throws ContractException {
         List<Option> options = getOptionsFromIds(selectedOptions);
 
         if(!checkOptions(options))
             return false;
 
-        NumbersPool numbersPool = createNewNumberPool(number);
-        contractRepository.add(createNewContract(clientService.getClientById(clientId),
+        NumbersPool numbersPool = new NumbersPool(number, true);
+        Contract contract = new Contract(clientService.getClientById(clientId),
                 numbersPool,
                 tariffService.getTariffById(tariffId),
-                options));
+                options);
+        try {
+            contractRepository.add(contract);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't added: ", ex);
+        }
         numbersPoolService.updateNumbersPool(numbersPool);
         return true;
-    }
-
-    private NumbersPool createNewNumberPool(String number) {
-        NumbersPool numbersPool = new NumbersPool();
-        numbersPool.setNumber(number);
-        numbersPool.setUsed(true);
-
-        return numbersPool;
-    }
-
-    private Contract createNewContract(Client client, NumbersPool numbersPool, Tariff tariff, List<Option> options) {
-        Contract contract = new Contract();
-        contract.setBalance(0);
-        contract.setClient(client);
-        contract.setNumbersPool(numbersPool);
-        contract.setTariff(tariff);
-        contract.setOptions(options);
-
-        return contract;
     }
 
     /**
@@ -130,16 +130,20 @@ public class ContractServiceImpl implements ContractService {
      * Block or unblock contract
      * @param contractId contract id
      * @param blockContract true if need to block, false otherwise
-     * @param blockedByOperator true if blicked by operator, false otherwise
+     * @param blockedByOperator true if blocked by operator, false otherwise
      */
     @Override
     @Transactional
-    public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) {
+    public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) throws ContractException {
         Contract contract = contractRepository.getById(contractId);
         contract.setBlocked(blockContract);
         if(blockedByOperator)
             contract.setBlockedByOperator(blockContract);
-        contractRepository.update(contract);
+        try {
+            contractRepository.update(contract);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't blocked: ", ex);
+        }
     }
 
     /**
@@ -150,12 +154,16 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) {
+    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) throws ContractException {
         Contract contract = getContractByNumber(contractNumber);
         contract.setTariff(tariffService.getTariffById(Integer.parseInt(newTariffId)));
         contract.setOptions(getOptionsFromIds(newOptionsId));
 
-        contractRepository.update(contract);
+        try {
+            contractRepository.update(contract);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't updated: ", ex);
+        }
     }
 
     /**

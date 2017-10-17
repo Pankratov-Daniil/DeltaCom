@@ -1,12 +1,14 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Option;
+import com.deltacom.app.exceptions.OptionException;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,12 @@ public class OptionServiceImpl implements OptionService {
      * @return founded Option entity
      */
     @Transactional
-    public Option getOptionById(Integer id) {
-        return optionRepository.getById(id);
+    public Option getOptionById(Integer id) throws OptionException {
+        try {
+            return optionRepository.getById(id);
+        } catch (PersistenceException ex) {
+            throw new OptionException("Option wasn't gotten by id: ", ex);
+        }
     }
 
     /**
@@ -35,8 +41,12 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public List<Option> getAllOptionsForTariff(int id) {
-        return optionRepository.getAllOptionsForTariff(id);
+    public List<Option> getAllOptionsForTariff(int id) throws OptionException {
+        try {
+            return optionRepository.getAllOptionsForTariff(id);
+        } catch (PersistenceException ex) {
+            throw new OptionException("Options wasn't gotten by tariff id: ", ex);
+        }
     }
 
     /**
@@ -45,8 +55,12 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public List<Option> getAllOptions() {
-        return optionRepository.getAll();
+    public List<Option> getAllOptions() throws OptionException {
+        try {
+            return optionRepository.getAll();
+        } catch (PersistenceException ex) {
+            throw new OptionException("Options wasn't gotten: ", ex);
+        }
     }
 
     /**
@@ -57,11 +71,15 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
+    public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) throws OptionException {
         option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
         option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
 
-        optionRepository.update(option);
+        try {
+            optionRepository.update(option);
+        } catch (PersistenceException ex) {
+            throw new OptionException("Option wasn't updated: ", ex);
+        }
     }
 
     /**
@@ -72,10 +90,15 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void createOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
+    public void addOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) throws OptionException {
         option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
         option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
-        optionRepository.add(option);
+
+        try {
+            optionRepository.add(option);
+        } catch (PersistenceException ex) {
+            throw new OptionException("Option wasn't added: ", ex);
+        }
     }
 
     /**
@@ -84,8 +107,12 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void deleteOption(int id) {
-        optionRepository.remove(getOptionById(id));
+    public void deleteOption(int id) throws OptionException {
+        try {
+            optionRepository.remove(getOptionById(id));
+        } catch (PersistenceException ex) {
+            throw new OptionException("Option wasn't deleted: ", ex);
+        }
     }
 
     /**

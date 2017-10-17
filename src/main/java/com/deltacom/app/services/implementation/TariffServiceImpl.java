@@ -3,6 +3,9 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.entities.Tariff;
+import com.deltacom.app.exceptions.ContractException;
+import com.deltacom.app.exceptions.OptionException;
+import com.deltacom.app.exceptions.TariffException;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
 import com.deltacom.app.services.api.ContractService;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +37,12 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getTariffById(Integer id) {
-        return tariffRepository.getById(id);
+    public Tariff getTariffById(Integer id) throws TariffException {
+        try {
+            return tariffRepository.getById(id);
+        } catch (PersistenceException ex) {
+            throw new TariffException("Tariff wasn't gotten by id: ", ex);
+        }
     }
 
     /**
@@ -43,8 +51,12 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public List<Tariff> getAllTariffs() {
-        return tariffRepository.getAll();
+    public List<Tariff> getAllTariffs() throws TariffException {
+        try {
+            return tariffRepository.getAll();
+        } catch (PersistenceException ex) {
+            throw new TariffException("Tariffs wasn't gotten: ", ex);
+        }
     }
 
     /**
@@ -54,9 +66,13 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void createTariff(Tariff tariff, String[] tariffOptionsIds) {
+    public void addTariff(Tariff tariff, String[] tariffOptionsIds) throws TariffException {
         tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
-        tariffRepository.add(tariff);
+        try {
+            tariffRepository.add(tariff);
+        } catch (PersistenceException ex) {
+            throw new TariffException("Tariff wasn't added: ", ex);
+        }
     }
 
     /**
@@ -66,9 +82,13 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void updateTariff(Tariff tariff, String[] tariffOptionsIds) {
+    public void updateTariff(Tariff tariff, String[] tariffOptionsIds) throws TariffException {
         tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
-        tariffRepository.update(tariff);
+        try {
+            tariffRepository.update(tariff);
+        } catch (PersistenceException ex) {
+            throw new TariffException("Tariff wasn't updated: ", ex);
+        }
     }
 
     /**
@@ -85,12 +105,12 @@ public class TariffServiceImpl implements TariffService {
     }
 
     /**
-     * Deleted tariff
+     * Deletes tariff
      * @param id id of tariff to delete
      */
     @Override
     @Transactional
-    public void deleteTariff(int id) {
+    public void deleteTariff(int id) throws TariffException {
         Tariff tariff = getTariffById(id);
         List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
         if(!contracts.isEmpty()) {
@@ -102,6 +122,10 @@ public class TariffServiceImpl implements TariffService {
                 }
             }
         }
-        tariffRepository.remove(tariff);
+        try {
+            tariffRepository.remove(tariff);
+        } catch (PersistenceException ex) {
+            throw new TariffException("Tariff wasn't deleted: ", ex);
+        }
     }
 }

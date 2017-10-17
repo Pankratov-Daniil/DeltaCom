@@ -15,6 +15,15 @@ public class NumbersPool {
     @Column(name = "used")
     private boolean used;
 
+    public NumbersPool() {
+
+    }
+
+    public NumbersPool(String number, boolean used) {
+        this.number = number;
+        this.used = used;
+    }
+
     public String getNumber() {
         return number;
     }

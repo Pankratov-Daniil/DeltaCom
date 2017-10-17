@@ -1,12 +1,14 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.NumbersPool;
+import com.deltacom.app.exceptions.NumbersPoolException;
 import com.deltacom.app.repository.implementation.NumbersPoolRepositoryImpl;
 import com.deltacom.app.services.api.NumbersPoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 @Service("NumbersPoolService")
@@ -19,8 +21,12 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
      * @param entity NumbersPool entity to be updated
      */
     @Transactional
-    public void updateNumbersPool(NumbersPool entity) {
-        numbersPoolRepository.update(entity);
+    public void updateNumbersPool(NumbersPool entity) throws NumbersPoolException {
+        try {
+            numbersPoolRepository.update(entity);
+        } catch (PersistenceException ex) {
+            throw new NumbersPoolException("NumbersPool wasn't updated: ", ex);
+        }
     }
 
     /**
@@ -29,7 +35,11 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
      */
     @Override
     @Transactional
-    public List<String> getAllUnusedNumbers() {
-        return numbersPoolRepository.getAllUnusedNumbers();
+    public List<String> getAllUnusedNumbers() throws NumbersPoolException {
+        try {
+            return numbersPoolRepository.getAllUnusedNumbers();
+        } catch (PersistenceException ex) {
+            throw new NumbersPoolException("NumbersPool wasn't gotten: ", ex);
+        }
     }
 }
