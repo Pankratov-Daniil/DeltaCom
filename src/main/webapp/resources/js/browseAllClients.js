@@ -78,6 +78,9 @@ function updateTable (minId) {
         },
         success: function (data) {
             passTableToPage(data, minId, countEntries);
+        },
+        error: function() {
+            notifyError("Error occurred while getting all clients. Try again later.");
         }
     });
 }
@@ -113,6 +116,9 @@ function findUserByNumber() {
                 userCounter = 0;
                 ids = [];
                 passTableToPage([data], -1, 2);
+            },
+            error: function() {
+                notifyError("Error occurred while searching client by number. Try again later.");
             }
         });
     }
@@ -228,6 +234,9 @@ function onOpenTariffManager() {
                 savedOptions.push(item.id);
             });
             curTariff.html(curTariffHtml + "</p>");
+        },
+        error: function() {
+            notifyError("Error occurred while getting contract by number. Try again later.");
         }
     }).done(function () {
         $.ajax({
@@ -271,11 +280,15 @@ function onOpenTariffManager() {
                             availableOptions.html(optionsHtml.optionsInfo);
                         },
                         error: function () {
+                            notifyError("Error occurred while getting options for tariff. Try again later.");
                             selectOptions.empty();
                             availableOptions.empty();
                         }
                     });
                 }
+            },
+            error: function() {
+                notifyError("Error occurred while getting all tariffs. Try again later.");
             }
         });
     });

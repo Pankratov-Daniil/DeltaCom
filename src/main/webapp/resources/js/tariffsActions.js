@@ -89,6 +89,9 @@ function loadAllTariffs() {
                 $(".modal-dialog").addClass("modal-lg");
                 form.attr('action', 'changeTariff');
             });
+        },
+        error: function() {
+            notifyError("Error occurred while getting all tariffs. Try again later.");
         }
     });
 }

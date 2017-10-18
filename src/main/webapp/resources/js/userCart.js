@@ -35,6 +35,9 @@ function getContractByNumber(number) {
         },
         success: function (data) {
             contract = data;
+        },
+        error: function() {
+            notifyError("Error occurred while getting contract by number. Try again later.");
         }
     });
 }
@@ -45,6 +48,9 @@ function getAllTariffs() {
         contentType: "application/json",
         success: function (data) {
             tariffs = data;
+        },
+        error: function() {
+            notifyError("Error occurred while getting tariffs. Try again later.");
         }
     });
 }
@@ -106,6 +112,9 @@ function addCartToSession() {
             cart = (data.number == null ? undefined : data);
             getAllOptions(saveAllOptions);
             getContractByNumber(cart.number);
+        },
+        error: function() {
+            notifyError("Error occurred while saving cart. Try again later.");
         }
     });
 }
@@ -122,6 +131,9 @@ function getCartFromSession() {
                 getAllOptions(saveAllOptions);
                 $("#cartLink").click(openChangeContractModal);
             }
+        },
+        error: function() {
+            notifyError("Error occurred while getting cart. Try again later.");
         }
     });
 }
@@ -212,6 +224,9 @@ function removeCartFromSession() {
         contentType: "application/json",
         success: function (data) {
             cart = undefined;
+        },
+        error: function() {
+            notifyError("Error occurred while removing cart. Try again later.");
         }
     });
 }

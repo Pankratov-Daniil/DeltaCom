@@ -5,7 +5,10 @@
 function addClientToSession (event) {
     $.ajax({
         url: 'addNewClientIdToSession',
-        data: {'clientId': event.data.param1}
+        data: {'clientId': event.data.param1},
+        error: function() {
+            notifyError("Error occurred while adding client to session.");
+        }
     });
 }
 
@@ -26,7 +29,8 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
         success: function(data) {
             funcOnSuccess(successData);
         },
-        error: function () {
+        error: function() {
+            notifyError("Error occurred while blocking contract. Try again later.");
         }
     });
 }
@@ -225,6 +229,7 @@ function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptio
             incompatibleOptions = optionsHtml.incompatibleOptions;
         },
         error: function () {
+            notifyError("Error occurred while getting options for tariff. Try again later.");
             availableOptions.empty();
         }
     });
@@ -239,19 +244,6 @@ function optionsUpdated() {
     updateOptions($('#selectOptions'), $('#selectTariff option:selected'), $('#tariffInfo'), $('#availableOptions'), $('#selectTariff').val());
 }
 
-/**
- * Check if array have two elem in [elem1, elem2]
- * @param array find in this array
- * @param item1 first item to compare
- * @param item2first item to compare
- * @returns {boolean}
- */
-function checkContains(array, item1, item2) {
-    return array.some(elem => (item1 != item2)&&
-        ((elem[0] == item1 && elem[1] == item2) ||
-            (elem[0] == item2 && elem[1] == item1)));
-}
-
 function updateSelect(sel, data) {
     sel.html(data);
     sel.selectpicker('refresh');
@@ -263,6 +255,9 @@ function getAllOptions(functionOnSuccess) {
         contentType: "application/json",
         success: function (data) {
             functionOnSuccess(prepareOptions(data));
+        },
+        error: function() {
+            notifyError("Error occurred while getting all options. Try again later.");
         }
     });
 }
@@ -333,4 +328,12 @@ function onOptionsSelectChange(select) {
         });
         curSelected = getCurSelected(select);
     }
+}
+
+function notifyError(msg) {
+    $.notify({
+        message: msg
+    }, {
+        type: 'danger'
+    });
 }

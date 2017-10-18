@@ -16,7 +16,7 @@
     <script src="../resources/js/main.js"></script>
     <%@include file="userCart.jsp" %>
     <script src="../resources/js/userContracts.js"></script>
-
+    <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
 
     <title>My DeltaCom</title>
 </head>

@@ -16,6 +16,7 @@
     <script src="../resources/js/commonFunctions.js"></script>
     <script src="../resources/js/optionsActions.js"></script>
     <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="../resources/css/bootstrap-select.min.css" type="text/css"/>
 

@@ -19,6 +19,9 @@ function getClient() {
         success: function (data) {
             client = data;
             updateContractsTable();
+        },
+        error: function() {
+            notifyError("Error occurred while getting user. Try again later.");
         }
     });
 }
@@ -93,6 +96,9 @@ function blockContract() {
             button.removeClass('btn-' + (contract.blocked ? 'danger' : 'success'));
             button.addClass('btn-' + (contract.blocked ? 'success' : 'danger'));
             button.text(contract.blocked ? 'Unblock' : 'Block');
+        },
+        error: function() {
+            notifyError("Error occurred while blocking contract. Try again later.");
         }
     });
 }

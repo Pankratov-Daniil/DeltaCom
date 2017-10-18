@@ -15,7 +15,7 @@
     <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
     <intercept-url pattern="/commons/addNewClient**" access="hasAnyRole('MANAGER', 'ADMIN')"/>
 
-    <!-- We're using default-target-url because when we are logined
+    <!-- We're using default-target-url because when we are logged
         LoginController can redirect us to needed page according to role
      -->
     <form-login login-page="/login"
@@ -29,7 +29,6 @@
 
     <logout logout-success-url="/login" delete-cookies="JSESSIONID" />
     <csrf/>
-
 
     <remember-me
             token-validity-seconds="1209600"
@@ -49,7 +48,4 @@
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <beans:constructor-arg name="strength" value="11" />
     </beans:bean>
-
-
-
 </beans:beans>
