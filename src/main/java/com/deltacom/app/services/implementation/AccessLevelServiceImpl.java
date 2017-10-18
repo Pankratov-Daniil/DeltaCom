@@ -25,7 +25,7 @@ public class AccessLevelServiceImpl implements AccessLevelService {
      */
     @Override
     @Transactional
-    public List<AccessLevel> getAllAccessLevels() throws AccessLevelException {
+    public List<AccessLevel> getAllAccessLevels() {
         try {
             return accessLevelRepository.getAll();
         } catch (PersistenceException ex) {

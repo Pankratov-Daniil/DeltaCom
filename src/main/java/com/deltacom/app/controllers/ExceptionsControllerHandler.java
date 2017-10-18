@@ -36,8 +36,8 @@ public class ExceptionsControllerHandler {
     }
 
     /**
-     *
-     * @return
+     * Handling repository exceptions
+     * @return accessing DB error page
      */
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(value = RepositoryException.class)

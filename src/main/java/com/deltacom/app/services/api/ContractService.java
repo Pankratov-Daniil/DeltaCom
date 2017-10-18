@@ -12,7 +12,9 @@ public interface ContractService {
     public List<Contract> getAllClientContractsByEmail(String email);
     public List<Contract> getAllContractsByTariff(Tariff tariff);
     public Contract getContractByNumber(String number);
+    public Contract getContractById(int id);
     public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions);
     public void blockContract(int contractId, boolean blockContract, boolean blockedByAdmin);
     public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId);
+    public void deleteContract(int contractId);
 }

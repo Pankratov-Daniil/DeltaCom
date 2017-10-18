@@ -15,7 +15,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
 
     private Class<T> entityClass;
 
-    public HibernateRepository() {
+    HibernateRepository() {
         this.entityClass = (Class<T>)((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
@@ -24,7 +24,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      * @param item entity to addition
      */
     @Override
-    public void add(T item) throws RepositoryException {
+    public void add(T item) {
         try {
             entityManager.persist(item);
         } catch(PersistenceException ex) {
@@ -37,7 +37,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      * @param item entity for upgrade
      */
     @Override
-    public void update(T item) throws RepositoryException {
+    public void update(T item) {
         try {
             entityManager.merge(item);
         } catch(PersistenceException ex) {
@@ -50,7 +50,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      * @param item entity for deleting
      */
     @Override
-    public void remove(T item) throws RepositoryException {
+    public void remove(T item) {
         try {
             entityManager.remove(entityManager.merge(item));
         } catch(PersistenceException ex) {
@@ -64,7 +64,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      * @return found entity
      */
     @Override
-    public T getById(K id) throws RepositoryException {
+    public T getById(K id) {
         try {
             return entityManager.find(entityClass, id);
         } catch(PersistenceException ex) {
@@ -77,7 +77,7 @@ public abstract class HibernateRepository<T, K> implements GenericRepository<T, 
      * @return List of entities
      */
     @Override
-    public List<T> getAll() throws RepositoryException {
+    public List<T> getAll() {
         try {
             return (List<T>) entityManager.createQuery("from " + entityClass.getSimpleName()).getResultList();
         } catch(PersistenceException ex) {

@@ -35,7 +35,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public List<Contract> getAllClientContractsByEmail(String email) throws ContractException {
+    public List<Contract> getAllClientContractsByEmail(String email) {
         int id = clientService.getClientByEmail(email).getId();
         try {
             return contractRepository.getAllClientContractsById(id);
@@ -51,7 +51,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public List<Contract> getAllContractsByTariff(Tariff tariff) throws ContractException {
+    public List<Contract> getAllContractsByTariff(Tariff tariff) {
         try {
             return contractRepository.getAllContractsByTariff(tariff);
         } catch (PersistenceException ex) {
@@ -66,11 +66,26 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public Contract getContractByNumber(String number) throws ContractException {
+    public Contract getContractByNumber(String number) {
         try {
             return contractRepository.getContractByNumber(number);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't gotten by number: ", ex);
+        }
+    }
+
+    /**
+     * Gets contract by id
+     * @param id id of contract
+     * @return found contract
+     */
+    @Override
+    @Transactional
+    public Contract getContractById(int id) {
+        try {
+            return contractRepository.getById(id);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't gotten by id: ", ex);
         }
     }
 
@@ -84,7 +99,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) throws ContractException {
+    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
         List<Option> options = getOptionsFromIds(selectedOptions);
 
         if(!checkOptions(options))
@@ -116,10 +131,10 @@ public class ContractServiceImpl implements ContractService {
                     return false;
             }
 
-            for(Option anotherOtion : options) {
-                if((anotherOtion.getId() != option.getId())&&
-                        (anotherOtion.getIncompatibleOptions().contains(option) ||
-                        option.getIncompatibleOptions().contains(anotherOtion)))
+            for(Option anotherOption : options) {
+                if((anotherOption.getId() != option.getId())&&
+                        (anotherOption.getIncompatibleOptions().contains(option) ||
+                        option.getIncompatibleOptions().contains(anotherOption)))
                     return false;
             }
         }
@@ -134,11 +149,12 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) throws ContractException {
-        Contract contract = contractRepository.getById(contractId);
+    public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) {
+        Contract contract = getContractById(contractId);
         contract.setBlocked(blockContract);
-        if(blockedByOperator)
+        if(blockedByOperator) {
             contract.setBlockedByOperator(blockContract);
+        }
         try {
             contractRepository.update(contract);
         } catch (PersistenceException ex) {
@@ -154,7 +170,7 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) throws ContractException {
+    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) {
         Contract contract = getContractByNumber(contractNumber);
         contract.setTariff(tariffService.getTariffById(Integer.parseInt(newTariffId)));
         contract.setOptions(getOptionsFromIds(newOptionsId));
@@ -163,6 +179,24 @@ public class ContractServiceImpl implements ContractService {
             contractRepository.update(contract);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't updated: ", ex);
+        }
+    }
+
+    /**
+     * Removes contract
+     * @param id id of contract to be removed
+     */
+    @Override
+    @Transactional
+    public void deleteContract(int id) {
+        try {
+            Contract contract = getContractById(id);
+            NumbersPool numbersPool = contract.getNumbersPool();
+            contractRepository.remove(contract);
+            numbersPool.setUsed(false);
+            numbersPoolService.updateNumbersPool(numbersPool);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Contract wasn't deleted: ", ex);
         }
     }
 

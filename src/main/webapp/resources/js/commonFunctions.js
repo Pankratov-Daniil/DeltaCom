@@ -4,11 +4,8 @@
  */
 function addClientToSession (event) {
     $.ajax({
-        url: 'addNewClientIdToSession',
-        data: {'clientId': event.data.param1},
-        error: function() {
-            notifyError("Error occurred while adding client to session.");
-        }
+        url: '/DeltaCom/manager/addNewClientIdToSession',
+        data: {'clientId': event.data.param1}
     });
 }
 
@@ -330,10 +327,21 @@ function onOptionsSelectChange(select) {
     }
 }
 
+function addClickEvent(elem, data, func) {
+    $(document).off('click', elem);
+    $(document).on('click', elem, data, func);
+}
+
 function notifyError(msg) {
     $.notify({
         message: msg
     }, {
         type: 'danger'
+    });
+}
+
+function notifySuccess(msg) {
+    $.notify({
+        message: msg
     });
 }

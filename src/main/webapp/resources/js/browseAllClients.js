@@ -171,6 +171,7 @@ function passTableToPage (data, minId, countEntries) {
                     'javascript:void(0);">Unblock contract' :
                     'javascript:void(0);">Block contract');
                 tableRecords += '</a></li>';
+                tableRecords += '<li><a id="deleteContractLink' + contract.id + '" href="#">Delete contract</a></li>';
                 tableRecords += '</ul>';
                 tableRecords += '</div>';
                 tableRecords += '<p></p>';
@@ -185,20 +186,39 @@ function passTableToPage (data, minId, countEntries) {
         }
         tableBody.append(tableRecords);
         tableRecords = '';
-        $('#addToSession'+userCounter).click({param1: item.id}, addClientToSession);
+
+        addClickEvent('#addToSession'+userCounter, {param1: item.id}, addClientToSession);
         $.each(item.contracts, function (contractIndex, contract) {
-            $('#blockContractLink'+contract.id).click(function () {
-                blockContract(contract.id, !contract.blocked, true, onSuccessfullBlock,
-                    {'btnId' : '#blockContractBtn'+contract.id,
-                        'linkId' : '#blockContractLink'+contract.id,
-                        'blocked' : !contract.blocked,
-                        'contract' : contract
-                    });
+            addClickEvent('#deleteContractLink' + contract.id, {}, function (e) {
+                deleteContract({'btnId' : '#blockContractBtn'+contract.id, 'contractId' : contract.id});
             });
+            addClickEvent('#blockContractLink'+contract.id,
+                {}, function (e) {
+                    blockContract(contract.id, !contract.blocked, true, onSuccessfullBlock,
+                        {'btnId' : '#blockContractBtn'+contract.id,
+                            'linkId' : '#blockContractLink'+contract.id,
+                            'blocked' : !contract.blocked,
+                            'contract' : contract
+                        });
+                });
         });
     });
+    addClickEvent(".openTariffManager", {}, onOpenTariffManager);
+}
 
-    $(".openTariffManager").click(onOpenTariffManager);
+function deleteContract(data) {
+    $.ajax({
+        contentType: "application/json",
+        url: '/DeltaCom/manager/deleteContract',
+        data: {'contractId': data.contractId},
+        success: function() {
+            $(data.btnId).parent().remove();
+            notifySuccess("Contract successfully removed.");
+        },
+        error: function() {
+            notifyError("Error occurred while removing contract.");
+        }
+    });
 }
 
 function onOpenTariffManager() {

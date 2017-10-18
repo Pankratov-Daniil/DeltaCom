@@ -57,10 +57,10 @@ function updateContractsTable() {
             tableBody.html(tableRecords);
 
         if(!contract.blocked) {
-            $(".changeContractButton").click(openChangeContractModal);
+            addClickEvent(".changeContractButton", {}, openChangeContractModal);
         }
         if(!contract.blockedByOperator) {
-            $(".blockButton").click(blockContract);
+            addClickEvent(".blockButton", {}, blockContract);
         }
     });
 
@@ -90,7 +90,7 @@ function blockContract() {
                 removeCartFromSession();
             } else {
                 button.before('<a href="javascript:void(0);" data-id="'+contractId+'" class="btn btn-success changeContractButton">Change contract</a><p></p>');
-                $(".changeContractButton").click(openChangeContractModal);
+                addClickEvent(".changeContractButton", {}, openChangeContractModal);
             }
 
             button.removeClass('btn-' + (contract.blocked ? 'danger' : 'success'));

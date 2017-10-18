@@ -34,7 +34,7 @@ public class Contract {
     @JoinColumn(name = "idClient")
     @JsonBackReference
     private Client client;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "`contract_option`",
                 joinColumns = @JoinColumn(name = "idContract"),
                 inverseJoinColumns = @JoinColumn(name = "idOption"))

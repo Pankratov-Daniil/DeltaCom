@@ -25,8 +25,9 @@ public class OptionServiceImpl implements OptionService {
      * @param id id of Option entity to be found
      * @return founded Option entity
      */
+    @Override
     @Transactional
-    public Option getOptionById(Integer id) throws OptionException {
+    public Option getOptionById(Integer id) {
         try {
             return optionRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -41,7 +42,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public List<Option> getAllOptionsForTariff(int id) throws OptionException {
+    public List<Option> getAllOptionsForTariff(int id) {
         try {
             return optionRepository.getAllOptionsForTariff(id);
         } catch (PersistenceException ex) {
@@ -55,7 +56,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public List<Option> getAllOptions() throws OptionException {
+    public List<Option> getAllOptions() {
         try {
             return optionRepository.getAll();
         } catch (PersistenceException ex) {
@@ -71,7 +72,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) throws OptionException {
+    public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
         option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
         option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
 
@@ -90,7 +91,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void addOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) throws OptionException {
+    public void addOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
         option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
         option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
 
@@ -107,7 +108,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public void deleteOption(int id) throws OptionException {
+    public void deleteOption(int id) {
         try {
             optionRepository.remove(getOptionById(id));
         } catch (PersistenceException ex) {

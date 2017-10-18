@@ -35,7 +35,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getTariffById(Integer id) throws TariffException {
+    public Tariff getTariffById(Integer id) {
         try {
             return tariffRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -49,7 +49,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public List<Tariff> getAllTariffs() throws TariffException {
+    public List<Tariff> getAllTariffs() {
         try {
             return tariffRepository.getAll();
         } catch (PersistenceException ex) {
@@ -64,7 +64,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void addTariff(Tariff tariff, String[] tariffOptionsIds) throws TariffException {
+    public void addTariff(Tariff tariff, String[] tariffOptionsIds) {
         tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
         try {
             tariffRepository.add(tariff);
@@ -80,7 +80,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void updateTariff(Tariff tariff, String[] tariffOptionsIds) throws TariffException {
+    public void updateTariff(Tariff tariff, String[] tariffOptionsIds) {
         tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
         try {
             tariffRepository.update(tariff);
@@ -108,7 +108,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public void deleteTariff(int id) throws TariffException {
+    public void deleteTariff(int id) {
         Tariff tariff = getTariffById(id);
         List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
         if(!contracts.isEmpty()) {

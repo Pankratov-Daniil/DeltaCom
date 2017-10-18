@@ -63,6 +63,4 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
             return new ArrayList<>();
         }
     }
-
-
 }

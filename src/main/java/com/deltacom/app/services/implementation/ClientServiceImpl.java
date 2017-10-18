@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService{
      * @return founded Client entity
      */
     @Transactional
-    public Client getClientById(Integer id) throws ClientException {
+    public Client getClientById(Integer id) {
         try {
             return clientRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public Client getClientByEmail(String email) throws ClientException {
+    public Client getClientByEmail(String email) {
         try {
             return clientRepository.getClientByEmail(email);
         } catch (PersistenceException ex) {
@@ -59,7 +59,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public boolean addNewClient(Client client, String[] accessLevelsIds) throws ClientException {
+    public boolean addNewClient(Client client, String[] accessLevelsIds) {
         List<AccessLevel> accessLevels = new ArrayList<>();
 
         if(accessLevelsIds == null || accessLevelsIds.length == 0) {
@@ -90,7 +90,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public List<Client> getClientsByIds(int startId, int amount) throws ClientException {
+    public List<Client> getClientsByIds(int startId, int amount) {
         try {
             return clientRepository.getClientsByIds(startId, amount);
         } catch (PersistenceException ex) {
@@ -105,7 +105,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public Client getClientByNumber(String number) throws ClientException {
+    public Client getClientByNumber(String number) {
         try {
             return clientRepository.getClientByNumber(number);
         } catch (PersistenceException ex) {

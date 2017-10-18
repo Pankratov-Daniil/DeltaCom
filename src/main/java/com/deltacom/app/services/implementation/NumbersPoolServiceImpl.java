@@ -21,7 +21,7 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
      * @param entity NumbersPool entity to be updated
      */
     @Transactional
-    public void updateNumbersPool(NumbersPool entity) throws NumbersPoolException {
+    public void updateNumbersPool(NumbersPool entity) {
         try {
             numbersPoolRepository.update(entity);
         } catch (PersistenceException ex) {
@@ -35,7 +35,7 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
      */
     @Override
     @Transactional
-    public List<String> getAllUnusedNumbers() throws NumbersPoolException {
+    public List<String> getAllUnusedNumbers() {
         try {
             return numbersPoolRepository.getAllUnusedNumbers();
         } catch (PersistenceException ex) {

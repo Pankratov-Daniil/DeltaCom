@@ -47,15 +47,6 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing request to manager 'search client' page
-     * @return search client page
-     */
-    @RequestMapping(value = "/searchClient")
-    public ModelAndView searchClient() {
-        return new ModelAndView("manager/searchClient");
-    }
-
-    /**
      * Processing request to manager 'tariffs actions' page
      * @return tariffs actions page
      */
@@ -93,20 +84,20 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing request to 'registrate new contract' and register new client
+     * Processing request to 'register new contract' and register new client
      * @param session current session
      */
     @RequestMapping(value = "/regNewContract")
     public ModelAndView regNewContract(@RequestParam("selectNumber") String selectedNumber,
                                        @RequestParam("selectTariff") String selectedTariff,
                                        @RequestParam("selectOptions") String[] selectedOptions,
-                                       HttpSession session, RedirectAttributes ra) {
+                                       HttpSession session,
+                                       RedirectAttributes ra) {
         int clientId = (int)session.getAttribute(CLIENT_ID_NAME);
-
         if(contractService.addNewContract(clientId, selectedNumber, Integer.parseInt(selectedTariff), selectedOptions)) {
             session.setAttribute("successContractCreation", true);
         }
-        return new ModelAndView("redirect:/manager/index");
+        return new ModelAndView("redirect:/manager/browseAllClients");
     }
 
     /**
@@ -124,6 +115,16 @@ public class ManagerController extends CommonController {
         contractService.updateContract(selectedNumber, selectedTariffId, selectedOptionsIds);
 
         return new ModelAndView("redirect:/manager/browseAllClients");
+    }
+
+    /**
+     * Removes contract
+     * @param contractId id of contract to be removed
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteContract")
+    public void deleteContract(@RequestParam("contractId") int contractId) {
+        contractService.deleteContract(contractId);
     }
 
     /**
