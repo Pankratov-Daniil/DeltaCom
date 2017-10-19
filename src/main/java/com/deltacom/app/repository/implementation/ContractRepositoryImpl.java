@@ -6,8 +6,8 @@ import com.deltacom.app.repository.api.ContractRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
         try {
             return (List<Contract>) entityManager.createQuery("select contract from Contract contract where contract.client.id = :id")
                     .setParameter("id", clientId).getResultList();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return new ArrayList<>();
         }
     }
@@ -37,14 +37,14 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
     /**
      * Gets contract by number
      * @param number number of contract
-     * @return found contract
+     * @return found contract or null if exception was thrown
      */
     @Override
     public Contract getContractByNumber(String number) {
         try {
             return (Contract) entityManager.createQuery("select contract from Contract contract where contract.numbersPool.number = :number")
                     .setParameter("number", number).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return null;
         }
     }
@@ -59,7 +59,7 @@ public class ContractRepositoryImpl extends HibernateRepository<Contract, Intege
         try {
             return (List<Contract>) entityManager.createQuery("select contract from Contract contract where contract.tariff = :tariff")
                     .setParameter("tariff", tariff).getResultList();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return new ArrayList<>();
         }
     }

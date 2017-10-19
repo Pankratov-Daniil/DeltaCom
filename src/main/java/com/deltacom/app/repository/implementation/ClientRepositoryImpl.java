@@ -5,8 +5,8 @@ import com.deltacom.app.repository.api.ClientRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +21,14 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
     /**
      * Gets client by email from database.
      * @param email user email
-     * @return Client or null if nothing found
+     * @return Client or null if there was exception
      */
     @Override
     public Client getClientByEmail(String email) {
         try {
             return (Client) entityManager.createQuery("select client from Client client where client.email = :emailStr")
                     .setParameter("emailStr", email).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return null;
         }
     }
@@ -48,7 +48,7 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
                     .setFirstResult(0)
                     .setMaxResults(amount)
                     .getResultList();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return new ArrayList<>();
         }
     }
@@ -56,7 +56,7 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
     /**
      * Gets client by number
      * @param number number of client
-     * @return found client
+     * @return found client or null if exception was thrown
      */
     @Override
     public Client getClientByNumber(String number) {
@@ -64,7 +64,7 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
             return (Client) entityManager.createQuery("select client from Client client, Contract contract " +
                     "where contract.client.id = client.id and contract.numbersPool.number = :number")
                     .setParameter("number", number).getSingleResult();
-        } catch (NoResultException e) {
+        } catch (PersistenceException e) {
             return null;
         }
     }

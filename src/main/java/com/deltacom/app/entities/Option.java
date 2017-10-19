@@ -37,6 +37,19 @@ public class Option {
             inverseJoinColumns = @JoinColumn(name = "idOption2"))
     private List<Option> compatibleOptions;
 
+    public Option() {
+
+    }
+
+    public Option(int id, String name, float price, float connectionCost, List<Option> compatibleOptions, List<Option> incompatibleOptions) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.connectionCost = connectionCost;
+        this.compatibleOptions = compatibleOptions;
+        this.incompatibleOptions = incompatibleOptions;
+    }
+
     public int getId() {
         return id;
     }

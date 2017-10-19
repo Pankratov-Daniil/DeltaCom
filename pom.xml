@@ -10,8 +10,8 @@
 
   <properties>
       <project.build.java.target>1.8</project.build.java.target>
-    <springframework.version>4.3.7.RELEASE</springframework.version>
-    <hibernate-version>5.0.1.Final</hibernate-version>
+      <springframework.version>4.3.11.RELEASE</springframework.version>
+      <hibernate-version>5.0.1.Final</hibernate-version>
       <jsp.version>2.2</jsp.version>
       <servlet.version>3.1.0</servlet.version>
       <jstl.version>1.2</jstl.version>
@@ -19,22 +19,19 @@
       <jackson.databind.version>2.9.1</jackson.databind.version>
       <log4j.version>2.9.1</log4j.version>
       <aspectJ.version>1.8.11</aspectJ.version>
+      <mockito.version>2.11.0</mockito.version>
+      <h2database.version>1.4.196</h2database.version>
+      <junit.version>4.12</junit.version>
+
+      <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
 
   <dependencies>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.12</version>
-          <scope>test</scope>
-      </dependency>
-
     <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>5.1.34</version>
     </dependency>
-
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
@@ -93,6 +90,12 @@
           <version>${springsecurity.version}</version>
       </dependency>
       <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-test</artifactId>
+          <version>${springframework.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <version>${jackson.databind.version}</version>
@@ -104,14 +107,12 @@
           <version>${servlet.version}</version>
           <scope>provided</scope>
       </dependency>
-
       <dependency>
           <groupId>javax.servlet.jsp</groupId>
           <artifactId>jsp-api</artifactId>
           <version>${jsp.version}</version>
           <scope>provided</scope>
       </dependency>
-
       <dependency>
           <groupId>javax.servlet</groupId>
           <artifactId>jstl</artifactId>
@@ -135,12 +136,29 @@
           <version>${aspectJ.version}</version>
       </dependency>
 
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>${junit.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>${mockito.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.h2database</groupId>
+          <artifactId>h2</artifactId>
+          <version>${h2database.version}</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
     <finalName>DeltaCom</finalName>
 	<plugins>
-
 	  <plugin>
 	    <groupId>org.apache.tomcat.maven</groupId>
 		<artifactId>tomcat7-maven-plugin</artifactId>
@@ -168,6 +186,7 @@
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
             <version>3.3.0.603</version>
+
         </plugin>
 
         <plugin>
@@ -196,7 +215,68 @@
             </executions>
         </plugin>
 
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+                <includes>
+                    <include>**/Test*.java</include>
+                    <include>**/*Test.java</include>
+                    <include>**/*Tests.java</include>
+                    <include>**/*TestCase.java</include>
+                </includes>
+            </configuration>
+        </plugin>
 	</plugins>
-
   </build>
+
+    <profiles>
+        <profile>
+            <id>sonar-coverage</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jacoco</groupId>
+                            <artifactId>jacoco-maven-plugin</artifactId>
+                            <version>0.7.9</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <configuration>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>agent-for-ut</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>agent-for-it</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

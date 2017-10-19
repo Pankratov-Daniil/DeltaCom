@@ -9,6 +9,11 @@ import javax.persistence.PersistenceException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+/**
+ * Class for accessing database using hibernate
+ * @param <T> type of entity
+ * @param <K> id parameter type
+ */
 public abstract class HibernateRepository<T, K> implements GenericRepository<T, K> {
     @PersistenceContext
     private EntityManager entityManager;

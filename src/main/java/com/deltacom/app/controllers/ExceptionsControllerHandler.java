@@ -22,8 +22,7 @@ public class ExceptionsControllerHandler {
      * @return default error ModelAndView
      */
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView
-    defaultErrorHandler(Exception e) throws Exception {
+    public ModelAndView defaultErrorHandler(Exception e) throws Exception {
         // If the exception is annotated with @ResponseStatus rethrow it and let
         // the framework handle it - like the OrderNotFoundException example
         // at the start of this post.

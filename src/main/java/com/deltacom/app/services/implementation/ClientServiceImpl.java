@@ -5,7 +5,7 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.exceptions.ClientException;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
-import com.deltacom.app.utils.PasswordEncrypt;
+import com.deltacom.app.utils.PasswordEncrypter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +70,7 @@ public class ClientServiceImpl implements ClientService{
                 accessLevels.add(new AccessLevel(Integer.parseInt(accessLevelId)));
             }
         }
-        client.setPassword(PasswordEncrypt.encryptPassword(client.getPassword()));
+        client.setPassword(PasswordEncrypter.encryptPassword(client.getPassword()));
         client.setAccessLevels(accessLevels);
 
         try {

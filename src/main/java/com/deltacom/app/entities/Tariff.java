@@ -25,6 +25,16 @@ public class Tariff {
             inverseJoinColumns = @JoinColumn(name = "idOption"))
     private List<Option> options;
 
+    public Tariff(){
+
+    }
+
+    public Tariff(int id, String name, float price, List<Option> options) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.options = options;
+    }
 
     public void setId(int id) {
         this.id = id;

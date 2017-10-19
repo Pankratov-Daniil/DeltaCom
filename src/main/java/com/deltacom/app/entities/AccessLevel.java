@@ -23,6 +23,11 @@ public class AccessLevel {
         this.id = id;
     }
 
+    public AccessLevel(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

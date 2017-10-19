@@ -3,6 +3,9 @@ package com.deltacom.app.entities;
 import java.io.Serializable;
 import java.util.Arrays;
 
+/**
+ * Class for clients cart
+ */
 public class ClientCart implements Serializable {
     private String number;
     private String tariffId;
