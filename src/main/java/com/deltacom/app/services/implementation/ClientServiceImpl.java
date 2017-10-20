@@ -92,6 +92,9 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     public List<Client> getClientsByIds(int startId, int amount) {
         try {
+            if(amount < 0) {
+                throw  new PersistenceException("Amount cannot be less than 0");
+            }
             return clientRepository.getClientsByIds(startId, amount);
         } catch (PersistenceException ex) {
             throw new ClientException("Clients wasn't gotten by ids: ", ex);

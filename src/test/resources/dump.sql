@@ -43,7 +43,7 @@ INSERT INTO "number_pool" VALUES ('89314523412',0);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "option" IF EXISTS;
 CREATE TABLE "option" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "name" varchar(50) NOT NULL,
   "price" float NOT NULL,
   "connectionCost" float NOT NULL,
@@ -73,7 +73,7 @@ INSERT INTO "option" VALUES (11,'New option',200,500);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "tariff" IF EXISTS;
 CREATE TABLE "tariff" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "name" varchar(50) NOT NULL,
   "price" float NOT NULL,
   PRIMARY KEY ("id"),
@@ -98,7 +98,7 @@ INSERT INTO "tariff" VALUES (4,'New tariff2',3005);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "access_level" IF EXISTS;
 CREATE TABLE "access_level" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "name" varchar(45) NOT NULL,
   PRIMARY KEY ("id"),
   UNIQUE KEY "idAccess_level_UNIQUE" ("id"),
@@ -122,7 +122,7 @@ INSERT INTO "access_level" VALUES (1,'ROLE_USER');
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "client" IF EXISTS;
 CREATE TABLE "client" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "firstName" varchar(20) NOT NULL,
   "lastName" varchar(20) NOT NULL,
   "birthDate" date NOT NULL,
@@ -162,7 +162,7 @@ INSERT INTO "client" VALUES (45,'Daniil','Pankratov','1995-06-29','pass','addr',
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "clients_access_levels" IF EXISTS;
 CREATE TABLE "clients_access_levels" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "client_id" int(11) NOT NULL,
   "access_level_id" int(11) NOT NULL,
   PRIMARY KEY ("id"),
@@ -200,7 +200,7 @@ INSERT INTO "clients_access_levels" VALUES (26,45,1);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "compatible_options" IF EXISTS;
 CREATE TABLE "compatible_options" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "idOption1" int(11) NOT NULL,
   "idOption2" int(11) NOT NULL,
   PRIMARY KEY ("id"),
@@ -230,7 +230,7 @@ INSERT INTO "compatible_options" VALUES (87,11,1);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "contract" IF EXISTS;
 CREATE TABLE "contract" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "number" varchar(12) NOT NULL,
   "idTariff" int(11) NOT NULL,
   "idClient" int(11) NOT NULL,
@@ -265,7 +265,7 @@ INSERT INTO "contract" VALUES (35,'89113111133',2,45,0,0,0);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "contract_option" IF EXISTS;
 CREATE TABLE "contract_option" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "idOption" int(11) NOT NULL,
   "idContract" int(11) NOT NULL,
   PRIMARY KEY ("id"),
@@ -294,7 +294,7 @@ INSERT INTO "contract_option" VALUES (130,1,21);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "incompatible_options" IF EXISTS;
 CREATE TABLE "incompatible_options" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "idOption1" int(11) NOT NULL,
   "idOption2" int(11) NOT NULL,
   PRIMARY KEY ("id"),
@@ -324,7 +324,7 @@ INSERT INTO "incompatible_options" VALUES (61,3,2);
 /*!40101 SET character_set_client = utf8 */;
 DROP TABLE "tariff_option" IF EXISTS;
 CREATE TABLE "tariff_option" (
-  "id" int(11) NOT NULL,
+  "id" int(11) NOT NULL AUTO_INCREMENT,
   "idTariff" int(11) NOT NULL,
   "idOption" int(11) NOT NULL,
   PRIMARY KEY ("id"),

@@ -109,18 +109,21 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void deleteTariff(int id) {
-        Tariff tariff = getTariffById(id);
-        List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
-        if(!contracts.isEmpty()) {
-            //try to add another tariff to contracts
-            Tariff newTariff = getAllTariffs().get(0);
-            if(newTariff != null) {
-                for (Contract contract : contracts) {
-                    contract.setTariff(newTariff);
+        try {
+            Tariff tariff = getTariffById(id);
+            if(tariff == null) {
+                throw new PersistenceException("Tariff wasn't found");
+            }
+            List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
+            if(!contracts.isEmpty()) {
+                //try to add another tariff to contracts
+                Tariff newTariff = getAllTariffs().get(0);
+                if(newTariff != null) {
+                    for (Contract contract : contracts) {
+                        contract.setTariff(newTariff);
+                    }
                 }
             }
-        }
-        try {
             tariffRepository.remove(tariff);
         } catch (PersistenceException ex) {
             throw new TariffException("Tariff wasn't deleted: ", ex);

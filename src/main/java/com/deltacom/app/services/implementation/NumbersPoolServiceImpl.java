@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
+/**
+ * Operations with repository for NumbersPool entities.
+ */
 @Service("NumbersPoolService")
 public class NumbersPoolServiceImpl implements NumbersPoolService {
     @Autowired

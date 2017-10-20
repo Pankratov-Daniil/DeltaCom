@@ -117,7 +117,18 @@ public class Logging {
      */
     @AfterThrowing(value = "execution(* com.deltacom.app.services..*(..))", throwing = "exception")
     public void exceptionLogging(JoinPoint jp, Exception exception) {
-        logger.error("Exception raised in method: " + jp.toShortString() + " with args: " + Arrays.toString(jp.getArgs()) +
-        ". Exception: " + exception);
+        StringBuilder stringBuilder = new StringBuilder("");
+        stringBuilder.append("Exception raised in method: ");
+        stringBuilder.append(jp.toShortString());
+        stringBuilder.append(" with args: ");
+        stringBuilder.append(Arrays.toString(jp.getArgs()));
+        stringBuilder.append(". Exception: ");
+        stringBuilder.append(exception);
+        stringBuilder.append(". StackTrace: ");
+        for(StackTraceElement element : exception.getStackTrace()) {
+            stringBuilder.append("\n\t");
+            stringBuilder.append(element);
+        }
+        logger.error(stringBuilder.toString());
     }
 }

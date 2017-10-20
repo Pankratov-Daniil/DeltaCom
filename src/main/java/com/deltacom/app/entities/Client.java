@@ -69,6 +69,17 @@ public class Client {
         this.contracts = contracts;
     }
 
+    public Client(String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, List<AccessLevel> accessLevels) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.accessLevels = accessLevels;
+    }
+
     public int getId() {
         return id;
     }

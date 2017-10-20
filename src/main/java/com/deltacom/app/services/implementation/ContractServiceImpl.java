@@ -36,8 +36,12 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public List<Contract> getAllClientContractsByEmail(String email) {
-        int id = clientService.getClientByEmail(email).getId();
         try {
+            Client client = clientService.getClientByEmail(email);
+            if(client == null) {
+                throw new PersistenceException("User wasn't found");
+            }
+            int id = client.getId();
             return contractRepository.getAllClientContractsById(id);
         } catch (PersistenceException ex) {
             throw new ContractException("Contracts wasn't gotten by email: ", ex);
@@ -106,11 +110,16 @@ public class ContractServiceImpl implements ContractService {
             return false;
 
         NumbersPool numbersPool = new NumbersPool(number, true);
-        Contract contract = new Contract(clientService.getClientById(clientId),
-                numbersPool,
-                tariffService.getTariffById(tariffId),
-                options);
         try {
+            Client client = clientService.getClientById(clientId);
+            if(client == null) {
+                throw new PersistenceException("Client wasn't found");
+            }
+            Tariff tariff = tariffService.getTariffById(tariffId);
+            if(tariff == null) {
+                throw new PersistenceException("Tariff wasn't found");
+            }
+            Contract contract = new Contract(client, numbersPool, tariff, options);
             contractRepository.add(contract);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't added: ", ex);
@@ -150,12 +159,15 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public void blockContract(int contractId, boolean blockContract, boolean blockedByOperator) {
-        Contract contract = getContractById(contractId);
-        contract.setBlocked(blockContract);
-        if(blockedByOperator) {
-            contract.setBlockedByOperator(blockContract);
-        }
         try {
+            Contract contract = getContractById(contractId);
+            if(contract == null) {
+                throw new PersistenceException("Contract doesn't exists");
+            }
+            contract.setBlocked(blockContract);
+            if(blockedByOperator) {
+                contract.setBlockedByOperator(blockContract);
+            }
             contractRepository.update(contract);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't blocked: ", ex);
@@ -171,11 +183,18 @@ public class ContractServiceImpl implements ContractService {
     @Override
     @Transactional
     public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) {
-        Contract contract = getContractByNumber(contractNumber);
-        contract.setTariff(tariffService.getTariffById(Integer.parseInt(newTariffId)));
-        contract.setOptions(getOptionsFromIds(newOptionsId));
-
         try {
+            Contract contract = getContractByNumber(contractNumber);
+            if(contract == null) {
+                throw new PersistenceException("Contract wasn't found");
+            }
+            Tariff tariff = tariffService.getTariffById(Integer.parseInt(newTariffId));
+            if(tariff == null) {
+                throw new PersistenceException("Tariff wasn't found");
+            }
+            contract.setTariff(tariff);
+            contract.setOptions(getOptionsFromIds(newOptionsId));
+
             contractRepository.update(contract);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't updated: ", ex);
@@ -191,6 +210,9 @@ public class ContractServiceImpl implements ContractService {
     public void deleteContract(int id) {
         try {
             Contract contract = getContractById(id);
+            if(contract == null) {
+                throw new PersistenceException("Contract wasn't found");
+            }
             NumbersPool numbersPool = contract.getNumbersPool();
             contractRepository.remove(contract);
             numbersPool.setUsed(false);

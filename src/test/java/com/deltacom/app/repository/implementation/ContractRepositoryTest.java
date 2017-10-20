@@ -1,7 +1,10 @@
 package com.deltacom.app.repository.implementation;
 
+import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
+import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.entities.Tariff;
+import com.deltacom.app.exceptions.RepositoryException;
 import com.deltacom.app.repository.api.ContractRepository;
 import com.deltacom.app.repository.api.TariffRepository;
 import org.junit.Test;
@@ -21,7 +24,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class ContractRepositoryTest {
     @Autowired
-    ContractRepository contractRepository;
+    ContractRepositoryImpl contractRepository;
     @Autowired
     TariffRepositoryImpl tariffRepository;
 
@@ -59,5 +62,54 @@ public class ContractRepositoryTest {
 
         List<Contract> emptyContractList = contractRepository.getAllContractsByTariff(tariffWithoutContract);
         assertTrue(emptyContractList.isEmpty());
+    }
+
+    @Test
+    @Rollback
+    public void addTest() {
+        Client client = new Client();
+        client.setId(5);
+        Tariff tariff = new Tariff();
+        tariff.setId(1);
+        contractRepository.add(new Contract(client, new NumbersPool("89314523412", true), tariff, null));
+        assertEquals(contractRepository.getAll().size(), 5);
+    }
+
+    @Test(expected = RepositoryException.class)
+    @Rollback
+    public void addExceptionTest() {
+        contractRepository.add(new Contract());
+    }
+
+    @Test
+    @Rollback
+    public void updateTest() {
+        Client client = new Client();
+        client.setId(5);
+        Tariff tariff = new Tariff();
+        tariff.setId(1);
+        Contract contract = new Contract(client, new NumbersPool("89314523412", true), tariff, null);
+        contract.setId(21);
+        contractRepository.update(contract);
+    }
+
+    @Test
+    @Rollback
+    public void removeTest() {
+        Contract contractToRemove = new Contract();
+        contractToRemove.setId(16);
+        contractRepository.remove(contractToRemove);
+
+        assertEquals(contractRepository.getById(16), null);
+    }
+
+    @Test
+    public void getByIdTest() {
+        assertEquals(contractRepository.getById(16).getNumbersPool().getNumber(), "89219999999");
+    }
+
+    @Test
+    public void getAllTest() {
+        assertEquals(contractRepository.getAll().size(), 4);
     }
 }
