@@ -8,7 +8,22 @@ $(document).ready(function () {
     getAllOptions(loadAllOptions);
 });
 
+function addButtonsToCard(card, optionId) {
+    card.append('<div class="card-footer">' +
+        '<div class="btn-group">' +
+        '<a id="' + optionId + '" class="changeOptionBtn btn btn-info" href="#">' +
+        '<i class="fa fa-lg fa-edit"></i>' +
+        '</a>' +
+        '<a id="' + optionId + '"class="delOption btn btn-warning" href="deleteOption">' +
+        '<i class="fa fa-lg fa-trash"></i>' +
+        '<input type="submit" class="hidden" name="idDelOption" value="' + optionId + '"/>' +
+        '</a>' +
+        '</div></div>');
+}
+
 function loadAllOptions(data) {
+    options = data;
+
     var cardLen = 3;
     var optionsHtml = createOptionsHtml(data, cardLen);
     compatibleOptions = optionsHtml.compatibleOptions;
@@ -17,32 +32,8 @@ function loadAllOptions(data) {
     var optionsHolder = $("#optionsHolder");
     optionsHolder.html(optionsHtml.optionsInfo);
 
-    var i;
-    for(i = 0; i < data.length; i++){
-        options.push({
-            'id' : data[i].id,
-            'name' : data[i].name,
-            'price' : data[i].price,
-            'connCost' : data[i].connectionCost,
-            'compatibleOptions' : data[i].compatibleOptions,
-            'incompatibleOptions' : data[i].incompatibleOptions
-        });
-    }
-
-    i = 0;
-    $(optionsHolder.find(".card")).each(function () {
-        $(this).append('<div class="card-footer">');
-        $(this).append('<div class="btn-group">' +
-            '<a id="' + data[i].id + '" class="changeOptionBtn btn btn-info" href="#">' +
-            '<i class="fa fa-lg fa-edit"></i>' +
-            '</a>' +
-            '<a id="' + data[i].id + '"class="delOption btn btn-warning" href="deleteOption">' +
-            '<i class="fa fa-lg fa-trash"></i>' +
-            '<input type="submit" class="hidden" name="idDelOption" value="' + data[i].id + '"/>' +
-            '</a>' +
-            '</div>');
-        $(this).append('</div>');
-        i++;
+    $(optionsHolder.find(".card")).each(function (index) {
+        addButtonsToCard($(this), data[index].id);
     });
 
     var compatibleOptions = $("#compatibleOptions");
@@ -97,8 +88,6 @@ function createSelectList(arr) {
     return text;
 }
 
-
-
 function disableIncompatibleOptionsInOptionsPage(selects) {
     selects.forEach(function (select) {
         disableIncompatibleOptions(select, selects);
@@ -134,7 +123,7 @@ function disableOnChange() {
 }
 
 function onOpenChangeOption() {
-    var option = findInOptionsById($(this).attr('id'));
+    var option = seachInArrayById(options, $(this).attr('id'));
     var optionsList = createSelectList(options);
     var compatibleOptions = $("#compatibleOptions");
     var incompatibleOptions = $("#incompatibleOptions");
@@ -172,14 +161,4 @@ function onOpenChangeOption() {
     });
 
     $("#changeOptionModal").modal('show');
-}
-
-function findInOptionsById(id) {
-    var option = null;
-    options.forEach(function (item) {
-        if(item.id == id) {
-            option = item;
-        }
-    });
-    return option;
 }

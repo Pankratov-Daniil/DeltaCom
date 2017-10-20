@@ -38,9 +38,9 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
  * @param id id of item
  * @returns found item or null if didn't find
  */
-function seachInOptsArray(arr, id) {
+function seachInArrayById(arr, id) {
     var foundItem = null;
-    arr.forEach(function (item, index, array) {
+    arr.forEach(function (item) {
         if(item.id == id) {
             foundItem = item;
             return false;
@@ -52,23 +52,22 @@ function seachInOptsArray(arr, id) {
 /**
  * Makes text for options compatibility (like:"Comes with: option2, ..." or "Incompatible with: Opt4,..."
  * @param arr options array
- * @param curText current option compatibility text
  * @param curOption current option
  * @param compatible if text for compatible options
- * @returns {{text: *}} text for option compatibility and where we writes new compatibility options id
+ * @returns {string} text for option compatibility and where we writes new compatibility options id
  */
-function makeCompatibilityText(arr, curText, curOption, compatible) {
-    var text = curText;
+function makeCompatibilityText(arr, curOption, compatible) {
+    var text = '';
     var curOptOptions = compatible ? curOption.compatibleOptions : curOption.incompatibleOptions;
 
     // for each (in)compatible option
     $.each(curOptOptions, function (compatIndex, option) {
         // if this option is on a page
-        if(option != undefined && seachInOptsArray(arr, option.id) != null) {
+        if(option != undefined && seachInArrayById(arr, option.id) != null) {
             text += (text == '' ? ((compatible ? "Comes with: " : "Incompatible with: ") + option.name) : ", "+option.name);
         }
     });
-    return {"text" : text};
+    return text;
 }
 
 /**
@@ -78,10 +77,6 @@ function makeCompatibilityText(arr, curText, curOption, compatible) {
  * @returns {{optionsList: string, optionsInfo: string, compatibleOptions: Array, incompatibleOptions: Array}}
  */
 function createOptionsHtml(data, cardLen) {
-    var opts = [];
-    $.each(data, function (index, item) {
-        opts.push({'id': item.id, 'body': '', 'compOpts': '', 'incompOpts': '', 'ends': ''});
-    });
     var optionsList = '';
     var optionsInfo = '';
     var compatibleOptions = [];
@@ -91,32 +86,25 @@ function createOptionsHtml(data, cardLen) {
     $.each(data, function (index, item) {
         optionsList += '<option value="' + item.id + '">' + item.name + '</option>';
         if(index % (12 / cardLen) == 0) {
-            opts[index].body += "<div class='clearfix'></div>";
+            optionsInfo += "<div class='clearfix'></div>";
         }
-        opts[index].body += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
-        opts[index].body += "<p>Name: " + item.name + "<br/>Price: " + item.price + "<br/>Connection cost: " + item.connectionCost + "</p>";
+        optionsInfo += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
+        optionsInfo += "<p>Name: " + item.name + "<br/>Price: " + item.price + "<br/>Connection cost: " + item.connectionCost + "</p>";
 
         if(item.compatibleOptions.length > 0) {
-            var compatibilityText =  makeCompatibilityText(opts, opts[index].compOpts, item, true);
-            opts[index].compOpts = compatibilityText.text;
+            optionsInfo += '<p>' + makeCompatibilityText(data, item, true) + "</p>";
             compatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.compatibleOptions});
+        } else {
+            optionsInfo += "<br/><p></p>";
         }
 
         if(item.incompatibleOptions.length > 0) {
-            var incompatibilityText =  makeCompatibilityText(opts, opts[index].incompOpts, item, false);
-            opts[index].incompOpts = incompatibilityText.text;
+            optionsInfo += '<p>' + makeCompatibilityText(data, item, false) + '</p>';
             incompatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.incompatibleOptions});
+        } else {
+            optionsInfo += "<br/><p></p>";
         }
-        opts[index].ends = "</div></div></div>";
-    });
-    opts.forEach(function (item) {
-        if(item.compOpts == '') {
-            item.compOpts = "<br/><p></p>";
-        }
-        if(item.incompOpts == '') {
-            item.incompOpts = "<br/><p></p>";
-        }
-        optionsInfo += item.body + "<p>" + item.compOpts + "</p><p>" + item.incompOpts + "</p>" + item.ends;
+        optionsInfo += "</div></div></div>";
     });
     optionsInfo += "</div>";
     return {"optionsList" : optionsList,

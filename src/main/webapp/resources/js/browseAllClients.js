@@ -312,7 +312,6 @@ function onOpenTariffManager() {
             }
         });
     });
-
     $(manageTariffModal).modal('show');
 }
 
