@@ -2,6 +2,9 @@ package com.deltacom.app.entities;
 
 import java.util.Arrays;
 
+/**
+ * Class for Option Data-Transfer Object
+ */
 public class OptionDTO {
     private int id;
     private String name;
@@ -9,6 +12,19 @@ public class OptionDTO {
     private float connectionCost;
     private String[] incompatibleOptions;
     private String[] compatibleOptions;
+
+    public OptionDTO() {
+
+    }
+
+    public OptionDTO(int id, String name, float price, float connectionCost, String[] incompatibleOptions, String[] compatibleOptions) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.connectionCost = connectionCost;
+        this.incompatibleOptions = incompatibleOptions;
+        this.compatibleOptions = compatibleOptions;
+    }
 
     public int getId() {
         return id;

@@ -107,7 +107,7 @@ public class CommonController {
      */
     @ResponseBody
     @RequestMapping(value = "/commons/getOptionsForTariff", produces=MediaType.APPLICATION_JSON_VALUE)
-    public List<Option> getOptionsForContract(@RequestParam("selectTariff") int selectedTariffId) {
+    public List<Option> getOptionsForContract(@RequestBody int selectedTariffId) {
         return optionService.getAllOptionsForTariff(selectedTariffId);
     }
 
@@ -116,7 +116,7 @@ public class CommonController {
      * @return list of all options
      */
     @ResponseBody
-    @RequestMapping(value = "/commons/getAllOptions", produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/commons/getAllOptions", method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public List<Option> getAllOptions() {
         return optionService.getAllOptions();
     }
@@ -126,7 +126,7 @@ public class CommonController {
      * @return list of all tariffs
      */
     @ResponseBody
-    @RequestMapping(value = "/commons/getAllTariffs", produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/commons/getAllTariffs", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public List<Tariff> getAllTariffs() {
         return tariffService.getAllTariffs();
     }

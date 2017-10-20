@@ -79,7 +79,9 @@ public class CommonControllerTest {
 
     @Test
     public void getOptionsForContract() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/commons/getOptionsForTariff").param("selectTariff", "1"))
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/commons/getOptionsForTariff")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("1"))
                         .andExpect(status().isOk())
                         .andReturn()
                         .getResponse()
@@ -89,7 +91,7 @@ public class CommonControllerTest {
 
     @Test
     public void getAllOptions() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/commons/getAllOptions"))
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/commons/getAllOptions"))
                         .andExpect(status().isOk())
                         .andReturn()
                         .getResponse()
@@ -99,7 +101,7 @@ public class CommonControllerTest {
 
     @Test
     public void getAllTariffs() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/commons/getAllTariffs"))
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/commons/getAllTariffs"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()

@@ -201,9 +201,11 @@ function updateOptions(selectOptions, selectedTariff, tariffInfo, availableOptio
 
     $.ajax({
         url:"/DeltaCom/commons/getOptionsForTariff",
-        contentType: "application/json",
-        data: {
-            "selectTariff" : tariffId
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        data: JSON.stringify(tariffId),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         success: function(data) {
             data = prepareOptions(data);
@@ -237,7 +239,11 @@ function updateSelect(sel, data) {
 function getAllOptions(functionOnSuccess) {
     $.ajax({
         url: "/DeltaCom/commons/getAllOptions",
-        contentType: "application/json",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
         success: function (data) {
             functionOnSuccess(prepareOptions(data));
         },

@@ -155,42 +155,34 @@ public class ManagerController extends CommonController {
 
     /**
      * Creates tariff
-     * @param tariff tariff without options
-     * @param tariffOptionsId ids of tariff options
-     * @return redirect to previous page
+     * @param tariffDTO tariff without options
      */
+    @ResponseBody
     @RequestMapping(value = "/createTariff")
-    public ModelAndView createTariff(@ModelAttribute("newTariff") Tariff tariff,
-                                     @RequestParam(value = "tariffOptions") String[] tariffOptionsId,
-                                     RedirectAttributes ra) {
-        tariffService.addTariff(tariff, tariffOptionsId);
-        return new ModelAndView("redirect:/manager/tariffsActions");
+    public void createTariff(@RequestBody TariffDTO tariffDTO) {
+        Tariff tariff = new Tariff(tariffDTO.getId(), tariffDTO.getName(), tariffDTO.getPrice(), null);
+        tariffService.addTariff(tariff, tariffDTO.getOptionsIds());
     }
 
     /**
      * Changes tariff
-     * @param tariff tariff from page
-     * @param tariffOptionsIds ids of selected options
-     * @return redirect to previous page
+     * @param tariffDTO tariff from page
      */
+    @ResponseBody
     @RequestMapping(value = "/changeTariff")
-    public ModelAndView changeTariff(@ModelAttribute("newTariff") Tariff tariff,
-                                     @RequestParam(value = "tariffOptions") String[] tariffOptionsIds,
-                                     RedirectAttributes ra) {
-        tariffService.updateTariff(tariff, tariffOptionsIds);
-        return new ModelAndView("redirect:/manager/tariffsActions");
+    public void changeTariff(@RequestBody TariffDTO tariffDTO) {
+        Tariff tariff = new Tariff(tariffDTO.getId(), tariffDTO.getName(), tariffDTO.getPrice(), null);
+        tariffService.updateTariff(tariff, tariffDTO.getOptionsIds());
     }
 
     /**
      * Deletes tariff
      * @param tariffId id of tariff to delete
-     * @return redirect to previous page
      */
+    @ResponseBody
     @RequestMapping(value = "/deleteTariff")
-    public ModelAndView deleteTariff(@RequestParam(value = "idDelTariff") int tariffId,
-                                     RedirectAttributes ra) {
+    public void deleteTariff(@RequestBody int tariffId) {
         tariffService.deleteTariff(tariffId);
-        return new ModelAndView("redirect:/manager/tariffsActions");
     }
 
     /**

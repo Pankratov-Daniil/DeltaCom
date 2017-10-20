@@ -45,7 +45,11 @@ function getContractByNumber(number) {
 function getAllTariffs() {
     $.ajax({
         url: "/DeltaCom/commons/getAllTariffs",
-        contentType: "application/json",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
         success: function (data) {
             tariffs = data;
         },

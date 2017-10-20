@@ -260,8 +260,12 @@ function onOpenTariffManager() {
         }
     }).done(function () {
         $.ajax({
-            contentType: "application/json",
             url: "/DeltaCom/commons/getAllTariffs",
+            contentType: "application/json; charset=utf-8",
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+            },
             success: function (data) {
                 $.each(data, function (index, item) {
                     tariffHtml += '<option data-tariff-price="' + item.price + '" value="' + item.id + '">' + item.name + '</option>';
@@ -271,9 +275,11 @@ function onOpenTariffManager() {
                 if(data.length > 0) {
                     $.ajax({
                         url: "/DeltaCom/commons/getOptionsForTariff",
-                        contentType: "application/json",
-                        data: {
-                            "selectTariff": savedTariff.id
+                        contentType: "application/json; charset=utf-8",
+                        method: "POST",
+                        data: JSON.stringify(savedTariff.id),
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
                         },
                         success: function (optionsData) {
                             optionsData = prepareOptions(optionsData);
