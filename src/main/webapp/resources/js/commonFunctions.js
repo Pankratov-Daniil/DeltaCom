@@ -316,8 +316,12 @@ function onOptionsSelectChange(select) {
 }
 
 function addClickEvent(elem, data, func) {
-    $(document).off('click', elem);
-    $(document).on('click', elem, data, func);
+    addEvent('click', elem, data, func);
+}
+
+function addEvent(event, elem, data, func) {
+    $(document).off(event, elem);
+    $(document).on(event, elem, data, func);
 }
 
 function notifyError(msg) {

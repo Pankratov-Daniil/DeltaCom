@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <!-- CSS-->
     <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
     <!-- Font-icon css-->
@@ -91,7 +93,7 @@
                                     <input class="hidden" type="text" name="deletedCompOpts" id="deletedCompOpts" value="" />
                                     <input class="hidden" type="text" name="deletedIncompOpts" id="deletedIncompOpts" value="" />
                                     <div class="form-group">
-                                        <button class="btn btn-success" type="submit">Submit</button>
+                                        <button id="submitBtn" class="btn btn-success" type="submit">Submit</button>
                                     </div>
                                     <input type="hidden" name="${_csrf.parameterName}"
                                            value="${_csrf.token}"/>

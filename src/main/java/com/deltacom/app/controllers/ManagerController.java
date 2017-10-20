@@ -1,9 +1,6 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.entities.Client;
-import com.deltacom.app.entities.Contract;
-import com.deltacom.app.entities.Option;
-import com.deltacom.app.entities.Tariff;
+import com.deltacom.app.entities.*;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -129,42 +126,31 @@ public class ManagerController extends CommonController {
 
     /**
      * Changes option
-     * @param option option from page
-     * @return redirect to previous page
+     * @param optionDTO option from page
      */
-    @RequestMapping(value = "/changeOption")
-    public ModelAndView changeOption(@ModelAttribute("newOption") Option option,
-                                     @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
-                                     @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
-                                     RedirectAttributes ra) {
-        optionService.updateOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
-        return new ModelAndView("redirect:/manager/optionsActions");
+    @RequestMapping(value = "/changeOption", method = RequestMethod.POST)
+    public @ResponseBody void changeOption(@RequestBody OptionDTO optionDTO) {
+        Option option = new Option(optionDTO.getId(), optionDTO.getName(), optionDTO.getPrice(), optionDTO.getConnectionCost(), null, null);
+        optionService.updateOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
     /**
      * Creates new option
-     * @param option option from page
-     * @return redirect to previous page
+     * @param optionDTO option from page
      */
     @RequestMapping(value = "/createOption")
-    public ModelAndView createOption(@ModelAttribute("newOption") Option option,
-                                     @RequestParam(value = "incompatibleOptionsList", required = false) String[] incompatibleOptionsListIds,
-                                     @RequestParam(value = "compatibleOptionsList", required = false) String[] compatibleOptionsIds,
-                                     RedirectAttributes ra) {
-        optionService.addOption(option, incompatibleOptionsListIds, compatibleOptionsIds);
-        return new ModelAndView("redirect:/manager/optionsActions");
+    public @ResponseBody void createOption(@RequestBody OptionDTO optionDTO) {
+        Option option = new Option(optionDTO.getId(), optionDTO.getName(), optionDTO.getPrice(), optionDTO.getConnectionCost(), null, null);
+        optionService.addOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
     /**
      * Deletes option
      * @param optionId id of option to delete
-     * @return redirect to previous page
      */
-    @RequestMapping(value = "/deleteOption")
-    public ModelAndView deleteOption(@RequestParam(value = "idDelOption") int optionId,
-                                     RedirectAttributes ra) {
+    @RequestMapping(value = "/deleteOption", method = RequestMethod.POST)
+    public @ResponseBody void deleteOption(@RequestBody int optionId) {
         optionService.deleteOption(optionId);
-        return new ModelAndView("redirect:/manager/optionsActions");
     }
 
     /**
