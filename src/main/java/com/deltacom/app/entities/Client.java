@@ -52,6 +52,23 @@ public class Client {
     @JsonManagedReference
     private List<Contract> contracts;
 
+    public Client() {
+
+    }
+
+    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, List<AccessLevel> accessLevels, List<Contract> contracts) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.accessLevels = accessLevels;
+        this.contracts = contracts;
+    }
+
     public int getId() {
         return id;
     }

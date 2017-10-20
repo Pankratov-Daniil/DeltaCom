@@ -52,6 +52,17 @@ public class Contract {
         this.options = options;
     }
 
+    public Contract(int id, NumbersPool numbersPool, boolean blocked, boolean blockedByOperator, float balance, Tariff tariff, Client client, List<Option> options) {
+        this.id = id;
+        this.numbersPool = numbersPool;
+        this.blocked = blocked;
+        this.blockedByOperator = blockedByOperator;
+        this.balance = balance;
+        this.tariff = tariff;
+        this.client = client;
+        this.options = options;
+    }
+
     public Client getClient() {
         return client;
     }

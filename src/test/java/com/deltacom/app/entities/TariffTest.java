@@ -68,7 +68,7 @@ public class TariffTest {
 
     @Test
     public void toStringTest() {
-        assertEquals(tariff.toString(), "");
+        assertEquals(tariff.toString(), "Tariff{id=60, name='OurTariff', price=20.0, options=[Option{id=2, name='FirstOpt', price=0.0, connectionCost=2.0}]}");
     }
 
     @Test
