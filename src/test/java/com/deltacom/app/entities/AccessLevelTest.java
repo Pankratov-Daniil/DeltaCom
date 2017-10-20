@@ -46,8 +46,21 @@ public class AccessLevelTest {
     @Test
     public void equalsHashCodeTest() throws Exception {
         AccessLevel anotherAccessLevel = new AccessLevel(19, "MegaUser");
+        AccessLevel notEqualAccessLevel = new AccessLevel(19, null);
+
         assertTrue(accessLevel.equals(anotherAccessLevel));
         assertEquals(accessLevel.hashCode(), anotherAccessLevel.hashCode());
+        assertNotEquals(accessLevel.hashCode(), notEqualAccessLevel.hashCode());
+        assertTrue(accessLevel.equals(accessLevel));
+        assertFalse(accessLevel.equals(null));
+        assertFalse(accessLevel.equals(new Integer(2)));
+        notEqualAccessLevel.setId(0);
+        assertFalse(accessLevel.equals(notEqualAccessLevel));
+        notEqualAccessLevel.setId(19);
+        assertFalse(accessLevel.equals(notEqualAccessLevel));
+        assertFalse(notEqualAccessLevel.equals(anotherAccessLevel));
+        anotherAccessLevel.setName(null);
+        assertTrue(notEqualAccessLevel.equals(anotherAccessLevel));
     }
 
     @Test

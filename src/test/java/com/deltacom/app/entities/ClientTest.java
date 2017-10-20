@@ -141,10 +141,33 @@ public class ClientTest {
     public void equalsHashCodeTest() throws Exception {
         List<AccessLevel> accessLevelList = Arrays.asList(new AccessLevel(1, "User"), new AccessLevel(2, "Manager"));
         List<Contract> contracts = Arrays.asList(new Contract(), new Contract(), new Contract());
-        Client equalClient = new Client(5, "Daniil", "Pankratov", new Date(29, 06, 1995), "passport", "address", "a@gm.com", "pass", accessLevelList, contracts);
+        Client equalClient = new Client(5, "Daniil", "Pankratov", new Date(29, 6, 1995), "passport", "address", "a@gm.com", "pass", accessLevelList, contracts);
+        Client notEqualClient = new Client(0, "Not", "Equal", new Date(1, 6, 15), "not", "not", "not", "not", null, null);
 
         assertTrue(client.equals(equalClient));
         assertEquals(client.hashCode(), equalClient.hashCode());
+        assertTrue(client.equals(client));
+        assertFalse(client.equals(null));
+        assertFalse(client.equals(new Integer(2)));
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setId(5);
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setFirstName("Daniil");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setLastName("Pankratov");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setBirthDate(new Date(29,6,1995));
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setPassport("passport");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setAddress("address");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setEmail("a@gm.com");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setPassword("pass");
+        assertFalse(client.equals(notEqualClient));
+        notEqualClient.setAccessLevels(accessLevelList);
+        assertFalse(client.equals(notEqualClient));
     }
 
 

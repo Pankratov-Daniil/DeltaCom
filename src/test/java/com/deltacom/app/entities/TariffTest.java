@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,9 +74,23 @@ public class TariffTest {
     public void equalsHashCodeTest() {
         List<Option> options = Arrays.asList(new Option(2, "FirstOpt", 0.0f, 2.0f, null, null));
         Tariff equalTariff = new Tariff(60, "OurTariff", 20.f, options);
+        Tariff notEqualTariff = new Tariff(5, null, 0, null);
 
         assertTrue(tariff.equals(equalTariff));
         assertEquals(tariff.hashCode(), equalTariff.hashCode());
+        assertTrue(tariff.equals(tariff));
+        assertFalse(tariff.equals(null));
+        assertFalse(tariff.equals(new Integer(2)));
+        assertFalse(tariff.equals(notEqualTariff));
+        notEqualTariff.setId(60);
+        assertFalse(tariff.equals(notEqualTariff));
+        notEqualTariff.setName("not");
+        assertFalse(tariff.equals(notEqualTariff));
+        notEqualTariff.setName("OurTariff");
+        notEqualTariff.setPrice(20.f);
+        assertFalse(tariff.equals(notEqualTariff));
+        notEqualTariff.setOptions(new ArrayList<>());
+        assertFalse(tariff.equals(notEqualTariff));
     }
 
     @Test

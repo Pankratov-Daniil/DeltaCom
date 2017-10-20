@@ -47,7 +47,7 @@ public class ClientController extends CommonController {
     /**
      * Processing ajax request from client contracts page to get client.
      * @param principal security principal to get email
-     * @return list of clients
+     * @return client
      */
     @ResponseBody
     @RequestMapping(value = "/getCurrentClient", produces = MediaType.APPLICATION_JSON_VALUE)

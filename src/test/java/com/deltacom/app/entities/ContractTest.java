@@ -113,9 +113,34 @@ public class ContractTest {
     public void equalsHashCodeTest() throws Exception {
         List<Option> options = Arrays.asList(new Option(), new Option(), new Option());
         Contract equalContract = new Contract(4, new NumbersPool("88", false), false, false, 50, new Tariff(1, "Name", 0, null), new Client(), options);
+        Contract notEqualContract = new Contract(1, null, true, true, 0, null, null, null);
 
         assertTrue(contract.equals(equalContract));
         assertEquals(contract.hashCode(), equalContract.hashCode());
+        assertNotEquals(contract.hashCode(), notEqualContract.hashCode());
+        assertTrue(contract.equals(contract));
+        assertFalse(contract.equals(null));
+        assertFalse(contract.equals(new Integer(2)));
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setId(4);
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setNumbersPool(new NumbersPool());
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setNumbersPool(new NumbersPool("88", false));
+        notEqualContract.setBlocked(false);
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setBlockedByOperator(false);
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setBalance(50);
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setTariff(new Tariff(2, "Name", 0, null));
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setTariff(new Tariff(1, "Name", 0, null));
+        notEqualContract.setClient(new Client("A", "B", null, null, null, null, null, null));
+        assertFalse(contract.equals(notEqualContract));
+        notEqualContract.setClient(new Client());
+        notEqualContract.setOptions(new ArrayList<>());
+        assertFalse(contract.equals(notEqualContract));
     }
 
     @Test

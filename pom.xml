@@ -5,7 +5,7 @@
   <groupId>com.deltacom.app</groupId>
   <artifactId>DeltaCom</artifactId>
   <packaging>war</packaging>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.5.0</version>
   <name>DeltaCom Maven Webapp</name>
 
   <properties>
@@ -90,10 +90,21 @@
           <version>${springsecurity.version}</version>
       </dependency>
       <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-test</artifactId>
+          <version>${springsecurity.version}</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-test</artifactId>
           <version>${springframework.version}</version>
           <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-core</artifactId>
+          <version>${jackson.databind.version}</version>
       </dependency>
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>

@@ -107,6 +107,25 @@ public class OptionTest {
 
         assertTrue(option.equals(equalOption));
         assertEquals(option.hashCode(), equalOption.hashCode());
+        assertTrue(option.equals(option));
+        assertFalse(option.equals(null));
+        assertFalse(option.equals(new Integer(3)));
+        equalOption = new Option(1, "OptionName", 200.0f, 100.0f, null, incompatibleOpts);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "OptionName", 200.0f, 100.0f, compatibleOpts, null);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "OptionName", 200.0f, 100.0f, new ArrayList<>(), incompatibleOpts);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "OptionName", 200.0f, 100.0f, compatibleOpts, new ArrayList<>());
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "OptionName", 50.0f, 100.0f, compatibleOpts, incompatibleOpts);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "OptionName", 200.0f, 980.0f, compatibleOpts, incompatibleOpts);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, null, 50.0f, 100.0f, compatibleOpts, incompatibleOpts);
+        assertFalse(option.equals(equalOption));
+        equalOption = new Option(1, "AnotherName", 200.0f, 980.0f, compatibleOpts, incompatibleOpts);
+        assertFalse(option.equals(equalOption));
     }
 
     @Test

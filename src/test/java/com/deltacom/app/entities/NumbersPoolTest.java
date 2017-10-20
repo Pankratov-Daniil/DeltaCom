@@ -41,12 +41,24 @@ public class NumbersPoolTest {
     @Test
     public void equalsHashCodeTest() throws Exception {
         NumbersPool newNumbPool = new NumbersPool("8931222", true);
+        NumbersPool notEqualPool = new NumbersPool(null, true);
+
         assertTrue(numbersPool.equals(newNumbPool));
         assertEquals(numbersPool.hashCode(), newNumbPool.hashCode());
+        assertTrue(numbersPool.equals(numbersPool));
+        assertFalse(numbersPool.equals(null));
+        assertFalse(numbersPool.equals(new Integer(2)));
 
         newNumbPool.setUsed(false);
         numbersPool.setUsed(false);
         assertEquals(numbersPool.hashCode(), newNumbPool.hashCode());
+
+        assertNotEquals(numbersPool.hashCode(), notEqualPool.hashCode());
+        assertFalse(numbersPool.equals(notEqualPool));
+        notEqualPool.setNumber("89");
+        assertFalse(numbersPool.equals(notEqualPool));
+        notEqualPool.setNumber("8931222");
+        assertFalse(numbersPool.equals(notEqualPool));
     }
 
     @Test
