@@ -10,10 +10,6 @@ var selectOptionsName = "#selectOptions";
 
 function saveAllOptions(allOptions) {
     options = allOptions;
-}
-
-$(document).ready(function () {
-    getAllOptions(saveAllOptions);
     $("#selectTariff").change(optionsUpdated);
     $(selectOptionsName).change(function() {
         var optChanged = optionsChanged(selectOptionsName, prevSelected, curSelected, compatibleOptions, incompatibleOptions);
@@ -21,4 +17,8 @@ $(document).ready(function () {
         curSelected = optChanged.curSelected;
     });
     optionsUpdated();
+}
+
+$(document).ready(function () {
+    getAllOptions(saveAllOptions);
 });

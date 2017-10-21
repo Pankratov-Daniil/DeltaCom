@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TariffDTOTest {
-    TariffDTO tariffDTO;
+    private TariffDTO tariffDTO;
 
     @Before
     public void setUp() {
@@ -78,6 +78,11 @@ public class TariffDTOTest {
     @Test
     public void toStringTest() throws Exception {
         assertEquals(tariffDTO.toString(), "TariffDTO{id=1, name='Tariff', price=200.0, optionsIds=[1]}");
+    }
+
+    @Test
+    public void toTariffTest() {
+        assertEquals(tariffDTO.toTariff(), new Tariff(1, "Tariff", 200, null));
     }
 
 }

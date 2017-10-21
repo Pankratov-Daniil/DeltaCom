@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class ClientRepositoryTest {
     @Autowired
-    ClientRepositoryImpl clientRepository;
+    private ClientRepositoryImpl clientRepository;
 
     @Test
     public void getClientByEmail() {
@@ -31,9 +31,9 @@ public class ClientRepositoryTest {
 
     @Test
     public void getClientsByIds() {
-        List<Client> tenClients = clientRepository.getClientsByIds(4, 10);
-        List<Client> twoClients = clientRepository.getClientsByIds(44, 10);
-        List<Client> zeroClients = clientRepository.getClientsByIds(50, 25);
+        List<Client> tenClients = clientRepository.getClientsFromIndex(0, 10);
+        List<Client> twoClients = clientRepository.getClientsFromIndex(11, 10);
+        List<Client> zeroClients = clientRepository.getClientsFromIndex(50, 25);
 
         assertNotNull(tenClients);
         assertTrue(tenClients.size() == 10);

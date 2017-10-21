@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class LoginControllerTest {
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private WebApplicationContext wac;

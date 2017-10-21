@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ContractTest {
-    Contract contract;
+    private Contract contract;
 
     @Before
     public void setUp() throws Exception {

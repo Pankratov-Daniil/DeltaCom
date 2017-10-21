@@ -1,6 +1,7 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.ClientDTO;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.services.api.AccessLevelService;
@@ -10,7 +11,6 @@ import com.deltacom.app.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -18,9 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -79,25 +77,10 @@ public class CommonController {
     /**
      * Registers new client
      */
+    @ResponseBody
     @RequestMapping(value = "/commons/regNewClient")
-    public ModelAndView regNewClient(@ModelAttribute(value = "newUser") Client client,
-                             HttpServletRequest request, HttpSession session,
-                                     RedirectAttributes ra) {
-        String[] accessLevelsIds = request.getParameterValues("accessLevelsSelect");
-        if(clientService.addNewClient(client, accessLevelsIds)) {
-            session.setAttribute("successClientCreation", true);
-        }
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        for(GrantedAuthority authority : auth.getAuthorities()) {
-            if (authority.getAuthority().contains("ADMIN")) {
-                return new ModelAndView("redirect:/admin/addNewClient");
-            } else if (authority.getAuthority().contains("MANAGER")) {
-                session.setAttribute("clientId", client.getId());
-                return new ModelAndView("redirect:/manager/addNewContract");
-            }
-        }
-        return new ModelAndView("redirect:/index");
+    public void regNewClient(@RequestBody ClientDTO clientDTO) {
+        clientService.addNewClient(clientDTO.toClient(), clientDTO.getAccessLevels());
     }
 
     /**
@@ -106,7 +89,7 @@ public class CommonController {
      * @return list of options available for selected tariff
      */
     @ResponseBody
-    @RequestMapping(value = "/commons/getOptionsForTariff", produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/commons/getOptionsForTariff", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public List<Option> getOptionsForContract(@RequestBody int selectedTariffId) {
         return optionService.getAllOptionsForTariff(selectedTariffId);
     }

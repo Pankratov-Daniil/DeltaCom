@@ -32,15 +32,14 @@
     <%@include file="../sidebar.jsp" %>
 
     <div class="content-wrapper">
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-users"></i> Browse all clients</h1>
-                <p>Here you can browse all clients</p>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    <div class="card-title-w-btn">
+                        <h3 class="title"><i class="fa fa-users"></i> Clients</h3>
+                        <p><a id="addNewClientBtn" class="btn btn-primary icon-btn" href="#"><i class="fa fa-plus"></i>Add client</a></p>
+                    </div>
+                    <div class="card-footer"></div>
                     <div class="card-body">
                         <div>
                             Show
@@ -57,8 +56,6 @@
                                         <button class="btn btn-default" type="button" id="startSearchByNumber"><i class="fa fa-search"></i></button>
                                         <button class="btn btn-default" type="button" id="resetFindUserByNumber"><i class="fa fa-times"></i></button></span>
                                         <button type="submit" class="hidden"></button>
-                                        <input type="hidden" name="${_csrf.parameterName}"
-                                               value="${_csrf.token}"/>
                                     </div>
                                 </form>
                             </div>
@@ -150,6 +147,62 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="addNewClientModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Add new client</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <h3 class="card-title">Add new user</h3>
+                                                        <div class="card-body">
+                                                            <form method="post" action="regNewClient" id="newUserForm" acceptCharset="utf8">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">First name</label>
+                                                                    <input class="form-control" type="text" placeholder="Enter first name" id="firstNameField" required pattern="[A-Za-zА-Яа-яЁё]+">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Last name</label>
+                                                                    <input class="form-control" type="text" placeholder="Enter last name" id="lastNameField" required pattern="[A-Za-zА-Яа-яЁё]+">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Birth date</label>
+                                                                    <input class="form-control" type="date" id="birthDateField" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Passport</label>
+                                                                    <input class="form-control" type="text" placeholder="Enter passport" id="passportField" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Address</label>
+                                                                    <textarea class="form-control" rows="2" placeholder="Enter address" id="addressField" required></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Email</label>
+                                                                    <input class="form-control" type="email" placeholder="Enter email address" id="emailField" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Password</label>
+                                                                    <input class="form-control" type="password" placeholder="Enter password" id="passwordField" required pattern=".{6,}">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button id="submitNewUser" class="btn btn-success" type="submit">Submit</button>
+                                                                    <button id="resetNewUser" class="btn btn-default" type="reset">Clear form</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

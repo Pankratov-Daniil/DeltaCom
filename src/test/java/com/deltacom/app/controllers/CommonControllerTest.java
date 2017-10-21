@@ -1,6 +1,7 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.ClientDTO;
 import com.deltacom.app.services.api.AccessLevelService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.OptionService;
@@ -37,13 +38,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "manager@manager.com", roles = {"MANAGER"})
 public class CommonControllerTest {
     @Autowired
-    ClientService clientService;
+    private ClientService clientService;
     @Autowired
-    AccessLevelService accessLevelService;
+    private AccessLevelService accessLevelService;
     @Autowired
-    OptionService optionService;
+    private OptionService optionService;
     @Autowired
-    TariffService tariffService;
+    private TariffService tariffService;
 
     private MockMvc mockMvc;
 
@@ -65,16 +66,11 @@ public class CommonControllerTest {
     @Test
     @Rollback
     public void regNewClient() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/commons/regNewClient")
-                .param("firstName", "new")
-                .param("lastName", "user")
-                .param("birthDate", "1999-10-10")
-                .param("passport", "passp")
-                .param("address", "addr")
-                .param("email", "mesdga@mail.com")
-                .param("password", "165481968198sads")
-                .param("accessLevelsSelect", "1"))
-        .andExpect(view().name("redirect:/manager/addNewContract"));
+        ClientDTO clientDTO = new ClientDTO(0, "new", "user", new Date(10,10,1999), "passp", "addr", "m@fsd.asd", "passwd", new String[]{"1"});
+        mockMvc.perform(MockMvcRequestBuilders.post("/commons/regNewClient")
+                .contentType("application/json")
+                .content(new ObjectMapper().writeValueAsString(clientDTO)))
+        .andExpect(status().isOk());
     }
 
     @Test

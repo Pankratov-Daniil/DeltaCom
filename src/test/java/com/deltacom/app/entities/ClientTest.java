@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class ClientTest {
-    Client client;
+    private Client client;
 
     @Before
     public void setUp() throws Exception {

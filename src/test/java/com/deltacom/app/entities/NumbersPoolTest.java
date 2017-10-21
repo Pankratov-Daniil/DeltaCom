@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 public class NumbersPoolTest {
-    NumbersPool numbersPool;
+    private NumbersPool numbersPool;
 
     @Before
     public void setup() {

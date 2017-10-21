@@ -34,18 +34,15 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
     }
 
     /**
-     * Gets 'countEntries' clients from 'startId'
-     * @param startId start id
+     * Gets 'amount' clients from 'startIndex'
+     * @param startIndex start index
      * @param amount how many clients need to be returned
      * @return list of clients
      */
-    @Override
-    public List<Client> getClientsByIds(int startId, int amount) {
+    public List<Client> getClientsFromIndex(int startIndex, int amount) {
         try {
-            return (List<Client>) entityManager
-                    .createQuery("select client from Client client where client.id >= :id ")
-                    .setParameter("id", startId)
-                    .setFirstResult(0)
+            return (List<Client>) entityManager.createQuery("select client from Client client")
+                    .setFirstResult(startIndex)
                     .setMaxResults(amount)
                     .getResultList();
         } catch (PersistenceException e) {
@@ -66,6 +63,19 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
                     .setParameter("number", number).getSingleResult();
         } catch (PersistenceException e) {
             return null;
+        }
+    }
+
+    /**
+     * Gets clients count
+     * @return client count
+     */
+    @Override
+    public Long getClientsCount() {
+        try {
+            return (Long) entityManager.createQuery("select count(*) from Client").getSingleResult();
+        } catch (PersistenceException e) {
+            return new Long(0);
         }
     }
 }

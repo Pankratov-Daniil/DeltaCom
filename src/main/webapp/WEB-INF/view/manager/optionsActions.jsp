@@ -31,17 +31,17 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-filter"></i> Options actions</h1>
-                <p>Here you can manage options: add, delete, edit</p>
-            </div>
-        </div>
+        <%--<div class="page-title">--%>
+            <%--<div>--%>
+                <%--<h1><i class="fa fa-filter"></i> Options actions</h1>--%>
+                <%--<p>Here you can manage options: add, delete, edit</p>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                         <div class="card-title-w-btn">
-                            <h3 class="title">All options</h3>
+                            <h3 class="title"><i class="fa fa-filter"></i> Options</h3>
                             <p><a id="addNewOptionBtn" class="btn btn-primary icon-btn" href="#"><i class="fa fa-plus"></i>Add option</a></p>
                         </div>
                     <div class="card-footer"></div>
@@ -90,20 +90,16 @@
 
                                         </select>
                                     </div>
-                                    <input class="hidden" type="text" name="deletedCompOpts" id="deletedCompOpts" value="" />
-                                    <input class="hidden" type="text" name="deletedIncompOpts" id="deletedIncompOpts" value="" />
                                     <div class="form-group">
                                         <button id="submitBtn" class="btn btn-success" type="submit">Submit</button>
                                     </div>
-                                    <input type="hidden" name="${_csrf.parameterName}"
-                                           value="${_csrf.token}"/>
                                 </form>
                             </div>
                         </div>
                         <div class="col-md-6 hideMe">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3>Currect option info</h3>
+                                    <h3>Current option info</h3>
                                     <div id="curTariff" class="card-footer">
 
                                     </div>

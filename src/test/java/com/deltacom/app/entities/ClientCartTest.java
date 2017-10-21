@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 public class ClientCartTest {
-    ClientCart clientCart;
+    private ClientCart clientCart;
 
     @Before
     public void setUp() throws Exception {

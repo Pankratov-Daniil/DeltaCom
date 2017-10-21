@@ -31,17 +31,17 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <div class="page-title">
-            <div>
-                <h1><i class="fa fa-mobile"></i> Tariff actions</h1>
-                <p>Here you can manage tariffs.</p>
-            </div>
-        </div>
+        <%--<div class="page-title">--%>
+            <%--<div>--%>
+                <%--<h1><i class="fa fa-mobile"></i> Tariff actions</h1>--%>
+                <%--<p>Here you can manage tariffs.</p>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-title-w-btn">
-                        <h3 class="title">All tariffs</h3>
+                        <h3 class="title"><i class="fa fa-mobile"></i> Tariffs</h3>
                         <p><a id="addNewTariffBtn" class="btn btn-primary icon-btn" href="#"><i class="fa fa-plus"></i>Add tariff</a></p>
                     </div>
                     <div class="card-footer"></div>
@@ -83,8 +83,6 @@
                                     <div class="form-group">
                                         <button class="btn btn-success" type="submit">Submit</button>
                                     </div>
-                                    <input type="hidden" name="${_csrf.parameterName}"
-                                           value="${_csrf.token}"/>
                                 </form>
                             </div>
                         </div>

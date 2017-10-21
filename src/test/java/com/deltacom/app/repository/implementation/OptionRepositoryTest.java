@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class OptionRepositoryTest {
     @Autowired
-    OptionRepositoryImpl optionRepository;
+    private OptionRepositoryImpl optionRepository;
 
     @Test
     public void getAllOptionsForTariff() throws Exception {

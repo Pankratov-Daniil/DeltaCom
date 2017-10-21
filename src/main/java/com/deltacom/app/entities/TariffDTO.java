@@ -86,4 +86,8 @@ public class TariffDTO {
                 ", optionsIds=" + Arrays.toString(optionsIds) +
                 '}';
     }
+
+    public Tariff toTariff() {
+        return new Tariff(id, name, price, null);
+    }
 }

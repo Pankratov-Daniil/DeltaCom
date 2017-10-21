@@ -36,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "mobigod0@gmail.com")
 public class ClientControllerTest {
     @Autowired
-    ClientService clientService;
+    private ClientService clientService;
     @Autowired
-    ContractService contractService;
+    private ContractService contractService;
 
     private MockMvc mockMvc;
 

@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class OptionTest {
-    Option option;
+    private Option option;
 
     @Before
     public void setUp() throws Exception {

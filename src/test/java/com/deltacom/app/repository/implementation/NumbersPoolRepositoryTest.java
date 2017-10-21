@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class NumbersPoolRepositoryTest {
     @Autowired
-    NumbersPoolRepositoryImpl numbersPoolRepository;
+    private NumbersPoolRepositoryImpl numbersPoolRepository;
 
     @Test
     public void getAllUnusedNumbers() throws Exception {

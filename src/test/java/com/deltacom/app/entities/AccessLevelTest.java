@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.*;
 
 public class AccessLevelTest {
-    AccessLevel accessLevel;
+    private AccessLevel accessLevel;
 
     @Before
     public void setUp() throws Exception {

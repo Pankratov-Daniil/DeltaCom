@@ -130,7 +130,7 @@ public class ManagerController extends CommonController {
      */
     @RequestMapping(value = "/changeOption", method = RequestMethod.POST)
     public @ResponseBody void changeOption(@RequestBody OptionDTO optionDTO) {
-        Option option = new Option(optionDTO.getId(), optionDTO.getName(), optionDTO.getPrice(), optionDTO.getConnectionCost(), null, null);
+        Option option = optionDTO.toOption();
         optionService.updateOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
@@ -138,9 +138,9 @@ public class ManagerController extends CommonController {
      * Creates new option
      * @param optionDTO option from page
      */
-    @RequestMapping(value = "/createOption")
+    @RequestMapping(value = "/createOption", method = RequestMethod.POST)
     public @ResponseBody void createOption(@RequestBody OptionDTO optionDTO) {
-        Option option = new Option(optionDTO.getId(), optionDTO.getName(), optionDTO.getPrice(), optionDTO.getConnectionCost(), null, null);
+        Option option = optionDTO.toOption();
         optionService.addOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
@@ -158,9 +158,9 @@ public class ManagerController extends CommonController {
      * @param tariffDTO tariff without options
      */
     @ResponseBody
-    @RequestMapping(value = "/createTariff")
+    @RequestMapping(value = "/createTariff", method = RequestMethod.POST)
     public void createTariff(@RequestBody TariffDTO tariffDTO) {
-        Tariff tariff = new Tariff(tariffDTO.getId(), tariffDTO.getName(), tariffDTO.getPrice(), null);
+        Tariff tariff = tariffDTO.toTariff();
         tariffService.addTariff(tariff, tariffDTO.getOptionsIds());
     }
 
@@ -169,9 +169,9 @@ public class ManagerController extends CommonController {
      * @param tariffDTO tariff from page
      */
     @ResponseBody
-    @RequestMapping(value = "/changeTariff")
+    @RequestMapping(value = "/changeTariff", method = RequestMethod.POST)
     public void changeTariff(@RequestBody TariffDTO tariffDTO) {
-        Tariff tariff = new Tariff(tariffDTO.getId(), tariffDTO.getName(), tariffDTO.getPrice(), null);
+        Tariff tariff = tariffDTO.toTariff();
         tariffService.updateTariff(tariff, tariffDTO.getOptionsIds());
     }
 
@@ -180,7 +180,7 @@ public class ManagerController extends CommonController {
      * @param tariffId id of tariff to delete
      */
     @ResponseBody
-    @RequestMapping(value = "/deleteTariff")
+    @RequestMapping(value = "/deleteTariff", method = RequestMethod.POST)
     public void deleteTariff(@RequestBody int tariffId) {
         tariffService.deleteTariff(tariffId);
     }
@@ -202,22 +202,34 @@ public class ManagerController extends CommonController {
      * @return list of clients
      */
     @ResponseBody
-    @RequestMapping(value = "/searchClientByNumber", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Client searchClientByNumber(@RequestParam("number") String number) {
+    @RequestMapping(value = "/searchClientByNumber", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Client searchClientByNumber(@RequestParam String number) {
         return clientService.getClientByNumber(number);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getClientIdByEmail", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public int getClientIdByEmail(@RequestBody String email) {
+        return clientService.getClientByEmail(email).getId();
     }
 
     /**
      * Processing ajax request from 'browse all clients' page to get clients for table.
-     * @param startId id from which the countdown begins
+     * @param startIndex index from which the countdown begins
      * @param countEntries how many clients need to be returned
      * @return list of clients
      */
     @ResponseBody
-    @RequestMapping(value = "/getClientsForSummaryTable", produces=MediaType.APPLICATION_JSON_VALUE)
-    public List<Client> getClientsForSummaryTable(@RequestParam("startId") int startId,
-                                                  @RequestParam("countEntries") int countEntries) {
-        return clientService.getClientsByIds(startId, countEntries);
+    @RequestMapping(value = "/getClientsForSummaryTable", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    public List<Client> getClientsForSummaryTable(@RequestParam int startIndex,
+                                                  @RequestParam int countEntries) {
+        return clientService.getClientsFromIndex(startIndex, countEntries);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getClientsCount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public long getClientsCount() {
+        return clientService.getClientsCount();
     }
 
     /**

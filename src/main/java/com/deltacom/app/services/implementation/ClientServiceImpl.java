@@ -84,20 +84,23 @@ public class ClientServiceImpl implements ClientService{
 
     /**
      * Gets clients for summary table
-     * @param startId start id of client in database
+     * @param startIndex start index of client in database
      * @param amount how many clients need to be returned
      * @return list of client
      */
     @Override
     @Transactional
-    public List<Client> getClientsByIds(int startId, int amount) {
+    public List<Client> getClientsFromIndex(int startIndex, int amount) {
         try {
             if(amount < 0) {
                 throw  new PersistenceException("Amount cannot be less than 0");
             }
-            return clientRepository.getClientsByIds(startId, amount);
+            if(startIndex < 0) {
+                throw  new PersistenceException("Start index cannot be less than 0");
+            }
+            return clientRepository.getClientsFromIndex(startIndex, amount);
         } catch (PersistenceException ex) {
-            throw new ClientException("Clients wasn't gotten by ids: ", ex);
+            throw new ClientException("Clients wasn't gotten from index: ", ex);
         }
     }
 
@@ -113,6 +116,15 @@ public class ClientServiceImpl implements ClientService{
             return clientRepository.getClientByNumber(number);
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't gotten by number: ", ex);
+        }
+    }
+
+    @Override
+    public long getClientsCount() {
+        try {
+            return clientRepository.getClientsCount();
+        } catch (PersistenceException ex) {
+            throw new ClientException("Clients count wasn't gotten: ", ex);
         }
     }
 }

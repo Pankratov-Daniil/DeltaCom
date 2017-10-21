@@ -1,6 +1,5 @@
-var ids = [];
-var pointerIds = 0;
 var userCounter = 0;
+var clientsCount = 0;
 var recordsInTable = 0;
 var countEntriesVal;
 var searchedByNumber = false;
@@ -12,69 +11,75 @@ var incompatibleOptions = [];
 var prevSelected = [];
 var curSelected = [];
 var options = [];
+var countEntriesField;
 
+/**
+ * Calls when document is ready. Starting page configuration.
+ */
 $(document).ready(function () {
-    getAllOptions(saveAllOptions);
-    var countEntries = $("#countEntries");
-    countEntriesVal = parseInt(countEntries.val(),10);
-    updateTable(-1);
+    countEntriesField = $("#countEntries");
 
-    $('#prevButton').click(function () {
-        if(!$(this).parent().hasClass('disabled')) {
-            if(pointerIds > 0) {
-                pointerIds--;
-            }
+    getAllOptions(saveAllOptions);
+    addClickEvent('#prevButton', {}, function () {
+        if(!$('#prevButton').parent().hasClass('disabled')) {
             userCounter -= recordsInTable + countEntriesVal;
             if(userCounter < 0)
                 userCounter = 0;
-            updateTable(ids[pointerIds]);
+            updateTable(userCounter);
         }
     });
-
-    $('#nextButton').click(function () {
-        if(!$(this).parent().hasClass('disabled')) {
-            if (pointerIds != ids.length - 1) {
-                pointerIds++;
-            }
-            updateTable(ids[pointerIds]);
+    addClickEvent('#nextButton', {}, function () {
+        if(!$('#nextButton').parent().hasClass('disabled')) {
+            updateTable(userCounter);
         }
     });
-
-    countEntries.change(function () {
-        countEntriesVal = parseInt($(this).val(), 10);
+    addEvent('change', "#countEntries", {}, function () {
+        countEntriesVal = parseInt(countEntriesField.val(), 10);
         if(!searchedByNumber) {
-            ids = [];
-            pointerIds = -1;
             userCounter = 0;
             recordsInTable = 0;
-            updateTable(-1);
+            updateTable(0);
         }
     });
-
-    $("#numberForSearch").keypress(function (event) {
+    addEvent("keypress", "#numberForSearch", {}, function (event) {
         // try to prevent submitting search number form on 'enter' press
         if(event.keyCode == 13) {
             event.preventDefault();
             $("#startSearchByNumber").click();
         }
     });
+    addClickEvent("#startSearchByNumber", {} ,findUserByNumber);
+    addClickEvent("#resetFindUserByNumber", {}, resetFindUserByNumber);
+    addClickEvent("#addNewClientBtn", {}, addNewClientOpenModal);
+    addClickEvent("#submitNewUser", {}, addNewClient)
 
-    $("#startSearchByNumber").click(findUserByNumber);
-    $("#resetFindUserByNumber").click(resetFindUserByNumber);
+    countEntriesField.trigger('change');
 });
 
+/**
+ * Calls after 'getAllOptions' ajax call
+ * @param allOptions options from database
+ */
 function saveAllOptions(allOptions) {
     options = allOptions;
 }
 
+/**
+ * Updates table by ajax call
+ * @param minId
+ */
 function updateTable (minId) {
     var countEntries = countEntriesVal + 1;
     $.ajax({
         url:"/DeltaCom/manager/getClientsForSummaryTable",
-        contentType: "application/json",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        method: "POST",
         data: {
-            "startId" : minId,
+            "startIndex" : minId,
             "countEntries" : countEntries
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         success: function (data) {
             passTableToPage(data, minId, countEntries);
@@ -85,36 +90,42 @@ function updateTable (minId) {
     });
 }
 
+/**
+ * Finds user by entered number
+ */
 function findUserByNumber() {
-    var nubmerForSearchInput = $("#numberForSearch");
-    if (!$("#searchNumberForm")[0].checkValidity() || nubmerForSearchInput.val() == '') {
+    var numberForSearchInput = $("#numberForSearch");
+    var form = $("#searchNumberForm");
+    if (!form[0].checkValidity() || numberForSearchInput.val() == '') {
         return;
     }
     var tableBody = $("#tableBody");
     var found = false;
+    // try to find number on page
     $("#tableBody .contractNum").each(function () {
-        if ($(this).text() == nubmerForSearchInput.val()) {
+        if ($(this).text() == numberForSearchInput.val()) {
             found = true;
             var savedStr = "<tr>" + $(this).closest("tr").html() + "</tr>";
             tableBody.html(savedStr);
             $('#nextButton').parent().attr('class', 'disabled');
             $('#prevButton').parent().attr('class', 'disabled');
             searchedByNumber = true;
+            return false;
         }
     });
-
     if (!found) {
-        tableBody.empty();
         $.ajax({
-            contentType: "application/json",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
             url: "/DeltaCom/manager/searchClientByNumber",
-            data: {
-                "number" : nubmerForSearchInput.val()
+            method: "POST",
+            data: {"number" : numberForSearchInput.val()},
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
             },
             success: function (data) {
+                tableBody.empty();
                 searchedByNumber = true;
                 userCounter = 0;
-                ids = [];
                 passTableToPage([data], -1, 2);
             },
             error: function() {
@@ -124,23 +135,22 @@ function findUserByNumber() {
     }
 }
 
+/**
+ * Calls on find number reset button pressed
+ */
 function resetFindUserByNumber() {
     $("#numberForSearch").val('');
     searchedByNumber = false;
-    ids = [];
-    userCounter = 0;
-    recordsInTable = 0;
-    updateTable(-1);
+    countEntriesField.trigger('change');
 }
 
 function passTableToPage (data, minId, countEntries) {
     var tableRecords = '';
     var tableBody = $("#tableBody");
-    var firstId = ids.length > 0 ? ids[0] : -1;
     recordsInTable = 0;
 
     $('#nextButton').parent().attr('class', (data.length < countEntries ? 'disabled' : ''));
-    $('#prevButton').parent().attr('class', (firstId == minId ? 'disabled' : ''));
+    $('#prevButton').parent().attr('class', (userCounter == 0 ? 'disabled' : ''));
     tableBody.empty();
     $.each(data, function (index, item) {
         if(index < countEntries - 1) {
@@ -181,9 +191,6 @@ function passTableToPage (data, minId, countEntries) {
             tableRecords +='</th>';
             tableRecords += '</tr>'
         }
-        if((index == 0 || index == countEntries - 1) && $.inArray(item.id, ids) < 0) {
-            ids.push(item.id);
-        }
         tableBody.append(tableRecords);
         tableRecords = '';
 
@@ -219,6 +226,92 @@ function deleteContract(data) {
             notifyError("Error occurred while removing contract.");
         }
     });
+}
+
+/**
+ * Opens 'add new client' modal window. Calls when 'add client' button pressed
+ */
+function addNewClientOpenModal() {
+    // clear form
+    $("#resetNewUser").trigger('click');
+    $("#addNewClientModal").modal('show');
+}
+
+/**
+ * Adds new client by ajax call
+ */
+function addNewClient(event) {
+    var form = $("#newUserForm");
+    if(!form[0].checkValidity()) {
+        form[0].trigger('submit');
+        return false;
+    }
+    event.preventDefault();
+
+    var client = {
+        "id" : 0,
+        "firstName" : $("#firstNameField").val(),
+        "lastName" : $("#lastNameField").val(),
+        "birthDate" : $("#birthDateField").val(),
+        "passport" : $("#passportField").val(),
+        "address" : $("#addressField").val(),
+        "email" : $("#emailField").val(),
+        "password" : $("#passwordField").val(),
+        "accessLevels" : ["1"]
+    };
+
+    var button = $(this);
+    button.prop('disabled', 'true');
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        url: '/DeltaCom/commons/regNewClient',
+        method: "POST",
+        data: JSON.stringify(client),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function() {
+            if(recordsInTable < countEntriesVal) {
+                userCounter -= recordsInTable;
+                updateTable(userCounter);
+            } else {
+                getClientsCount(afterAddingClient);
+            }
+            notifySuccess("Client successfully added.");
+        },
+        error: function() {
+            notifyError("Error occurred while adding client. Try again later.");
+        }
+    }).done(function () {
+        button.removeAttr('disabled');
+        $("#addNewClientModal").modal('hide');
+    });
+}
+
+function getClientsCount(funcOnSuccess) {
+    $.ajax({
+        contentType: "application/json; charset=utf-8",
+        url: '/DeltaCom/manager/getClientsCount',
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function (maxClients) {
+            clientsCount = maxClients;
+            funcOnSuccess();
+        }
+    });
+}
+
+function afterAddingClient() {
+    var neededCount = countEntriesVal * parseFloat('0.' + ((clientsCount/countEntriesVal) + '').split ('.') [1]);
+    if(neededCount == 0) {
+        userCounter = clientsCount - countEntriesVal;
+        updateTable(clientsCount - countEntriesVal);
+    } else {
+        userCounter = clientsCount - neededCount;
+        updateTable(clientsCount - neededCount);
+    }
 }
 
 function onOpenTariffManager() {
@@ -282,9 +375,7 @@ function onOpenTariffManager() {
                             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
                         },
                         success: function (optionsData) {
-                            optionsData = prepareOptions(optionsData);
-
-                            var optionsHtml = createOptionsHtml(optionsData, 6);
+                            var optionsHtml = createOptionsHtml(prepareOptions(optionsData), 6);
                             compatibleOptions = (optionsHtml.compatibleOptions);
                             incompatibleOptions = (optionsHtml.incompatibleOptions);
                             updateSelect(selectOptions, optionsHtml.optionsList);
@@ -299,8 +390,8 @@ function onOpenTariffManager() {
                             selectOptions.selectpicker('refresh');
                             optsChanged();
 
-                            $(selectOptionsName).change(optsChanged);
-                            selectTariff.change(optionsUpdated);
+                            addEvent('change', selectOptionsName, {}, optsChanged);
+                            addEvent('change', "#selectTariff", {}, optionsUpdated);
 
                             tariffInfo.html("<p>Name: " + savedTariff.name + "<br/>Price: " + savedTariff.price + "</p>");
                             availableOptions.html(optionsHtml.optionsInfo);

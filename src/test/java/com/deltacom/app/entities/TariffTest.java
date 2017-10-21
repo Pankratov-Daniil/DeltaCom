@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TariffTest {
-    Tariff tariff;
+    private Tariff tariff;
 
     @Before
     public void setUp() throws Exception {

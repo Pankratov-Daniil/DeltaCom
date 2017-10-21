@@ -24,9 +24,9 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class ContractRepositoryTest {
     @Autowired
-    ContractRepositoryImpl contractRepository;
+    private ContractRepositoryImpl contractRepository;
     @Autowired
-    TariffRepositoryImpl tariffRepository;
+    private TariffRepositoryImpl tariffRepository;
 
     @Test
     public void getAllClientContractsById() throws Exception {

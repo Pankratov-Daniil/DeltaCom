@@ -52,16 +52,16 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getClientsByIds() throws Exception {
-        assertEquals(clientService.getClientsByIds(5, 10).size(), 10);
-        assertEquals(clientService.getClientsByIds(32, 5).size(), 5);
-        assertEquals(clientService.getClientsByIds(32, 10).size(), 5);
-        assertEquals(clientService.getClientsByIds(50, 20).size(), 0);
+    public void getClientsFromIndex() throws Exception {
+        assertEquals(clientService.getClientsFromIndex(0, 10).size(), 10);
+        assertEquals(clientService.getClientsFromIndex(8, 5).size(), 5);
+        assertEquals(clientService.getClientsFromIndex(8, 10).size(), 5);
+        assertEquals(clientService.getClientsFromIndex(50, 20).size(), 0);
     }
 
     @Test(expected = ClientException.class)
-    public void getClientsByIdsException() {
-        clientService.getClientsByIds(32, -1);
+    public void getClientsFromIndexException() {
+        clientService.getClientsFromIndex(32, -1);
     }
 
     @Test

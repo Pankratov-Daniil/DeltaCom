@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class OptionDTOTest {
-    OptionDTO optionDTO;
+    private OptionDTO optionDTO;
 
     @Before
     public void setUp() throws Exception {
@@ -82,7 +82,7 @@ public class OptionDTOTest {
     @Test
     public void equalsHashCodeTest() throws Exception {
         OptionDTO equalOptionDTO = new OptionDTO(1, "Name", 200, 500, new String[0], new String[]{"2"});
-        OptionDTO notEqualOptionDTO = new OptionDTO(9, "Not", 20, 50, null, null);
+        OptionDTO notEqualOptionDTO = new OptionDTO();
 
         assertTrue(optionDTO.equals(equalOptionDTO));
         assertTrue(optionDTO.equals(optionDTO));
@@ -108,6 +108,11 @@ public class OptionDTOTest {
     @Test
     public void toStringTest() throws Exception {
         assertEquals(optionDTO.toString(), "OptionDTO{id=1, name='Name', price=200.0, connectionCost=500.0, incompatibleOptions=[], compatibleOptions=[2]}");
+    }
+
+    @Test
+    public void toOptionTest() {
+        assertEquals(optionDTO.toOption(), new Option(1, "Name", 200, 500, null, null));
     }
 
 }

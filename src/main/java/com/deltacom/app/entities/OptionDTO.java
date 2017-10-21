@@ -113,4 +113,8 @@ public class OptionDTO {
                 ", compatibleOptions=" + Arrays.toString(compatibleOptions) +
                 '}';
     }
+
+    public Option toOption() {
+        return new Option(id, name, price, connectionCost, null, null);
+    }
 }
