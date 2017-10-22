@@ -72,7 +72,7 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/deleteClient", method = RequestMethod.POST)
     public void deleteClient(@RequestParam int clientId) {
-        clientService.removeClient(clientId);
+        clientService.deleteClient(clientId);
     }
 
     /**

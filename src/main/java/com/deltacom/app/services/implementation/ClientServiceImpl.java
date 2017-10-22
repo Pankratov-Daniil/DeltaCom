@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Operations with repository for Client entities.
@@ -64,7 +66,7 @@ public class ClientServiceImpl implements ClientService{
     @Override
     @Transactional
     public boolean addNewClient(Client client, String[] accessLevelsIds) {
-        List<AccessLevel> accessLevels = new ArrayList<>();
+        Set<AccessLevel> accessLevels = new HashSet<>();
 
         if(accessLevelsIds == null || accessLevelsIds.length == 0) {
             accessLevels.add(new AccessLevel(1));
@@ -143,7 +145,7 @@ public class ClientServiceImpl implements ClientService{
      */
     @Override
     @Transactional
-    public void removeClient(int clientId) {
+    public void deleteClient(int clientId) {
         try {
             Client client = getClientById(clientId);
             for(Contract contract : client.getContracts()) {

@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Class for mobile operators client.
@@ -44,16 +45,16 @@ public class Client {
     @JoinTable(name = "`clients_access_levels`",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "access_level_id"))
-    private List<AccessLevel> accessLevels;
+    private Set<AccessLevel> accessLevels;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @JsonManagedReference
-    private List<Contract> contracts;
+    private Set<Contract> contracts;
 
     public Client() {
 
     }
 
-    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, List<AccessLevel> accessLevels, List<Contract> contracts) {
+    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,7 +67,7 @@ public class Client {
         this.contracts = contracts;
     }
 
-    public Client(String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, List<AccessLevel> accessLevels) {
+    public Client(String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, Set<AccessLevel> accessLevels) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -141,19 +142,19 @@ public class Client {
         this.password = password;
     }
 
-    public List<AccessLevel> getAccessLevels() {
+    public Set<AccessLevel> getAccessLevels() {
         return accessLevels;
     }
 
-    public void setAccessLevels(List<AccessLevel> accessLevel) {
+    public void setAccessLevels(Set<AccessLevel> accessLevel) {
         this.accessLevels = accessLevel;
     }
 
-    public List<Contract> getContracts() {
+    public Set<Contract> getContracts() {
         return contracts;
     }
 
-    public void setContracts(List<Contract> contracts) {
+    public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
     }
 
@@ -203,7 +204,6 @@ public class Client {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (accessLevels != null ? accessLevels.hashCode() : 0);
-        result = 31 * result + (contracts != null ? contracts.hashCode() : 0);
         return result;
     }
 }

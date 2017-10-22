@@ -72,7 +72,7 @@ public class ClientServiceTest {
 
     @Test
     public void removeClientTest() {
-        clientService.removeClient(31);
+        clientService.deleteClient(31);
         assertEquals(clientService.getClientById(31), null);
     }
 }

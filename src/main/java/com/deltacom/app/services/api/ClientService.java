@@ -14,5 +14,5 @@ public interface ClientService {
     public List<Client> getClientsFromIndex(int startIndex, int amount);
     public Client getClientByNumber(String number);
     public long getClientsCount();
-    public void removeClient(int clientId);
+    public void deleteClient(int clientId);
 }
