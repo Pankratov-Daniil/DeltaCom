@@ -74,7 +74,9 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
     @Override
     public long getClientsCount() {
         try {
-            return (long) entityManager.createQuery("select count(*) from Client").getSingleResult();
+            return (long) entityManager.createQuery("select count(client) from Client client, AccessLevel accessLevel where accessLevel.name = :roleName and accessLevel in elements(client.accessLevels)")
+                    .setParameter("roleName", "ROLE_USER")
+                    .getSingleResult();
         } catch (PersistenceException e) {
             return 0;
         }

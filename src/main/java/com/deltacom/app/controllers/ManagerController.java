@@ -169,7 +169,7 @@ public class ManagerController extends CommonController {
 
     @ResponseBody
     @RequestMapping(value = "/getClientIdByEmail", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public int getClientIdByEmail(@RequestBody String email) {
+    public int getClientIdByEmail(@RequestParam String email) {
         return clientService.getClientByEmail(email).getId();
     }
 

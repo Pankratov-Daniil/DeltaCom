@@ -13,6 +13,7 @@ var curSelected = [];
 var options = [];
 var tariffs = [];
 var countEntriesField;
+var addedClient = undefined;
 
 /**
  * Calls when document is ready. Starting page configuration.
@@ -208,6 +209,12 @@ function updateTable (data, countEntries) {
     addClickEvent(".addContract", {"addContract" : true}, onOpenContractManager);
 
     tableBody.html(tableRecords);
+
+    if(addedClient != undefined) {
+        var addContractStr = ".addContract#" + addedClient;
+        $(addContractStr).trigger('click');
+        addedClient = undefined;
+    }
 }
 
 function deleteClient() {
@@ -222,8 +229,9 @@ function deleteClient() {
         success: function () {
             notifySuccess("Client successfully removed.");
             userCounter -= 1;
+            var oldUserCnt = userCounter;
             userCounter -= countEntriesVal * parseFloat('0.' + ((userCounter/countEntriesVal) + '').split ('.') [1]);
-            if(userCounter % countEntriesVal == 0) {
+            if((oldUserCnt - userCounter) % countEntriesVal == 0) {
                 userCounter -= countEntriesVal;
             }
             getClientsForTable(userCounter);
@@ -330,12 +338,8 @@ function addNewClient(event) {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         success: function() {
-            if(recordsInTable < countEntriesVal) {
-                userCounter -= recordsInTable;
-                getClientsForTable(userCounter);
-            } else {
-                getClientsCount(afterAddingClient);
-            }
+            getClientsCount(afterAddingClient);
+            getClientIdByEmail(client.email);
             notifySuccess("Client successfully added.");
         },
         error: function() {
@@ -344,6 +348,22 @@ function addNewClient(event) {
     });
     button.removeAttr('disabled');
     $("#addNewClientModal").modal('hide');
+}
+
+function getClientIdByEmail(email) {
+    $.ajax({
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        url: '/DeltaCom/manager/getClientIdByEmail',
+        method: "POST",
+        async: false,
+        data: {"email" : email},
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function (clientId) {
+            addedClient = clientId;
+        }
+    });
 }
 
 /**
