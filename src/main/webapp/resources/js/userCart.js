@@ -4,6 +4,7 @@ var tariffs = [];
 var options = [];
 var curSelected = [];
 var prevSelected = [];
+var client = null;
 
 $(document).ready(function () {
     getCartFromSession();
@@ -13,7 +14,31 @@ $(document).ready(function () {
             addCartToSession();
         }
     });
+    getClient();
 });
+
+/**
+ * Gets current client
+ */
+function getClient(funcOnSuccess) {
+    $.ajax({
+        url: "/DeltaCom/user/getCurrentClient",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function (data) {
+            client = data;
+            if(funcOnSuccess != undefined) {
+                funcOnSuccess();
+            }
+        },
+        error: function() {
+            notifyError("Error occurred while getting user. Try again later.");
+        }
+    });
+}
 
 function saveAllOptions(allOptions) {
     options = allOptions;

@@ -29,14 +29,33 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-                <p>Start a beautiful journey here</p>
+                <h1><i class="fa fa-dashboard"></i> Overview</h1>
+                <p>Have a beautiful day!</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body">Load Your Data Here</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <a style="color: #000;" href="browseAllClients">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <h3 class="card-title"><i class="fa fa-mobile"></i> Contracts</h3>
+                                        <div class="card-footer">
+                                            <p>
+                                                Manage your contracts:
+                                            <ul>
+                                                <li>Change your contract</li>
+                                                <li>Block contract</li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

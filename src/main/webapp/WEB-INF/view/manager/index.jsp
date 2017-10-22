@@ -27,14 +27,67 @@
     <div class="content-wrapper">
         <div class="page-title">
             <div>
-                <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
-                <p>Start a beautiful journey here</p>
+                <h1><i class="fa fa-dashboard"></i> Overview</h1>
+                <p>You can do many beautiful things today!</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body">Load Your Data Here</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <a style="color: #000;" href="browseAllClients">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <h3 class="card-title"><i class="fa fa-users"></i> Clients</h3>
+                                        <div class="card-footer">
+                                            <p>
+                                                Manage our clients:
+                                            <ul>
+                                                <li>Add or delete clients</li>
+                                                <li>Add, edit, delete or block contracts</li>
+                                                <li>Search clients by number</li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a style="color: #000;" href="tariffsActions">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <h3 class="card-title"><i class="fa fa-mobile"></i> Tariffs</h3>
+                                        <div class="card-footer">
+                                            <p>
+                                                Manage tariffs:
+                                            <ul>
+                                                <li>Add new tariff</li>
+                                                <li>Edit old tariff</li>
+                                                <li>Delete useless tariff</li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a style="color: #000;" href="optionsActions">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <h3 class="card-title"><i class="fa fa-filter"></i> Options</h3>
+                                        <div class="card-footer">
+                                            <p>
+                                                Manage options:
+                                            <ul>
+                                                <li>Add, edit or delete options</li>
+                                                <li>Configure their compatibility</li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

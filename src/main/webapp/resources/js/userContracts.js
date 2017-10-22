@@ -1,36 +1,16 @@
 var options = [];
-var client = null;
 var prevSelected = [];
 var curSelected = [];
 var tariffs = [];
 
-getAllOptions(saveAllOptions);
+$(document).ready(function () {
+    getAllOptions(saveAllOptions);
+});
 
 function saveAllOptions(allOptions) {
     options = allOptions;
     getAllTariffs();
-    getClient();
-}
-
-/**
- * Gets current client
- */
-function getClient() {
-    $.ajax({
-        url: "/DeltaCom/user/getCurrentClient",
-        contentType: "application/json; charset=utf-8",
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
-        success: function (data) {
-            client = data;
-            updateContractsTable();
-        },
-        error: function() {
-            notifyError("Error occurred while getting user. Try again later.");
-        }
-    });
+    getClient(updateContractsTable);
 }
 
 function updateContractsTable() {
