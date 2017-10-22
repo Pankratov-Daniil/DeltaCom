@@ -36,9 +36,9 @@ public class ClientRepositoryTest {
         List<Client> zeroClients = clientRepository.getClientsFromIndex(50, 25);
 
         assertNotNull(tenClients);
-        assertTrue(tenClients.size() == 10);
+        assertEquals(tenClients.size(), 10);
         assertNotNull(twoClients);
-        assertTrue(twoClients.size() == 2);
+        assertEquals(twoClients.size(), 0);
         assertNotNull(zeroClients);
         assertTrue(zeroClients.isEmpty());
     }

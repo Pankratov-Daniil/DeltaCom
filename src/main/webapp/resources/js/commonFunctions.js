@@ -1,15 +1,4 @@
 /**
- * Adds client id to session  (for new contract)
- * @param event
- */
-function addClientToSession (event) {
-    $.ajax({
-        url: '/DeltaCom/manager/addNewClientIdToSession',
-        data: {'clientId': event.data.param1}
-    });
-}
-
-/**
  * Try to block contract
  * @param contractId contract id
  * @param block true if need to block, false otherwise
@@ -25,6 +14,7 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
                 'blockByOperator' : blockByOperator},
         success: function(data) {
             funcOnSuccess(successData);
+            notifySuccess("Contract successfully " + (block ? "blocked" : "unblocked") + ".");
         },
         error: function() {
             notifyError("Error occurred while blocking contract. Try again later.");
@@ -38,7 +28,7 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
  * @param id id of item
  * @returns found item or null if didn't find
  */
-function seachInArrayById(arr, id) {
+function searchInArrayById(arr, id) {
     var foundItem = null;
     arr.forEach(function (item) {
         if(item.id == id) {
@@ -63,7 +53,7 @@ function makeCompatibilityText(arr, curOption, compatible) {
     // for each (in)compatible option
     $.each(curOptOptions, function (compatIndex, option) {
         // if this option is on a page
-        if(option != undefined && seachInArrayById(arr, option.id) != null) {
+        if(option != undefined && searchInArrayById(arr, option.id) != null) {
             text += (text == '' ? ((compatible ? "Comes with: " : "Incompatible with: ") + option.name) : ", "+option.name);
         }
     });
@@ -231,6 +221,11 @@ function optionsUpdated() {
     updateOptions($('#selectOptions'), $('#selectTariff option:selected'), $('#tariffInfo'), $('#availableOptions'), $('#selectTariff').val());
 }
 
+/**
+ * Updates and refreshes select
+ * @param sel select element
+ * @param data data passes to select
+ */
 function updateSelect(sel, data) {
     sel.html(data);
     sel.selectpicker('refresh');
@@ -321,15 +316,32 @@ function onOptionsSelectChange(select) {
     }
 }
 
+/**
+ * Adds click event to element
+ * @param elem element on page
+ * @param data data passes to function
+ * @param func function to be called on event
+ */
 function addClickEvent(elem, data, func) {
     addEvent('click', elem, data, func);
 }
 
+/**
+ * Adds event to element
+ * @param event event to add
+ * @param elem element on page
+ * @param data data passes to function
+ * @param func function to be called on event
+ */
 function addEvent(event, elem, data, func) {
     $(document).off(event, elem);
     $(document).on(event, elem, data, func);
 }
 
+/**
+ * Shows error in notify with message
+ * @param msg message to show
+ */
 function notifyError(msg) {
     $.notify({
         message: msg
@@ -338,6 +350,10 @@ function notifyError(msg) {
     });
 }
 
+/**
+ * Shows successfully notify with message
+ * @param msg message to show
+ */
 function notifySuccess(msg) {
     $.notify({
         message: msg

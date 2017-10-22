@@ -37,8 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientControllerTest {
     @Autowired
     private ClientService clientService;
-    @Autowired
-    private ContractService contractService;
 
     private MockMvc mockMvc;
 
@@ -68,7 +66,7 @@ public class ClientControllerTest {
     public void getCurrentClient() throws Exception {
         User user = new User("mobigod0@gmail.com", "123", AuthorityUtils.createAuthorityList("ROLE_USER"));
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/user/getCurrentClient")
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/user/getCurrentClient")
                         .principal(testingAuthenticationToken))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -79,57 +77,37 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void getContractByNumber() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/user/getContractByNumber")
-                        .param("number", "89222222222"))
-                    .andExpect(status().isOk())
-                    .andReturn()
-                    .getResponse()
-                    .getContentAsString(),
-                new ObjectMapper().writeValueAsString(contractService.getContractByNumber("89222222222"))
-        );
-    }
-
-    @Test
     @Rollback
     public void changeContract() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/changeContract")
+        mockMvc.perform(MockMvcRequestBuilders.post("/commons/changeContract")
                 .param("numberModal", "89222222222")
                 .param("selectTariff", "2")
                 .param("selectOptions", "1"))
-        .andExpect(view().name("redirect:/user/contracts"));
+        .andExpect(status().isOk());
     }
 
     @Test
     @Rollback
     public void blockContract() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/user/blockContract")
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/blockContract")
                         .param("contractId", "21")
                         .param("block", "true")
                         .param("blockedByOperator", "false"))
-                    .andExpect(status().isOk())
-                    .andReturn()
-                    .getResponse()
-                    .getContentAsString(),
-                    "true");
+                    .andExpect(status().isOk());
     }
 
     @Test
     public void saveAndGetCart() throws Exception {
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/user/saveCart")
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/saveCart")
                     .param("numberModal", "89222222222")
                     .param("selectTariff", "2"))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(),
-                new ObjectMapper().writeValueAsString(new ClientCart("89222222222", "2", new String[0])));
+        .andExpect(status().isOk());
     }
 
     @Test
     public void getCart() throws Exception {
         ClientCart clientCart = new ClientCart("89222222222", "2", new String[0]);
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.get("/user/getCart").sessionAttr("cart", clientCart))
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/user/getCart").sessionAttr("cart", clientCart))
                         .andExpect(status().isOk())
                         .andReturn()
                         .getResponse()
@@ -140,7 +118,7 @@ public class ClientControllerTest {
     @Test
     public void removeCart() throws Exception {
         ClientCart clientCart = new ClientCart("89222222222", "2", new String[0]);
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/removeCart").sessionAttr("cart", clientCart))
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/removeCart").sessionAttr("cart", clientCart))
                         .andExpect(status().isOk());
     }
 }

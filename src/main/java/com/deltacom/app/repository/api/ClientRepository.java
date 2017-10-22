@@ -11,5 +11,5 @@ public interface ClientRepository {
     public Client getClientByEmail(String email);
     public List<Client> getClientsFromIndex(int startIndex, int amount);
     public Client getClientByNumber(String number);
-    public Long getClientsCount();
+    public long getClientsCount();
 }

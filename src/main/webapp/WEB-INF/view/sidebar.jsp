@@ -20,14 +20,12 @@
             <sec:authorize access="hasRole('MANAGER')">
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/index') ? 'active' : ''}"><a href="/DeltaCom/manager/index"><i
                         class="fa fa-dashboard"></i><span>Overview</span></a></li>
-                <li class="${fn:contains(pageContext.request.requestURI, 'commons/addNewClient') ? 'active' : ''}"><a
-                        href="/DeltaCom/commons/addNewClient"><i class="fa fa-user-plus"></i><span>Add new client</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/browseAllClients') ? 'active' : ''}"><a
-                        href="/DeltaCom/manager/browseAllClients"><i class="fa fa-users"></i><span>Clients actions</span></a></li>
+                        href="/DeltaCom/manager/browseAllClients"><i class="fa fa-users"></i><span>Clients</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/tariffsActions') ? 'active' : ''}"><a
-                        href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs actions</span></a></li>
+                        href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsActions') ? 'active' : ''}"><a
-                        href="/DeltaCom/manager/optionsActions"><i class="fa fa-filter"></i><span>Options actions</span></a></li>
+                        href="/DeltaCom/manager/optionsActions"><i class="fa fa-filter"></i><span>Options</span></a></li>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ADMIN')">
@@ -37,33 +35,6 @@
                         href="/DeltaCom/commons/addNewClient"><i class="fa fa-user-plus"></i><span>Add new client</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'admin/grantAccess') ? 'active' : ''}"><a
                         href="/DeltaCom/admin/grantAccess"><i class="fa fa-user-secret"></i><span>Grant access</span></a></li>
-            </sec:authorize>
-
-            <sec:authorize access="hasAnyRole('MANAGER', 'ADMIN')">
-                <c:if test="${sessionScope.successClientCreation ne null or sessionScope.successContractCreation ne null}">
-                    <script type="text/javascript">
-                        var whatAdded = '';
-                        <c:if test='${sessionScope.successClientCreation ne null}'>
-                            <c:remove var="successClientCreation" scope="session"/>
-                            whatAdded = 'Client';
-                        </c:if>
-
-                        <c:if test='${sessionScope.successContractCreation ne null}'>
-                            <c:remove var="successContractCreation" scope="session"/>
-                            whatAdded = 'Contract';
-                        </c:if>
-
-                        $(document).ready(function() {
-                            $.notify({
-                                title: whatAdded+" successfully added!",
-                                message: "",
-                                icon: 'fa fa-check'
-                            }, {
-                                type: "info"
-                            });
-                        });
-                    </script>
-                </c:if>
             </sec:authorize>
         </ul>
     </section>

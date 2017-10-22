@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card">
-                                <form action="changeContract" id="changeContract" name="changeContract" acceptCharset="utf8">
+                                <form id="changeContract" name="changeContract" acceptCharset="utf8">
                                     <div class="form-group">
                                         <label class="control-label">Selected number</label><br/>
                                         <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
@@ -35,10 +35,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-success" type="submit">Submit</button>
+                                        <button id="applyContract" class="btn btn-success" type="submit">Submit</button>
                                     </div>
-                                    <input type="hidden" name="${_csrf.parameterName}"
-                                           value="${_csrf.token}"/>
                                 </form>
                             </div>
                         </div>

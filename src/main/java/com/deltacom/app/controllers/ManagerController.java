@@ -7,9 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -20,10 +18,6 @@ import java.util.List;
 public class ManagerController extends CommonController {
     @Autowired
     NumbersPoolService numbersPoolService;
-    @Autowired
-    ContractService contractService;
-
-    private static final String CLIENT_ID_NAME = "clientId";
 
     /**
      * Processing request to manager 'index' page
@@ -62,56 +56,33 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing request to managers 'add new contract' page
-     * @param session current session
-     * @return 'add new contract' page or 'index' page if there is no client in session
-     */
-    @RequestMapping(value = "/addNewContract")
-    public ModelAndView addNewContract(HttpSession session, RedirectAttributes ra) {
-        if(session.getAttribute(CLIENT_ID_NAME) == null) {
-            return new ModelAndView("redirect:/manager/index");
-        }
-        ModelAndView modelAndView = new ModelAndView("manager/addNewContract");
-
-        // pass to model unused numbers and available tariffs
-        modelAndView.addObject("unusedNumbers", numbersPoolService.getAllUnusedNumbers());
-        modelAndView.addObject("availableTariffs", tariffService.getAllTariffs());
-
-        return modelAndView;
-    }
-
-    /**
      * Processing request to 'register new contract' and register new client
-     * @param session current session
      */
-    @RequestMapping(value = "/regNewContract")
-    public ModelAndView regNewContract(@RequestParam("selectNumber") String selectedNumber,
-                                       @RequestParam("selectTariff") String selectedTariff,
-                                       @RequestParam("selectOptions") String[] selectedOptions,
-                                       HttpSession session,
-                                       RedirectAttributes ra) {
-        int clientId = (int)session.getAttribute(CLIENT_ID_NAME);
-        if(contractService.addNewContract(clientId, selectedNumber, Integer.parseInt(selectedTariff), selectedOptions)) {
-            session.setAttribute("successContractCreation", true);
-        }
-        return new ModelAndView("redirect:/manager/browseAllClients");
+    @ResponseBody
+    @RequestMapping(value = "/regNewContract", method = RequestMethod.POST)
+    public void regNewContract(@RequestBody ContractDTO contractDTO) {
+        contractService.addNewContract(contractDTO.getClientId(), contractDTO.getNumber(),
+                contractDTO.getTariffId(), contractDTO.getOptionsIds());
     }
 
     /**
-     * Changes contract
-     * @param selectedNumber selected number
-     * @param selectedTariffId selected tariff id
-     * @param selectedOptionsIds selected options ids
-     * @return redirect to previous page
+     * Removes client
+     * @param clientId id of client to be removed
      */
-    @RequestMapping(value = "/changeContract")
-    public ModelAndView changeContract(@RequestParam("numberModal") String selectedNumber,
-                                       @RequestParam("selectTariff") String selectedTariffId,
-                                       @RequestParam("selectOptions") String[] selectedOptionsIds,
-                                       RedirectAttributes ra) {
-        contractService.updateContract(selectedNumber, selectedTariffId, selectedOptionsIds);
+    @ResponseBody
+    @RequestMapping(value = "/deleteClient", method = RequestMethod.POST)
+    public void deleteClient(@RequestParam int clientId) {
+        clientService.removeClient(clientId);
+    }
 
-        return new ModelAndView("redirect:/manager/browseAllClients");
+    /**
+     * Gets all unused numbers
+     * @return list of unused numbers
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getUnusedNumbers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getUnusedNumbers() {
+        return numbersPoolService.getAllUnusedNumbers();
     }
 
     /**
@@ -119,8 +90,8 @@ public class ManagerController extends CommonController {
      * @param contractId id of contract to be removed
      */
     @ResponseBody
-    @RequestMapping(value = "/deleteContract")
-    public void deleteContract(@RequestParam("contractId") int contractId) {
+    @RequestMapping(value = "/deleteContract", method = RequestMethod.POST)
+    public void deleteContract(@RequestBody int contractId) {
         contractService.deleteContract(contractId);
     }
 
@@ -186,17 +157,6 @@ public class ManagerController extends CommonController {
     }
 
     /**
-     * Processing ajax request from 'browse all clients' page when open change tariff modal page.
-     * @param number number of contract
-     * @return list of options for contract
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getContractByNumber", produces=MediaType.APPLICATION_JSON_VALUE)
-    public Contract getOptionsFromContractByNumber(@RequestParam("number") String number) {
-        return contractService.getContractByNumber(number);
-    }
-
-    /**
      * Processing ajax request from 'browse all clients' page to get client by his number.
      * @param number number of client
      * @return list of clients
@@ -230,25 +190,6 @@ public class ManagerController extends CommonController {
     @RequestMapping(value = "/getClientsCount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public long getClientsCount() {
         return clientService.getClientsCount();
-    }
-
-    /**
-     * Processing ajax request from 'browse all clients' page to add new client id to session.
-     * @param clientId client id
-     * @param session current session
-     */
-    @RequestMapping(value = "/addNewClientIdToSession")
-    public void addNewClientIdToSession(@RequestParam(CLIENT_ID_NAME) int clientId, HttpSession session) {
-        session.setAttribute(CLIENT_ID_NAME, clientId);
-    }
-
-    /**
-     * Processing ajax request from 'add new contract' page to remove client id from session.
-     * @param session current session
-     */
-    @RequestMapping(value = "/removeClientIdFromSession")
-    public void removeClientIdFromSession(HttpSession session) {
-        session.removeAttribute(CLIENT_ID_NAME);
     }
 
     /**

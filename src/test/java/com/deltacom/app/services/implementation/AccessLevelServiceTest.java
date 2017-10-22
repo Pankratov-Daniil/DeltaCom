@@ -8,9 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import static org.junit.Assert.*;
 
 @Transactional
@@ -18,9 +15,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class AccessLevelServiceTest {
     @Autowired
-    AccessLevelService accessLevelService;
-    @PersistenceContext
-    EntityManager em;
+    private AccessLevelService accessLevelService;
 
     @Test
     public void getAllAccessLevels() {

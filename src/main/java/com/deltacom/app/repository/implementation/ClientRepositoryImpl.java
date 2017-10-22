@@ -41,7 +41,8 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
      */
     public List<Client> getClientsFromIndex(int startIndex, int amount) {
         try {
-            return (List<Client>) entityManager.createQuery("select client from Client client")
+            return (List<Client>) entityManager.createQuery("select client from Client client, AccessLevel accessLevel where accessLevel.name = :roleName and accessLevel in elements(client.accessLevels)")
+                    .setParameter("roleName", "ROLE_USER")
                     .setFirstResult(startIndex)
                     .setMaxResults(amount)
                     .getResultList();
@@ -71,11 +72,11 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
      * @return client count
      */
     @Override
-    public Long getClientsCount() {
+    public long getClientsCount() {
         try {
-            return (Long) entityManager.createQuery("select count(*) from Client").getSingleResult();
+            return (long) entityManager.createQuery("select count(*) from Client").getSingleResult();
         } catch (PersistenceException e) {
-            return new Long(0);
+            return 0;
         }
     }
 }

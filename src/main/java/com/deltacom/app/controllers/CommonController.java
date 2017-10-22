@@ -1,13 +1,7 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.entities.Client;
-import com.deltacom.app.entities.ClientDTO;
-import com.deltacom.app.entities.Option;
-import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.services.api.AccessLevelService;
-import com.deltacom.app.services.api.ClientService;
-import com.deltacom.app.services.api.OptionService;
-import com.deltacom.app.services.api.TariffService;
+import com.deltacom.app.entities.*;
+import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
@@ -36,6 +30,8 @@ public class CommonController {
     OptionService optionService;
     @Autowired
     TariffService tariffService;
+    @Autowired
+    ContractService contractService;
 
     /**
      * If clientName didn't set on this session, this method does this.
@@ -75,12 +71,32 @@ public class CommonController {
     }
 
     /**
+     * Processing ajax request from 'browse all clients' page when open change tariff modal page.
+     * @param number number of contract
+     * @return list of options for contract
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commons/getContractByNumber", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    public Contract getContractByNumber(@RequestParam String number) {
+        return contractService.getContractByNumber(number);
+    }
+
+    /**
      * Registers new client
      */
     @ResponseBody
-    @RequestMapping(value = "/commons/regNewClient")
+    @RequestMapping(value = "/commons/regNewClient", method = RequestMethod.POST)
     public void regNewClient(@RequestBody ClientDTO clientDTO) {
         clientService.addNewClient(clientDTO.toClient(), clientDTO.getAccessLevels());
+    }
+
+    /**
+     * Changes contract
+     */
+    @ResponseBody
+    @RequestMapping(value = "/commons/changeContract", method = RequestMethod.POST)
+    public void changeContract(@RequestBody ContractDTO contractDTO) {
+        contractService.updateContract(contractDTO.getNumber(), contractDTO.getTariffId(), contractDTO.getOptionsIds());
     }
 
     /**

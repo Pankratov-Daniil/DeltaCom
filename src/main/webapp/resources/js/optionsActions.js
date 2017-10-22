@@ -46,8 +46,8 @@ function loadAllOptions(data) {
 
     var compatibleOptions = $("#compatibleOptions");
     var incompatibleOptions = $("#incompatibleOptions");
-    compatibleOptions.change(disableOnChange);
-    incompatibleOptions.change(disableOnChange);
+    addEvent('change', "#compatibleOptions", {"compatible" : true}, disableOnChange);
+    addEvent('change', "#incompatibleOptions", {"compatible" : false}, disableOnChange);
 
     addClickEvent(".changeOptionBtn", {}, onOpenChangeOption);
     addClickEvent(".delOption", {}, deleteOption);
@@ -208,9 +208,11 @@ function disableInOtherLists(selects) {
     });
 }
 
-function disableOnChange() {
+function disableOnChange(event) {
     var select = $("#"+$(this).attr('id'));
-    onOptionsSelectChange(select);
+    if(event.data.compatible) {
+        onOptionsSelectChange(select);
+    }
 
     if($(this).attr('id') == 'compatibleOptions') {
         selectCompatible($("#compatibleOptions"));
@@ -225,7 +227,7 @@ function disableOnChange() {
  * Calls when modal window opens for change option
  */
 function onOpenChangeOption() {
-    var option = seachInArrayById(options, $(this).attr('id'));
+    var option = searchInArrayById(options, $(this).attr('id'));
     var optionsList = createSelectList(options);
 
     optionNameField.val(option.name);

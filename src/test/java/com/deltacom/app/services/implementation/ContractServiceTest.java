@@ -1,8 +1,6 @@
 package com.deltacom.app.services.implementation;
 
-import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
-import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.exceptions.ContractException;
 import com.deltacom.app.services.api.ContractService;
@@ -21,7 +19,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class ContractServiceTest {
     @Autowired
-    ContractService contractService;
+    private ContractService contractService;
 
     @Test
     public void getAllClientContractsByEmail() throws Exception {
@@ -58,29 +56,29 @@ public class ContractServiceTest {
     @Test
     @Rollback
     public void addNewContract() throws Exception {
-        String[] optionsIds = new String[] {"1"};
+        int[] optionsIds = new int[] {1};
         contractService.addNewContract(5, "89314523412", 1, optionsIds);
         assertEquals(contractService.getContractByNumber("89314523412").getNumbersPool().isUsed(), true);
     }
 
-    @Test
+    @Test(expected = ContractException.class)
     @Rollback
     public void addNewContractFailsOptionsCheck() throws Exception {
-        String[] optionsIds = new String[] {"1", "2", "3"};
-        assertEquals(contractService.addNewContract(5, "89314523412", 1, optionsIds), false);
+        int[] optionsIds = new int[] {1, 2, 3};
+        contractService.addNewContract(5, "89314523412", 1, optionsIds);
     }
 
     @Test(expected = ContractException.class)
     @Rollback
     public void addNewContractTariffNullException() throws Exception {
-        contractService.addNewContract(5, "89314523412", 879, new String[0]);
+        contractService.addNewContract(5, "89314523412", 879, new int[0]);
         assertEquals(contractService.getContractByNumber("89314523412").getNumbersPool().isUsed(), true);
     }
 
     @Test(expected = ContractException.class)
     @Rollback
     public void addNewContractClientNullException() throws Exception {
-        contractService.addNewContract(999, "89314523412", 1, new String[0]);
+        contractService.addNewContract(999, "89314523412", 1, new int[0]);
         assertEquals(contractService.getContractByNumber("89314523412").getNumbersPool().isUsed(), true);
     }
 
@@ -101,7 +99,7 @@ public class ContractServiceTest {
     @Test
     @Rollback
     public void updateContract() throws Exception {
-        contractService.updateContract("89222222222", "2", new String[0]);
+        contractService.updateContract("89222222222", 2, new int[0]);
 
         assertEquals(contractService.getContractByNumber("89222222222").getTariff().getId(), 2);
     }
@@ -109,13 +107,13 @@ public class ContractServiceTest {
     @Test(expected = ContractException.class)
     @Rollback
     public void updateContractContractNullException() throws Exception {
-        contractService.updateContract("78498515651", "2", new String[0]);
+        contractService.updateContract("78498515651", 2, new int[0]);
     }
 
     @Test(expected = ContractException.class)
     @Rollback
     public void updateContractTariffNullException() throws Exception {
-        contractService.updateContract("89222222222", "9584", new String[0]);
+        contractService.updateContract("89222222222", 9584, new int[0]);
     }
 
     @Test

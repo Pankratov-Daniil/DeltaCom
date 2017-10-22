@@ -2,10 +2,7 @@ package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientDTO;
-import com.deltacom.app.services.api.AccessLevelService;
-import com.deltacom.app.services.api.ClientService;
-import com.deltacom.app.services.api.OptionService;
-import com.deltacom.app.services.api.TariffService;
+import com.deltacom.app.services.api.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,9 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser(username = "manager@manager.com", roles = {"MANAGER"})
 public class CommonControllerTest {
     @Autowired
-    private ClientService clientService;
-    @Autowired
-    private AccessLevelService accessLevelService;
+    private ContractService contractService;
     @Autowired
     private OptionService optionService;
     @Autowired
@@ -103,6 +98,18 @@ public class CommonControllerTest {
                 .getResponse()
                 .getContentAsString(),
                 new ObjectMapper().writeValueAsString(tariffService.getAllTariffs()));
+    }
+
+    @Test
+    public void getContractByNumber() throws Exception {
+        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/commons/getContractByNumber")
+                        .param("number", "89222222222"))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString(),
+                new ObjectMapper().writeValueAsString(contractService.getContractByNumber("89222222222"))
+        );
     }
 
 }

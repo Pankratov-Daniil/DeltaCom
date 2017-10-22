@@ -103,14 +103,16 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public boolean addNewContract(int clientId, String number, int tariffId, String[] selectedOptions) {
+    public void addNewContract(int clientId, String number, int tariffId, int[] selectedOptions) {
         List<Option> options = getOptionsFromIds(selectedOptions);
 
-        if(!checkOptions(options))
-            return false;
-
         NumbersPool numbersPool = new NumbersPool(number, true);
+
         try {
+            if(!checkOptions(options)) {
+                throw new PersistenceException("Check option failed");
+            }
+
             Client client = clientService.getClientById(clientId);
             if(client == null) {
                 throw new PersistenceException("Client wasn't found");
@@ -125,7 +127,6 @@ public class ContractServiceImpl implements ContractService {
             throw new ContractException("Contract wasn't added: ", ex);
         }
         numbersPoolService.updateNumbersPool(numbersPool);
-        return true;
     }
 
     /**
@@ -182,13 +183,13 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     @Transactional
-    public void updateContract(String contractNumber, String newTariffId, String[] newOptionsId) {
+    public void updateContract(String contractNumber, int newTariffId, int[] newOptionsId) {
         try {
             Contract contract = getContractByNumber(contractNumber);
             if(contract == null) {
                 throw new PersistenceException("Contract wasn't found");
             }
-            Tariff tariff = tariffService.getTariffById(Integer.parseInt(newTariffId));
+            Tariff tariff = tariffService.getTariffById(newTariffId);
             if(tariff == null) {
                 throw new PersistenceException("Tariff wasn't found");
             }
@@ -227,10 +228,10 @@ public class ContractServiceImpl implements ContractService {
      * @param optionsIds ids of options
      * @return list of options
      */
-    private List<Option> getOptionsFromIds(String[] optionsIds) {
+    private List<Option> getOptionsFromIds(int[] optionsIds) {
         ArrayList<Option> options = new ArrayList<>();
-        for(String optionId : optionsIds)
-            options.add(optionService.getOptionById(Integer.parseInt(optionId)));
+        for(int optionId : optionsIds)
+            options.add(optionService.getOptionById(optionId));
         return options;
     }
 }

@@ -1,7 +1,6 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.NumbersPool;
-import com.deltacom.app.repository.api.NumbersPoolRepository;
 import com.deltacom.app.repository.implementation.NumbersPoolRepositoryImpl;
 import com.deltacom.app.services.api.NumbersPoolService;
 import org.junit.Test;
@@ -19,9 +18,9 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class NumbersPoolServiceTest {
     @Autowired
-    NumbersPoolService numbersPoolService;
+    private NumbersPoolService numbersPoolService;
     @Autowired
-    NumbersPoolRepositoryImpl numbersPoolRepository;
+    private NumbersPoolRepositoryImpl numbersPoolRepository;
 
     @Test
     @Rollback

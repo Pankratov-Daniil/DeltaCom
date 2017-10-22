@@ -87,7 +87,7 @@
                                 </ul>
                             </div>
 
-                            <div id="manageTariffModal" class="modal fade" role="dialog">
+                            <div id="manageContractModal" class="modal fade" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -98,25 +98,28 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="card">
-                                                        <form action="changeContract" id="changeContract" name="changeContract" acceptCharset="utf8">
+                                                        <form id="changeContract" acceptCharset="utf8">
                                                             <div class="form-group">
                                                                 <label class="control-label">Selected number</label><br/>
-                                                                <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
+                                                                <input class="btn btn-primary hideOnCreateContract" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
+                                                                <select class="selectpicker form-control showOnCreateContract" data-style="btn-primary" id="selectNumber" name="selectNumber" required>
+
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label class="control-label" >Avaivable tariffs</label><br/>
+                                                                <label class="control-label" >Available tariffs</label><br/>
                                                                 <select class="selectpicker form-control" data-style="btn-primary" id="selectTariff" name="selectTariff">
 
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
-                                                                <label class="control-label" >Avaivable options</label><br/>
+                                                                <label class="control-label" >Available options</label><br/>
                                                                 <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectOptions" required name="selectOptions">
 
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
-                                                                <button class="btn btn-success" type="submit">Submit</button>
+                                                                <button id="applyContractBtn" class="btn btn-success" type="submit">Submit</button>
                                                             </div>
                                                             <input type="hidden" name="${_csrf.parameterName}"
                                                                    value="${_csrf.token}"/>
@@ -126,17 +129,18 @@
                                                 <div class="col-md-6">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h3>Currect tariff info</h3>
-                                                            <div id="curTariff" class="card-footer">
+                                                            <div class="hideOnCreateContract">
+                                                                <h3>Current tariff info</h3>
+                                                                <div id="curTariff" class="card-footer">
 
+                                                                </div>
                                                             </div>
-
                                                             <h3>Selected tariff info</h3>
                                                             <div id="tariffInfo" class="card-footer">
 
                                                             </div>
 
-                                                            <h3>Avaivable options</h3>
+                                                            <h3>Available options</h3>
                                                             <div id="availableOptions" class="card-footer">
 
                                                             </div>
@@ -151,7 +155,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div id="addNewClientModal" class="modal fade" role="dialog">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">

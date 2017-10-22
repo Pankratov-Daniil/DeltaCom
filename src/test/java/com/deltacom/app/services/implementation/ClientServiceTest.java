@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class ClientServiceTest {
     @Autowired
-    ClientService clientService;
+    private ClientService clientService;
 
     @Test
     public void getClientById() throws Exception {
@@ -54,8 +54,8 @@ public class ClientServiceTest {
     @Test
     public void getClientsFromIndex() throws Exception {
         assertEquals(clientService.getClientsFromIndex(0, 10).size(), 10);
-        assertEquals(clientService.getClientsFromIndex(8, 5).size(), 5);
-        assertEquals(clientService.getClientsFromIndex(8, 10).size(), 5);
+        assertEquals(clientService.getClientsFromIndex(8, 5).size(), 3);
+        assertEquals(clientService.getClientsFromIndex(8, 10).size(), 3);
         assertEquals(clientService.getClientsFromIndex(50, 20).size(), 0);
     }
 

@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class OptionServiceTest {
     @Autowired
-    OptionService optionService;
+    private OptionService optionService;
 
     @Test
     public void getOptionById() throws Exception {

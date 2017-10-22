@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
 public class TariffServiceTest {
     @Autowired
-    TariffService tariffService;
+    private TariffService tariffService;
 
     @Test
     public void getTariffById() throws Exception {

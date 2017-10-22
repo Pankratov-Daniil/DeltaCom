@@ -89,7 +89,7 @@
                         <div class="col-md-6 hideMe">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3>Currect tariff info</h3>
+                                    <h3>Current tariff info</h3>
                                     <div id="curTariff" class="card-footer">
 
                                     </div>

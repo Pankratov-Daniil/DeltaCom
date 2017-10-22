@@ -12,10 +12,17 @@ function saveAllOptions(allOptions) {
     getClient();
 }
 
+/**
+ * Gets current client
+ */
 function getClient() {
     $.ajax({
         url: "/DeltaCom/user/getCurrentClient",
-        contentType: "application/json",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
         success: function (data) {
             client = data;
             updateContractsTable();
@@ -75,13 +82,17 @@ function blockContract() {
     });
     $.ajax({
         url: '/DeltaCom/user/blockContract',
-        contentType: "application/json",
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        method: "POST",
         data: {
             "contractId" : contractId,
             "block" : !contract.blocked,
             "blockedByOperator" : contract.blockedByOperator
         },
-        success: function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function () {
             contract.blocked = !contract.blocked;
             button.parent().parent().css('background', contract.blocked ? 'grey' : '');
 
@@ -96,6 +107,8 @@ function blockContract() {
             button.removeClass('btn-' + (contract.blocked ? 'danger' : 'success'));
             button.addClass('btn-' + (contract.blocked ? 'success' : 'danger'));
             button.text(contract.blocked ? 'Unblock' : 'Block');
+
+            notifySuccess("Contract successfully " + (contract.blocked ? "blocked" : "unblocked") + ".");
         },
         error: function() {
             notifyError("Error occurred while blocking contract. Try again later.");

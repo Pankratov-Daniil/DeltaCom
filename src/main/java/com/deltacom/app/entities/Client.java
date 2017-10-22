@@ -1,8 +1,6 @@
 package com.deltacom.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -47,8 +45,7 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "access_level_id"))
     private List<AccessLevel> accessLevels;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "client", orphanRemoval = true)
     @JsonManagedReference
     private List<Contract> contracts;
 

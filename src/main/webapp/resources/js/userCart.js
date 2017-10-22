@@ -1,4 +1,3 @@
-var needToSave = false;
 var cart = undefined;
 var contract = undefined;
 var tariffs = [];
@@ -6,32 +5,31 @@ var options = [];
 var curSelected = [];
 var prevSelected = [];
 
-function saveAllOptions(allOptions) {
-    options = allOptions;
-    getAllTariffs();
-}
-
 $(document).ready(function () {
     getCartFromSession();
-
-    $("#changeContract").submit(function (event) {
-        needToSave = false;
-        removeCartFromSession();
-    });
-
-    $("#changeContractModal").on('hidden.bs.modal',function () {
+    addEvent('submit', "#changeContract", {}, changeContract);
+    addEvent('hidden.bs.modal', "#changeContractModal", {}, function () {
         if(checkChanges()) {
             addCartToSession();
         }
     });
 });
 
+function saveAllOptions(allOptions) {
+    options = allOptions;
+    getAllTariffs();
+}
+
 function getContractByNumber(number) {
     $.ajax({
-        url: "/DeltaCom/user/getContractByNumber",
-        contentType: "application/json",
+        url: "/DeltaCom/commons/getContractByNumber",
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
         data: {
             "number" : number
+        },
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         success: function (data) {
             contract = data;
@@ -42,6 +40,9 @@ function getContractByNumber(number) {
     });
 }
 
+/**
+ * Gets all tariffs
+ */
 function getAllTariffs() {
     $.ajax({
         url: "/DeltaCom/commons/getAllTariffs",
@@ -76,15 +77,15 @@ function checkChanges() {
             curTariffId = curContract.tariff.id;
         }
     }
-    if(curTariffId == selectedTariffId && allOptionsFound) {
-        return false;
-    }
-    return true;
+    return !(curTariffId == selectedTariffId && allOptionsFound);
 }
 
+/**
+ * Finds if option exists by id
+ */
 function findInOptions(options, needId) {
     var selectedOptions = $("#selectOptions").selectpicker('val');
-    if((selectedOptions != null && selectedOptions.length != options.length) || selectedOptions == null) {
+    if((selectedOptions != null && selectedOptions.length != options.length) || (selectedOptions == null && options.length != 0)) {
         return false;
     }
     options.forEach(function (curOption) {
@@ -98,42 +99,63 @@ function findInOptions(options, needId) {
     return true;
 }
 
+/**
+ * Adds cart to session
+ */
 function addCartToSession() {
     var number = $("#numberModal").val();
     var selectedTariff = $("#selectTariff").selectpicker('val');
     var selectedOptions = $("#selectOptions").selectpicker('val');
     selectedOptions = (selectedOptions == null ? [] : selectedOptions);
 
+    cart = {
+        "number" : number,
+        "tariffId" : selectedTariff,
+        "optionsIds" : selectedOptions
+    };
+
     $.ajax({
         url: "/DeltaCom/user/saveCart",
-        contentType: "application/json",
-        data: {
-            "numberModal" : number,
-            "selectTariff" : selectedTariff,
-            "selectOptions" : selectedOptions
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        data: JSON.stringify(cart),
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function (data) {
-            cart = (data.number == null ? undefined : data);
+        success: function () {
             getAllOptions(saveAllOptions);
             getContractByNumber(cart.number);
+            if($("#cartContainer").length == 0) {
+                $(".top-nav").prepend('<li id="cartContainer"><a href="javascript:void(0);" id="cartLink"><i class="fa fa-shopping-basket"></i></a></li>');
+                addClickEvent("#cartLink", {}, openChangeContractModal);
+            }
+            notifySuccess("Changes saved to cart.");
         },
         error: function() {
+            cart = undefined;
             notifyError("Error occurred while saving cart. Try again later.");
         }
     });
 }
 
+/**
+ * Gets cart from session
+ */
 function getCartFromSession() {
     $.ajax({
         url: "/DeltaCom/user/getCart",
-        contentType: "application/json",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
         success: function (data) {
-            cart = (data.number == null ? undefined : data);
+            cart = (data.number == undefined ? undefined : data);
 
             if(cart != undefined) {
                 getContractByNumber(cart.number);
                 getAllOptions(saveAllOptions);
-                $("#cartLink").click(openChangeContractModal);
+                addClickEvent("#cartLink", {}, openChangeContractModal);
             }
         },
         error: function() {
@@ -145,13 +167,13 @@ function getCartFromSession() {
 function openChangeContractModal() {
     var button = $(this);
     var contractId = button.attr('data-id');
-
     var clientContract = (typeof client !== 'undefined') ? client.contracts.find(function (item) {
         return item.id == contractId;
     }) : undefined;
-
-    var useCart = (cart != undefined && clientContract == undefined) || ((cart != undefined) && (clientContract != undefined) &&  (cart.number == clientContract.numbersPool.number));
-
+    var useCart = (cart != undefined ? true : (clientContract != undefined ? false : null));
+    if(useCart == null) {
+        return;
+    }
     var contractModal = useCart ? contract : clientContract;
     var tariffSelect = $("#selectTariff");
     var optionsSelect = $("#selectOptions");
@@ -198,14 +220,55 @@ function openChangeContractModal() {
         });
     }
     optionsSelect.selectpicker('val', opts);
-    optionsSelect.change(onOptionsSelectChange);
+    addEvent('change', "#selectOptions", {}, onOptionsSelectChange);
     optionsSelect.trigger('change');
-
+    addClickEvent("#applyContract", {}, changeContract);
     $("select").selectpicker('refresh');
-
     $("#changeContractModal").modal('show');
 }
 
+/**
+ * Changes contract
+ */
+function changeContract(event) {
+    var form = $("#changeContract");
+    if(!form[0].checkValidity()) {
+        form[0].trigger('submit');
+        return false;
+    }
+    event.preventDefault();
+
+    var selectedOptionsSelect = $("#selectOptions").val();
+    var selectedOptions = [];
+    selectedOptionsSelect.forEach(function (optionStr) {
+        selectedOptions.push(parseInt(optionStr));
+    });
+    var contractDTO = {
+        "clientId" : client.id,
+        "number" : $("#numberModal").val(),
+        "tariffId" : parseInt($("#selectTariff").val()),
+        "optionsIds" : selectedOptions
+    };
+
+    $.ajax({
+        url: "/DeltaCom/commons/changeContract",
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        data: JSON.stringify(contractDTO),
+        success: function () {
+            $("#changeContractModal").modal('hide');
+            getClient();
+            removeCartFromSession();
+            notifySuccess("Contract successfully changed.");
+        },
+        error: function () {
+            notifyError("Error occurred while removing cart. Try again later.");
+        }
+    });
+}
 
 function onOptionsSelectChange() {
     var optChanged = optionsChanged("#selectOptions", prevSelected, curSelected);
@@ -214,6 +277,9 @@ function onOptionsSelectChange() {
     $(this).selectpicker('refresh');
 }
 
+/**
+ * Makes html from option array
+ */
 function makeOptionsForSelect(arr) {
     var res = '';
     arr.forEach(function (item) {
@@ -222,11 +288,19 @@ function makeOptionsForSelect(arr) {
     return res;
 }
 
+/**
+ * Removes cart from session
+ */
 function removeCartFromSession() {
     $.ajax({
         url: "/DeltaCom/user/removeCart",
-        contentType: "application/json",
-        success: function (data) {
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function () {
+            $("#cartContainer").remove();
             cart = undefined;
         },
         error: function() {

@@ -2,16 +2,11 @@ package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientCart;
-import com.deltacom.app.entities.Contract;
-import com.deltacom.app.services.api.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.deltacom.app.exceptions.ClientException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
@@ -22,9 +17,6 @@ import java.security.Principal;
 @Controller
 @RequestMapping(value = "/user")
 public class ClientController extends CommonController {
-    @Autowired
-    ContractService contractService;
-
     /**
      * Processing request to client index page
      * @return client index page
@@ -50,37 +42,9 @@ public class ClientController extends CommonController {
      * @return client
      */
     @ResponseBody
-    @RequestMapping(value = "/getCurrentClient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getCurrentClient", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Client getCurrentClient(Principal principal) {
         return clientService.getClientByEmail(principal.getName());
-    }
-
-    /**
-     * Gets contract by its number
-     * @param number number of contract
-     * @return found contract
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getContractByNumber", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Contract getContractByNumber(@RequestParam("number") String number) {
-        return contractService.getContractByNumber(number);
-    }
-
-    /**
-     * Changes contract
-     * @param selectedNumber selected number
-     * @param selectedTariffId selected tariff id
-     * @param selectedOptionsIds selected options ids
-     * @return redirect to previous page
-     */
-    @RequestMapping(value = "/changeContract")
-    public ModelAndView changeContract(@RequestParam("numberModal") String selectedNumber,
-                                       @RequestParam("selectTariff") String selectedTariffId,
-                                       @RequestParam("selectOptions") String[] selectedOptionsIds,
-                                       RedirectAttributes ra) {
-        contractService.updateContract(selectedNumber, selectedTariffId, selectedOptionsIds);
-
-        return new ModelAndView("redirect:/user/contracts");
     }
 
     /**
@@ -89,33 +53,24 @@ public class ClientController extends CommonController {
      * @param blockContract true if need to block, false otherwise
      */
     @ResponseBody
-    @RequestMapping(value = "/blockContract", produces=MediaType.APPLICATION_JSON_VALUE)
-    public boolean blockContract(@RequestParam("contractId") int contractId,
+    @RequestMapping(value = "/blockContract", method = RequestMethod.POST)
+    public void blockContract(@RequestParam("contractId") int contractId,
                                  @RequestParam("block") boolean blockContract,
                                  @RequestParam("blockedByOperator") boolean blockedByOperator) {
         if(blockedByOperator) {
-            return false;
+            throw new ClientException("Client can't block contract by operator", new Exception());
         }
         contractService.blockContract(contractId, blockContract, blockedByOperator);
-        return true;
     }
 
     /**
      * Saves cart to session
-     * @param number contract number
-     * @param tariffId selected tariff id
-     * @param optionsIds selected options ids
      * @param session current session
      */
     @ResponseBody
-    @RequestMapping(value = "/saveCart", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ClientCart saveCart(@RequestParam("numberModal") String number,
-                                     @RequestParam("selectTariff")  String tariffId,
-                                     @RequestParam(value = "selectOptions[]", required = false) String[] optionsIds,
-                                     HttpSession session) {
-        ClientCart clientCart = new ClientCart(number, tariffId, optionsIds == null ? new String[0] : optionsIds);
+    @RequestMapping(value = "/saveCart", method = RequestMethod.POST)
+    public void saveCart(@RequestBody ClientCart clientCart, HttpSession session) {
         session.setAttribute("cart", clientCart);
-        return clientCart;
     }
 
     /**
@@ -124,7 +79,7 @@ public class ClientController extends CommonController {
      * @return clients cart
      */
     @ResponseBody
-    @RequestMapping(value = "/getCart", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getCart", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ClientCart getCart(HttpSession session) {
         Object cart = session.getAttribute("cart");
         return (ClientCart) (cart == null ? new ClientCart() : cart);
@@ -135,7 +90,7 @@ public class ClientController extends CommonController {
      * @param session current session
      */
     @ResponseBody
-    @RequestMapping(value = "/removeCart", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/removeCart", method = RequestMethod.POST)
     public void removeCart(HttpSession session) {
         session.removeAttribute("cart");
     }
