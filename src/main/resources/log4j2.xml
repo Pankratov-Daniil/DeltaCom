@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="logFile" fileName="allLogs.log" append="false">
+        <File name="deltaComLog" fileName="deltacom.log" append="false">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="errorsLog" fileName="errors.log" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
         </File>
     </Appenders>
     <Loggers>
         <Logger name="com.deltacom.app" level="info" additivity="false">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="logFile"/>
+            <AppenderRef ref="deltaComLog"/>
+            <AppenderRef ref="errorsLog"/>
         </Logger>
-        <Root level="error">
+        <Root>
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="logFile"/>
+            <AppenderRef ref="errorsLog"/>
         </Root>
     </Loggers>
 </Configuration>

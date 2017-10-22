@@ -40,6 +40,7 @@
   <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 </listener>
 
+
 <servlet>
   <servlet-name>dispatcherServlet</servlet-name>
   <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -47,6 +48,10 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/config/mvc-config.xml</param-value>
   </init-param>
+    <init-param>
+        <param-name>throwExceptionIfNoHandlerFound</param-name>
+        <param-value>true</param-value>
+    </init-param>
   <load-on-startup>1</load-on-startup>
 </servlet>
 
@@ -58,11 +63,6 @@
 <welcome-file-list>
   <welcome-file>/WEB-INF/view/index.jsp</welcome-file>
 </welcome-file-list>
-
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/view/errors/404.jsp</location>
-  </error-page>
 
   <error-page>
     <error-code>500</error-code>

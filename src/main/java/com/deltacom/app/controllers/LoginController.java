@@ -1,5 +1,8 @@
 package com.deltacom.app.controllers;
 
+import com.deltacom.app.logging.Logging;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class LoginController {
+    private static final Logger logger = LogManager.getLogger(LoginController.class);
+
     @RequestMapping(value = "/login")
     public ModelAndView login(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -20,6 +25,7 @@ public class LoginController {
         // if user has already logged in - redirect him to index page
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             for(GrantedAuthority authority : auth.getAuthorities()) {
+                logger.info("User with email: " + auth.getName() + " and authorities: " + auth.getAuthorities() + " logged in.");
                 if (authority.getAuthority().contains("ADMIN"))
                     return new ModelAndView("redirect:/admin/index");
                 else if (authority.getAuthority().contains("MANAGER"))
