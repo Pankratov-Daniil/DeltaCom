@@ -38,7 +38,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <a style="color: #000;" href="browseAllClients">
+                            <a style="color: #000;" href="contracts">
                                 <div class="col-md-4">
                                     <div class="card">
                                         <h3 class="card-title"><i class="fa fa-mobile"></i> Contracts</h3>

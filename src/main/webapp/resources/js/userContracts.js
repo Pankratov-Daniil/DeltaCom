@@ -10,7 +10,7 @@ $(document).ready(function () {
 function saveAllOptions(allOptions) {
     options = allOptions;
     getAllTariffs();
-    getClient(updateContractsTable);
+    getClient();
 }
 
 function updateContractsTable() {
@@ -24,6 +24,7 @@ function updateContractsTable() {
         tableRecords += '<th>' + contract.tariff.name + '</th>';
         tableRecords += '<th>';
         tableBody.html(tableRecords);
+        contract.options = idsToObjectInOptionsCompatibilityArr(contract.options, options);
         contract.tariff.options = idsToObjectInOptionsCompatibilityArr(contract.tariff.options, options);
         contract.tariff.options.forEach(function (option) {
             option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, options);

@@ -20,7 +20,7 @@ $(document).ready(function () {
 /**
  * Gets current client
  */
-function getClient(funcOnSuccess) {
+function getClient() {
     $.ajax({
         url: "/DeltaCom/user/getCurrentClient",
         contentType: "application/json; charset=utf-8",
@@ -30,8 +30,8 @@ function getClient(funcOnSuccess) {
         },
         success: function (data) {
             client = data;
-            if(funcOnSuccess != undefined) {
-                funcOnSuccess();
+            if(typeof updateContractsTable !== 'undefined') {
+                updateContractsTable();
             }
         },
         error: function() {
