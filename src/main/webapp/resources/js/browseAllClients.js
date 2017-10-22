@@ -218,6 +218,9 @@ function updateTable (data, countEntries) {
 }
 
 function deleteClient() {
+    var onErrorFunc = function () {
+        notifyError("Error occurred while removing client.");
+    };
     $.ajax({
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         url: '/DeltaCom/manager/deleteClient',
@@ -226,7 +229,11 @@ function deleteClient() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             notifySuccess("Client successfully removed.");
             userCounter -= 1;
             var oldUserCnt = userCounter;
@@ -236,9 +243,7 @@ function deleteClient() {
             }
             getClientsForTable(userCounter);
         },
-        error: function () {
-            notifyError("Error occurred while removing client.");
-        }
+        error: onErrorFunc
     });
 }
 
@@ -273,10 +278,47 @@ function getContractAsHtml(contract) {
 }
 
 /**
+ * Try to block contract
+ * @param contractId contract id
+ * @param block true if need to block, false otherwise
+ * @param blockByOperator is blocked by operator
+ * @param funcOnSuccess what to do on success block
+ * @param successData parameters for funcOnSuccess
+ */
+function blockContract (contractId, block, blockByOperator, funcOnSuccess, successData) {
+    var onErrorFunc = function() {
+        notifyError("Error occurred while blocking contract. Try again later.");
+    };
+    $.ajax({
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        url: '/DeltaCom/manager/blockContract',
+        data: {'contractId': contractId,
+            'block' : block,
+            'blockByOperator' : blockByOperator},
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        },
+        success: function(data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
+            funcOnSuccess(successData);
+            notifySuccess("Contract successfully " + (block ? "blocked" : "unblocked") + ".");
+        },
+        error: onErrorFunc
+    });
+}
+
+/**
  * Deletes contract by ajax call
  * @param data
  */
 function deleteContract(data) {
+    var onErrorFunc = function() {
+        notifyError("Error occurred while removing contract.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         url: '/DeltaCom/manager/deleteContract',
@@ -285,13 +327,15 @@ function deleteContract(data) {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function() {
+        success: function(body) {
+            if(body != '') {
+                onErrorFunc();
+                return;
+            }
             $(data.btnId).parent().remove();
             notifySuccess("Contract successfully removed.");
         },
-        error: function() {
-            notifyError("Error occurred while removing contract.");
-        }
+        error: onErrorFunc
     });
 }
 
@@ -329,6 +373,9 @@ function addNewClient(event) {
 
     var button = $(this);
     button.prop('disabled', 'true');
+    var onErrorFunc = function() {
+        notifyError("Error occurred while adding client. Try again later.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         url: '/DeltaCom/commons/regNewClient',
@@ -337,14 +384,16 @@ function addNewClient(event) {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function() {
+        success: function(data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             getClientsCount(afterAddingClient);
             getClientIdByEmail(client.email);
             notifySuccess("Client successfully added.");
         },
-        error: function() {
-            notifyError("Error occurred while adding client. Try again later.");
-        }
+        error: onErrorFunc
     });
     button.removeAttr('disabled');
     $("#addNewClientModal").modal('hide');
@@ -558,6 +607,9 @@ function checkValidityChangeContract(event) {
  * Changes contract by ajax call
  */
 function onChangeContract(event) {
+    var onErrorFunc = function () {
+        notifyError("Error occurred while changing contract. Try again later.");
+    };
     if(checkValidityChangeContract(event)) {
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -567,13 +619,15 @@ function onChangeContract(event) {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
             },
-            success: function () {
+            success: function (data) {
+                if(data != '') {
+                    onErrorFunc();
+                    return;
+                }
                 $("#manageContractModal").modal('hide');
                 notifySuccess("Contract successfully changed.");
             },
-            error: function () {
-                notifyError("Error occurred while changing contract. Try again later.");
-            }
+            error: onErrorFunc
         });
     }
 }
@@ -604,6 +658,9 @@ function onAddContract(event) {
     if(checkValidityChangeContract(event)) {
         var number = $("#selectNumber").val();
         var clientId = event.data.clientId;
+        var onErrorFunc = function () {
+            notifyError("Error occurred while adding contract. Try again later.");
+        };
         $.ajax({
             contentType: "application/json; charset=utf-8",
             url: "/DeltaCom/manager/regNewContract",
@@ -612,16 +669,18 @@ function onAddContract(event) {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
             },
-            success: function () {
+            success: function (data) {
+                if(data != '') {
+                    onErrorFunc();
+                    return;
+                }
                 $("#manageContractModal").modal('hide');
                 getContractByNumber(number, function (contract) {
                     $(".addContract#"+clientId).before(getContractAsHtml(contract));
                 });
                 notifySuccess("Contract successfully added.");
             },
-            error: function () {
-                notifyError("Error occurred while adding contract. Try again later.");
-            }
+            error: onErrorFunc
         });
     }
 }

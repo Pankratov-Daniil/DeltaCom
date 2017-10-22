@@ -104,6 +104,10 @@ function addButtonsToCard(card, optionId) {
 function deleteOption() {
     var button = $(this);
     button.prop('disabled', 'true');
+    var onErrorFunc = function() {
+        button.removeAttr('disabled');
+        notifyError("Error occurred while deleting option. Try again later.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         type: "POST",
@@ -112,14 +116,15 @@ function deleteOption() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             getAllOptions(loadAllOptions);
             notifySuccess("Option successfully deleted.");
         },
-        error: function() {
-            button.removeAttr('disabled');
-            notifyError("Error occurred while deleting option. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
@@ -135,6 +140,10 @@ function getOptionFromForm(add) {
 function addOption() {
     submitBtn.prop('disabled', 'true');
     var option = getOptionFromForm(true);
+    var onErrorFunc = function() {
+        submitBtn.removeAttr('disabled');
+        notifyError("Error occurred while creating option. Try again later.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         url: "/DeltaCom/manager/createOption",
@@ -143,21 +152,30 @@ function addOption() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
             notifySuccess("Option successfully created.");
         },
-        error: function() {
-            submitBtn.removeAttr('disabled');
-            notifyError("Error occurred while creating option. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
+/**
+ * Edit option by ajax call
+ */
 function editOption() {
     submitBtn.prop('disabled', 'true');
     var option = getOptionFromForm(false);
+
+    var onErrorFunc = function() {
+        submitBtn.removeAttr('disabled');
+        notifyError("Error occurred while changing option. Try again later.");
+    };
 
     $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -167,15 +185,16 @@ function editOption() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
             notifySuccess("Option successfully changed.");
         },
-        error: function() {
-            submitBtn.removeAttr('disabled');
-            notifyError("Error occurred while changing option. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 

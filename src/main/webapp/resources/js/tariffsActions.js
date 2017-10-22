@@ -166,6 +166,10 @@ function editTariff() {
     submitBtn.prop('disabled', 'true');
     var tariff = getTariffFromForm(false);
 
+    var onErrorFunc = function() {
+        submitBtn.removeAttr('disabled');
+        notifyError("Error occurred while changing Tariff. Try again later.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         url: "/DeltaCom/manager/changeTariff",
@@ -174,21 +178,26 @@ function editTariff() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
             notifySuccess("Tariff successfully changed.");
         },
-        error: function() {
-            submitBtn.removeAttr('disabled');
-            notifyError("Error occurred while changing Tariff. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
 function addTariff() {
     submitBtn.prop('disabled', 'true');
     var tariff = getTariffFromForm(true);
+    var onErrorFunc = function() {
+        submitBtn.removeAttr('disabled');
+        notifyError("Error occurred while creating tariff. Try again later.");
+    };
     $.ajax({
         contentType: "application/json; charset=utf-8",
         url: "/DeltaCom/manager/createTariff",
@@ -197,20 +206,25 @@ function addTariff() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
             notifySuccess("Tariff successfully created.");
         },
-        error: function() {
-            submitBtn.removeAttr('disabled');
-            notifyError("Error occurred while creating tariff. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
 function deleteTariff() {
     var button = $(this);
+    var onErrorFunc = function() {
+        button.removeAttr('disabled');
+        notifyError("Error occurred while deleting tariff. Try again later.");
+    };
     button.prop('disabled', 'true');
     $.ajax({
         contentType: "application/json; charset=utf-8",
@@ -220,13 +234,14 @@ function deleteTariff() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             getAllOptions(loadAllOptions);
             notifySuccess("Tariff successfully deleted.");
         },
-        error: function() {
-            button.removeAttr('disabled');
-            notifyError("Error occurred while deleting tariff. Try again later.");
-        }
+        error: onErrorFunc
     });
 }

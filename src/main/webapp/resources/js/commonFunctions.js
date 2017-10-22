@@ -1,28 +1,4 @@
 /**
- * Try to block contract
- * @param contractId contract id
- * @param block true if need to block, false otherwise
- * @param blockByOperator is blocked by operator
- * @param funcOnSuccess what to do on success block
- * @param successData parameters for funcOnSuccess
- */
-function blockContract (contractId, block, blockByOperator, funcOnSuccess, successData) {
-    $.ajax({
-        url: '/DeltaCom/manager/blockContract',
-        data: {'contractId': contractId,
-               'block' : block,
-                'blockByOperator' : blockByOperator},
-        success: function(data) {
-            funcOnSuccess(successData);
-            notifySuccess("Contract successfully " + (block ? "blocked" : "unblocked") + ".");
-        },
-        error: function() {
-            notifyError("Error occurred while blocking contract. Try again later.");
-        }
-    });
-}
-
-/**
  * Searches item by id in array
  * @param arr where we should find item
  * @param id id of item

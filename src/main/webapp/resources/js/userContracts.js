@@ -60,6 +60,9 @@ function blockContract() {
     var contract = client.contracts.find(function (item) {
         return item.id == contractId;
     });
+    var onErrorFunc = function() {
+        notifyError("Error occurred while blocking contract. Try again later.");
+    };
     $.ajax({
         url: '/DeltaCom/user/blockContract',
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -72,7 +75,11 @@ function blockContract() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             contract.blocked = !contract.blocked;
             button.parent().parent().css('background', contract.blocked ? 'grey' : '');
 
@@ -90,8 +97,6 @@ function blockContract() {
 
             notifySuccess("Contract successfully " + (contract.blocked ? "blocked" : "unblocked") + ".");
         },
-        error: function() {
-            notifyError("Error occurred while blocking contract. Try again later.");
-        }
+        error: onErrorFunc
     });
 }

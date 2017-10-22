@@ -167,6 +167,11 @@ public class ManagerController extends CommonController {
         return clientService.getClientByNumber(number);
     }
 
+    /**
+     * Gets client id by his email
+     * @param email clients email address
+     * @return id of client
+     */
     @ResponseBody
     @RequestMapping(value = "/getClientIdByEmail", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public int getClientIdByEmail(@RequestParam String email) {
@@ -195,13 +200,12 @@ public class ManagerController extends CommonController {
     /**
      * Processing ajax request from 'browse all clients' page to block or unblock contract.
      * @param contractId contract id
-     * @param blockContract true if need to block, false otherwise
+     * @param block true if need to block, false otherwise
      */
     @ResponseBody
-    @RequestMapping(value = "/blockContract", produces=MediaType.APPLICATION_JSON_VALUE)
-    public boolean blockContract(@RequestParam("contractId") int contractId,
-                              @RequestParam("block") boolean blockContract) {
-        contractService.blockContract(contractId, blockContract, true);
-        return true;
+    @RequestMapping(value = "/blockContract", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    public void blockContract(@RequestParam int contractId,
+                              @RequestParam boolean block) {
+        contractService.blockContract(contractId, block, true);
     }
 }

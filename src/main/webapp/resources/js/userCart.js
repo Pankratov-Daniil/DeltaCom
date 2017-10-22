@@ -139,6 +139,10 @@ function addCartToSession() {
         "optionsIds" : selectedOptions
     };
 
+    var onErrorFunc = function() {
+        cart = undefined;
+        notifyError("Error occurred while saving cart. Try again later.");
+    };
     $.ajax({
         url: "/DeltaCom/user/saveCart",
         contentType: "application/json; charset=utf-8",
@@ -147,7 +151,11 @@ function addCartToSession() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             getAllOptions(saveAllOptions);
             getContractByNumber(cart.number);
             if($("#cartContainer").length == 0) {
@@ -156,10 +164,7 @@ function addCartToSession() {
             }
             notifySuccess("Changes saved to cart.");
         },
-        error: function() {
-            cart = undefined;
-            notifyError("Error occurred while saving cart. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
@@ -275,6 +280,9 @@ function changeContract(event) {
         "optionsIds" : selectedOptions
     };
 
+    var onErrorFunc = function () {
+        notifyError("Error occurred while removing cart. Try again later.");
+    };
     $.ajax({
         url: "/DeltaCom/commons/changeContract",
         contentType: "application/json; charset=utf-8",
@@ -283,15 +291,17 @@ function changeContract(event) {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         data: JSON.stringify(contractDTO),
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             $("#changeContractModal").modal('hide');
             getClient();
             removeCartFromSession();
             notifySuccess("Contract successfully changed.");
         },
-        error: function () {
-            notifyError("Error occurred while removing cart. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
 
@@ -317,6 +327,9 @@ function makeOptionsForSelect(arr) {
  * Removes cart from session
  */
 function removeCartFromSession() {
+    var onErrorFunc = function() {
+        notifyError("Error occurred while removing cart. Try again later.");
+    };
     $.ajax({
         url: "/DeltaCom/user/removeCart",
         contentType: "application/json; charset=utf-8",
@@ -324,12 +337,14 @@ function removeCartFromSession() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
-        success: function () {
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
             $("#cartContainer").remove();
             cart = undefined;
         },
-        error: function() {
-            notifyError("Error occurred while removing cart. Try again later.");
-        }
+        error: onErrorFunc
     });
 }
