@@ -18,7 +18,7 @@ function updateContractsTable() {
     var tableRecords = '';
 
     client.contracts.forEach(function (contract) {
-        tableRecords += '<tr' +  (contract.blockedByOperator ? ' style="background: red"' :
+        tableRecords += '<tr' +  (contract.blockedByOperator ? ' style="background: #B22222"' :
             (contract.blocked ? ' style="background: grey"' : '')) + '>';
         tableRecords += '<th>' + contract.numbersPool.number + '</th>';
         tableRecords += '<th>' + contract.tariff.name + '</th>';

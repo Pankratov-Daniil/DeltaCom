@@ -117,9 +117,17 @@ public class TariffServiceImpl implements TariffService {
             List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
             if(!contracts.isEmpty()) {
                 //try to add another tariff to contracts
-                Tariff newTariff = getAllTariffs().get(0);
+                List<Tariff> tariffs = getAllTariffs();
+                Tariff newTariff = null;
+                for(Tariff possibleTariff : tariffs) {
+                    if(possibleTariff.getId() != tariff.getId()) {
+                        newTariff = possibleTariff;
+                        break;
+                    }
+                }
                 if(newTariff != null) {
                     for (Contract contract : contracts) {
+                        contractService.updateContract(contract.getNumbersPool().getNumber(), newTariff.getId(), new int[0]);
                         contract.setTariff(newTariff);
                     }
                 }
