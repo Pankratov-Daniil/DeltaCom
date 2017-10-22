@@ -149,6 +149,7 @@ public class ClientServiceImpl implements ClientService{
             for(Contract contract : client.getContracts()) {
                 contractService.deleteContract(contract.getId());
             }
+            client.setContracts(null);
             clientRepository.remove(client);
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't deleted: ", ex);

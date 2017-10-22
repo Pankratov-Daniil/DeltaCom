@@ -1,6 +1,7 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.ClientCart;
+import com.deltacom.app.exceptions.ClientException;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -90,10 +91,20 @@ public class ClientControllerTest {
     @Rollback
     public void blockContract() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/blockContract")
-                        .param("contractId", "21")
-                        .param("block", "true")
-                        .param("blockedByOperator", "false"))
-                    .andExpect(status().isOk());
+                .param("contractId", "21")
+                .param("block", "true")
+                .param("blockedByOperator", "false"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Rollback
+    public void blockContractError() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/blockContract")
+                .param("contractId", "21")
+                .param("block", "true")
+                .param("blockedByOperator", "true"))
+        .andExpect(view().name("errors/accessingDBError"));
     }
 
     @Test
@@ -120,5 +131,10 @@ public class ClientControllerTest {
         ClientCart clientCart = new ClientCart("89222222222", "2", new String[0]);
         mockMvc.perform(MockMvcRequestBuilders.post("/user/removeCart").sessionAttr("cart", clientCart))
                         .andExpect(status().isOk());
+    }
+
+    @Test
+    public void accessingNotExistsPage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/saoijas")).andExpect(status().is4xxClientError());
     }
 }

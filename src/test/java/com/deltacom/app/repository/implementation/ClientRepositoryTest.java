@@ -99,4 +99,9 @@ public class ClientRepositoryTest {
     public void getAllTest() {
         assertEquals(clientRepository.getAll().size(), 13);
     }
+
+    @Test
+    public void getClientsCount() {
+        assertEquals(clientRepository.getClientsCount(), 11);
+    }
 }

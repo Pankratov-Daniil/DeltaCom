@@ -70,4 +70,9 @@ public class ClientServiceTest {
         assertEquals(clientService.getClientByNumber("89468956"), null);
     }
 
+    @Test
+    public void removeClientTest() {
+        clientService.removeClient(31);
+        assertEquals(clientService.getClientById(31), null);
+    }
 }
