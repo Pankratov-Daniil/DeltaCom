@@ -67,14 +67,9 @@ public class ClientControllerTest {
     public void getCurrentClient() throws Exception {
         User user = new User("mobigod0@gmail.com", "123", AuthorityUtils.createAuthorityList("ROLE_USER"));
         TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user,null);
-        assertEquals(mockMvc.perform(MockMvcRequestBuilders.post("/user/getCurrentClient")
+        mockMvc.perform(MockMvcRequestBuilders.post("/user/getCurrentClient")
                         .principal(testingAuthenticationToken))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(),
-                new ObjectMapper().writeValueAsString(clientService.getClientByEmail("mobigod0@gmail.com"))
-                );
+                .andExpect(status().isOk());
     }
 
     @Test

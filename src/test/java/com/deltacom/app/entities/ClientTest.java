@@ -6,9 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -17,8 +15,8 @@ public class ClientTest {
 
     @Before
     public void setUp() throws Exception {
-        List<AccessLevel> accessLevelList = Arrays.asList(new AccessLevel(1, "User"), new AccessLevel(2, "Manager"));
-        List<Contract> contracts = Arrays.asList(new Contract(), new Contract(), new Contract());
+        Set<AccessLevel> accessLevelList = new HashSet<>(Arrays.asList(new AccessLevel(1, "User"), new AccessLevel(2, "Manager")));
+        Set<Contract> contracts = new HashSet<>(Arrays.asList(new Contract()));
         client = new Client(5, "Daniil", "Pankratov", new Date(29, 6, 1995), "passport", "address", "a@gm.com", "pass", accessLevelList, contracts);
     }
 
@@ -123,7 +121,7 @@ public class ClientTest {
 
     @Test
     public void getContracts() throws Exception {
-        assertTrue(client.getContracts().size() == 3);
+        assertEquals(client.getContracts().size(),  1);
     }
 
     @Test
@@ -139,8 +137,8 @@ public class ClientTest {
 
     @Test
     public void equalsHashCodeTest() throws Exception {
-        List<AccessLevel> accessLevelList = Arrays.asList(new AccessLevel(1, "User"), new AccessLevel(2, "Manager"));
-        List<Contract> contracts = Arrays.asList(new Contract(), new Contract(), new Contract());
+        Set<AccessLevel> accessLevelList = new HashSet<>(Arrays.asList(new AccessLevel(1, "User"), new AccessLevel(2, "Manager")));
+        Set<Contract> contracts = new HashSet<>(Arrays.asList(new Contract(), new Contract(), new Contract()));
         Client equalClient = new Client(5, "Daniil", "Pankratov", new Date(29, 6, 1995), "passport", "address", "a@gm.com", "pass", accessLevelList, contracts);
         Client notEqualClient = new Client(0, "Not", "Equal", new Date(1, 6, 15), "not", "not", "not", "not", null, null);
 

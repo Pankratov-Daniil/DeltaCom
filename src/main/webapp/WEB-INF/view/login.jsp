@@ -6,7 +6,7 @@
     <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="./resources/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="./resources/css/bootstrap-template.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700">
     <link rel="stylesheet" type="text/css" href="./resources/css/NiconneFont.css">
     <!-- Font-icon css-->
@@ -14,7 +14,7 @@
     <script src="./resources/js/jquery-2.1.4.min.js"></script>
     <script src="./resources/js/bootstrap.min.js"></script>
     <script src="./resources/js/plugins/pace.min.js"></script>
-    <script src="./resources/js/main.js"></script>
+    <script src="./resources/js/bootstrap-template.js"></script>
 
     <title>My DeltaCom</title>
 </head>

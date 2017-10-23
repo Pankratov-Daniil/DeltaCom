@@ -1,6 +1,5 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.logging.Logging;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

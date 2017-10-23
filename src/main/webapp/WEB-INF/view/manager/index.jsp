@@ -6,14 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap-template.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
     <script src="../resources/js/jquery-2.1.4.min.js"></script>
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
-    <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/bootstrap-template.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
 
     <title>My DeltaCom</title>

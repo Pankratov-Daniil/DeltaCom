@@ -8,7 +8,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap-template.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
@@ -17,7 +17,7 @@
     <script src="../resources/js/plugins/pace.min.js"></script>
     <script src="../resources/js/commonFunctions.js"></script>
     <script src="../resources/js/tariffsActions.js"></script>
-    <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/bootstrap-template.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="../resources/css/bootstrap-select.min.css" type="text/css"/>

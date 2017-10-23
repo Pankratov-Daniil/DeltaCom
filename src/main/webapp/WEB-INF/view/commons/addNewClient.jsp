@@ -13,7 +13,7 @@
     <script src="../resources/js/jquery-2.1.4.min.js"></script>
     <script src="../resources/js/bootstrap.min.js"></script>
     <script src="../resources/js/plugins/pace.min.js"></script>
-    <script src="../resources/js/main.js"></script>
+    <script src="../resources/js/bootstrap-template.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
 
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>

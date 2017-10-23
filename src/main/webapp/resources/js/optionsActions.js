@@ -71,7 +71,7 @@ function loadAllOptions(data) {
 
         addEvent("submit", "#updatedOption", {}, function (event) {
             $("#idOption").val(0);
-            addOption();
+            addOrEditOption(true);
             $("#changeOptionModal").modal('hide');
             event.preventDefault();
         });
@@ -137,16 +137,16 @@ function getOptionFromForm(add) {
         "compatibleOptions" : compatibleOptionsSelect.val() != null ? compatibleOptionsSelect.val() : []}
 }
 
-function addOption() {
+function addOrEditOption(add) {
     submitBtn.prop('disabled', 'true');
-    var option = getOptionFromForm(true);
+    var option = getOptionFromForm(add);
     var onErrorFunc = function() {
         submitBtn.removeAttr('disabled');
-        notifyError("Error occurred while creating option. Try again later.");
+        notifyError("Error occurred while " + (add ? "creating" : "changing") + " option. Try again later.");
     };
     $.ajax({
         contentType: "application/json; charset=utf-8",
-        url: "/DeltaCom/manager/createOption",
+        url: "/DeltaCom/manager/" + (add ? "createOption" : "changeOption"),
         method: "POST",
         data: JSON.stringify(option),
         headers: {
@@ -159,40 +159,7 @@ function addOption() {
             }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
-            notifySuccess("Option successfully created.");
-        },
-        error: onErrorFunc
-    });
-}
-
-/**
- * Edit option by ajax call
- */
-function editOption() {
-    submitBtn.prop('disabled', 'true');
-    var option = getOptionFromForm(false);
-
-    var onErrorFunc = function() {
-        submitBtn.removeAttr('disabled');
-        notifyError("Error occurred while changing option. Try again later.");
-    };
-
-    $.ajax({
-        contentType: "application/json; charset=utf-8",
-        url: "/DeltaCom/manager/changeOption",
-        method: "POST",
-        data: JSON.stringify(option),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
-        success: function (data) {
-            if(data != '') {
-                onErrorFunc();
-                return;
-            }
-            submitBtn.removeAttr('disabled');
-            getAllOptions(loadAllOptions);
-            notifySuccess("Option successfully changed.");
+            notifySuccess("Option successfully " + (add ? "created." : "changed."));
         },
         error: onErrorFunc
     });
@@ -279,7 +246,7 @@ function onOpenChangeOption() {
 
     addEvent("submit", "#updatedOption", {}, function (event) {
         optionIdField.val(option.id);
-        editOption();
+        addOrEditOption(false);
         $("#changeOptionModal").modal('hide');
         event.preventDefault();
     });

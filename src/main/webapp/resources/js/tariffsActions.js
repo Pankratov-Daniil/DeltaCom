@@ -83,7 +83,7 @@ function loadAllTariffs() {
                 addEvent('submit', "#updatedTariff", {}, function (event) {
                     tariffIdField.val(0);
                     event.preventDefault();
-                    addTariff();
+                    addOrEditTariff(true);
                     $("#changeTariffModal").modal('hide');
                 });
 
@@ -131,7 +131,7 @@ function onOpenChangeTariff() {
     priceTariffField.val(tariff.price);
     addEvent('submit', "#updatedTariff", {}, function (event) {
         tariffIdField.val(tariff.id);
-        editTariff();
+        addOrEditTariff(false);
         $("#changeTariffModal").modal('hide');
         event.preventDefault();
     });
@@ -154,6 +154,11 @@ function onOpenChangeTariff() {
     $("#changeTariffModal").modal('show');
 }
 
+/**
+ * Gets tariff from form and translate it to DTO
+ * @param add do we need to add a tariff
+ * @returns {{id: number, name: *, price: *, optionsIds: *}}
+ */
 function getTariffFromForm(add) {
     return {"id" : add ? 0 : tariffIdField.val(),
         "name" : nameTariffField.val(),
@@ -162,17 +167,20 @@ function getTariffFromForm(add) {
     }
 }
 
-function editTariff() {
+/**
+ * Add or edit tariff
+ * @param add do we need to add a tariff
+ */
+function addOrEditTariff(add) {
     submitBtn.prop('disabled', 'true');
-    var tariff = getTariffFromForm(false);
-
+    var tariff = getTariffFromForm(add);
     var onErrorFunc = function() {
         submitBtn.removeAttr('disabled');
-        notifyError("Error occurred while changing Tariff. Try again later.");
+        notifyError("Error occurred while " + (add ? "creating" : "changing") + " tariff. Try again later.");
     };
     $.ajax({
         contentType: "application/json; charset=utf-8",
-        url: "/DeltaCom/manager/changeTariff",
+        url: "/DeltaCom/manager/" + (add ? "createTariff" : "changeTariff"),
         method: "POST",
         data: JSON.stringify(tariff),
         headers: {
@@ -185,40 +193,15 @@ function editTariff() {
             }
             submitBtn.removeAttr('disabled');
             getAllOptions(loadAllOptions);
-            notifySuccess("Tariff successfully changed.");
+            notifySuccess("Tariff successfully " + (add ? "created." : "changed."));
         },
         error: onErrorFunc
     });
 }
 
-function addTariff() {
-    submitBtn.prop('disabled', 'true');
-    var tariff = getTariffFromForm(true);
-    var onErrorFunc = function() {
-        submitBtn.removeAttr('disabled');
-        notifyError("Error occurred while creating tariff. Try again later.");
-    };
-    $.ajax({
-        contentType: "application/json; charset=utf-8",
-        url: "/DeltaCom/manager/createTariff",
-        method: "POST",
-        data: JSON.stringify(tariff),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
-        success: function (data) {
-            if(data != '') {
-                onErrorFunc();
-                return;
-            }
-            submitBtn.removeAttr('disabled');
-            getAllOptions(loadAllOptions);
-            notifySuccess("Tariff successfully created.");
-        },
-        error: onErrorFunc
-    });
-}
-
+/**
+ * Deletes tariff
+ */
 function deleteTariff() {
     var button = $(this);
     var onErrorFunc = function() {
