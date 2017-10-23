@@ -8,7 +8,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="../resources/css/main.min.css">
+    <link rel="stylesheet" type="text/css" href="../resources/css/bootstrap-template.min.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="../resources/css/font-awesome.min.css">
 
