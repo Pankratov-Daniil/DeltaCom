@@ -208,10 +208,32 @@ function openChangeContractModal() {
     var tariffSelect = $("#selectTariff");
     var optionsSelect = $("#selectOptions");
     var curTariffInfoDiv = $("#curTariff");
-    var curTariffInfo = '<p>Name: ' + contractModal.tariff.name + '<br/>Price: ' + contractModal.tariff.price;
-    $("#tariffInfo").html(curTariffInfo);
-    curTariffInfo += '<br/>Selected options: ';
+    var tariff = undefined;
+    var selectedOptions = [];
+    tariffSelect.html(makeOptionsForSelect(tariffs));
+    if(useCart) {
+        tariffSelect.selectpicker('val', parseInt(cart.tariffId));
+        tariff = tariffs.find(function (tar) {
+            return tar.id == cart.tariffId;
+        });
+        selectedOptions = cart.optionsIds;
+    } else {
+        tariffSelect.selectpicker('val', clientContract.tariff.id);
+        tariff = clientContract.tariff;
+        clientContract.options.forEach(function (option) {
+            selectedOptions.push(option.id);
+        });
+    }
+    tariffSelect.selectpicker('refresh');
+
+    $("#numberModal").val(contractModal.numbersPool.number);
+
+    var selTariffInfo = '<p>Name: ' + tariff.name + '<br/>Price: ' + tariff.price;
+    $("#tariffInfo").html(selTariffInfo);
+
     contractModal.options = idsToObjectInOptionsCompatibilityArr(contractModal.options, options);
+    var curTariffInfo = '<p>Name: ' + contractModal.tariff.name + '<br/>Price: ' + contractModal.tariff.price;
+    curTariffInfo += '<br/>Selected options: ';
     contractModal.options.forEach(function (option, index) {
         curTariffInfo += option.name;
         if(index < contractModal.options.length - 1) {
@@ -221,35 +243,20 @@ function openChangeContractModal() {
     curTariffInfo += '</p>';
     curTariffInfoDiv.html(curTariffInfo);
 
-    $("#numberModal").val(contractModal.numbersPool.number);
-    tariffSelect.html(makeOptionsForSelect(tariffs));
-    if(useCart) {
-        tariffSelect.selectpicker('val', cart.tariffId);
-    } else {
-        tariffSelect.selectpicker('val', contractModal.tariff.id);
-    }
-    tariffSelect.change(optionsUpdated);
 
-    contractModal.tariff.options = idsToObjectInOptionsCompatibilityArr(contractModal.tariff.options, options);
-    contractModal.tariff.options.forEach(function (option) {
+    addEvent('change', "#selectTariff", {}, optionsUpdated);
+    tariff.options = idsToObjectInOptionsCompatibilityArr(tariff.options, options);
+    tariff.options.forEach(function (option) {
         option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, options);
         option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, options);
     });
 
-    var optionsHtml = createOptionsHtml(contractModal.tariff.options, 6);
+    var optionsHtml = createOptionsHtml(tariff.options, 6);
     updateSelect(optionsSelect, optionsHtml.optionsList);
     $('#availableOptions').html(optionsHtml.optionsInfo);
 
-    optionsSelect.html(makeOptionsForSelect(contractModal.tariff.options));
-    var opts = [];
-    if(useCart) {
-        opts = cart.optionsIds;
-    } else {
-        contractModal.options.forEach(function (option) {
-            opts.push(option.id);
-        });
-    }
-    optionsSelect.selectpicker('val', opts);
+    optionsSelect.html(makeOptionsForSelect(tariff.options));
+    optionsSelect.selectpicker('val', selectedOptions);
     addEvent('change', "#selectOptions", {}, onOptionsSelectChange);
     optionsSelect.trigger('change');
     addClickEvent("#applyContract", {}, changeContract);

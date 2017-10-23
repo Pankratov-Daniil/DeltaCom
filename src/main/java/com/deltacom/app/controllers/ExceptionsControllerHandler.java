@@ -50,6 +50,10 @@ public class ExceptionsControllerHandler {
         return new ModelAndView("errors/accessingDBError");
     }
 
+    /**
+     * Handling 404 error
+     * @return 404 error page
+     */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = NoHandlerFoundException.class)
     public ModelAndView handleNotFoundException(HttpServletRequest req) {

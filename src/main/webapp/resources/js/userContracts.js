@@ -42,7 +42,7 @@ function updateContractsTable() {
             '</th>';
         tableRecords += '</tr>';
 
-            tableBody.html(tableRecords);
+        tableBody.html(tableRecords);
 
         if(!contract.blocked) {
             addClickEvent(".changeContractButton", {}, openChangeContractModal);

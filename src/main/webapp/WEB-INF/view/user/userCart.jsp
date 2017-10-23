@@ -23,13 +23,13 @@
                                         <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label" >Avaivable tariffs</label><br/>
+                                        <label class="control-label" >Available tariffs</label><br/>
                                         <select class="selectpicker form-control" data-style="btn-primary" id="selectTariff" name="selectTariff">
 
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label" >Avaivable options</label><br/>
+                                        <label class="control-label" >Available options</label><br/>
                                         <select class="selectpicker form-control" multiple data-style="btn-primary" id="selectOptions" required name="selectOptions">
 
                                         </select>
@@ -43,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <h3>Currect tariff info</h3>
+                                    <h3>Current tariff info</h3>
                                     <div id="curTariff" class="card-footer">
 
                                     </div>
@@ -53,7 +53,7 @@
 
                                     </div>
 
-                                    <h3>Avaivable options</h3>
+                                    <h3>Available options</h3>
                                     <div id="availableOptions" class="card-footer">
 
                                     </div>

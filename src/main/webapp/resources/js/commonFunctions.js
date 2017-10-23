@@ -134,7 +134,20 @@ function selectCompatible(select) {
 
 function optionsChanged(selectOptionsName, prevSelected, curSelected) {
     var select = $(selectOptionsName);
-    onOptionsSelectChange(select);
+    prevSelected = curSelected;
+    curSelected = getCurSelected(select);
+    // if element deselected
+    if(curSelected.length < prevSelected.length) {
+        var removedOptionId = $.grep(prevSelected, function (prevItem) {
+            return (curSelected.indexOf(prevItem) < 0);
+        })[0];
+        options.forEach(function (option) {
+            if(option.compatibleOptions.find(function (item) { return item.id == removedOptionId;})) {
+                select.children("option[value='" + option.id + "']").removeAttr('selected');
+            }
+        });
+        curSelected = getCurSelected(select);
+    }
     selectCompatible(select);
     $.each(select.children("option:disabled"), function (index, item) {
         item.disabled = false;
