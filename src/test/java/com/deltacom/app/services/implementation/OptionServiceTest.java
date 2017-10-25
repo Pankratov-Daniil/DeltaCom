@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 @Transactional
@@ -40,7 +42,9 @@ public class OptionServiceTest {
     @Test
     @Rollback
     public void updateOption() throws Exception {
-        optionService.updateOption(new Option(1, "InterNOT", 500, 500, null, null), new String[0], new String[0]);
+        String[] incompatibleOptionsIds = new String[]{"1","2"};
+        String[] compatibleOptionsIds = new String[]{"3"};
+        optionService.updateOption(new Option(1, "InterNOT", 500, 500, new ArrayList<>(), new ArrayList<>()), incompatibleOptionsIds, compatibleOptionsIds);
         assertEquals(optionService.getOptionById(1).getName(), "InterNOT");
     }
 
@@ -48,7 +52,7 @@ public class OptionServiceTest {
     @Rollback
     public void addOption() throws Exception {
         String[] incompatibleOptionsIds = new String[]{"1","2"};
-        String[] compatibleOptionsIds = new String[0];
+        String[] compatibleOptionsIds = new String[]{"3"};
         Option optionToAdd = new Option(0, "Ooooption", 900, 300, null, null);
         optionService.addOption(optionToAdd,  incompatibleOptionsIds, compatibleOptionsIds);
         assertEquals(optionService.getAllOptions().size(), 7);

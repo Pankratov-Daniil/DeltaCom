@@ -26,7 +26,7 @@ public class ClientRepositoryTest {
     public void getClientByEmail() {
         Client client = clientRepository.getClientByEmail("mobigod0@gmail.com");
         assertNotNull(client);
-        assertEquals(client.getAddress(), "адрес");
+        assertEquals(client.getId(), 5);
     }
 
     @Test
@@ -49,23 +49,22 @@ public class ClientRepositoryTest {
         Client noneClient = clientRepository.getClientByNumber("8922");
 
         assertNotNull(realClient);
-        assertEquals(realClient.getFirstName(), "Даниил");
         assertNull(noneClient);
     }
 
     @Test
     @Rollback
     public void addTest() {
-        clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
-        clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "two@emai.cl", "passwd", null));
+        clientRepository.add(new Client("May", "I", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
+        clientRepository.add(new Client("Be", "am", new Date(1,1,1980), "pass", "addr", "two@emai.cl", "passwd", null));
         assertEquals(clientRepository.getAll().size(), 15);
     }
 
     @Test(expected = RepositoryException.class)
     @Rollback
     public void addTestException() {
-        clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
-        clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
+        clientRepository.add(new Client("May", "I", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
+        clientRepository.add(new Client("Be", "Am", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
     }
 
     @Test

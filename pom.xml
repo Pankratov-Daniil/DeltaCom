@@ -10,8 +10,9 @@
 
   <properties>
       <project.build.java.target>1.8</project.build.java.target>
-      <springframework.version>4.3.11.RELEASE</springframework.version>
+      <springframework.version>4.3.12.RELEASE</springframework.version>
       <hibernate-version>5.0.1.Final</hibernate-version>
+      <hibernate.validator.version>6.0.3.Final</hibernate.validator.version>
       <jsp.version>2.2</jsp.version>
       <servlet.version>3.1.0</servlet.version>
       <jstl.version>1.2</jstl.version>
@@ -38,6 +39,11 @@
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate-version}</version>
     </dependency>
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <version>${hibernate-version}</version>
+      </dependency>
 
     <!-- Spring mvc 4 dependencies -->
       <dependency>
@@ -196,6 +202,7 @@
             <configuration>
                 <source>1.8</source>
                 <target>1.8</target>
+                <encoding>UTF-8</encoding>
             </configuration>
 			<version>3.7.0</version>
         </plugin>

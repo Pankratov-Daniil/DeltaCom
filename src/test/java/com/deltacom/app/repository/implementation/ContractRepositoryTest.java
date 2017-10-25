@@ -13,6 +13,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -42,7 +44,7 @@ public class ContractRepositoryTest {
         Contract noneContract = contractRepository.getContractByNumber("8945465164");
 
         assertNotNull(realContract);
-        assertEquals(realContract.getClient().getFirstName(), "Даниил");
+        assertEquals(realContract.getClient().getEmail(), "mobigod0@gmail.com");
         assertNull(noneContract);
     }
 
@@ -69,11 +71,11 @@ public class ContractRepositoryTest {
         client.setId(5);
         Tariff tariff = new Tariff();
         tariff.setId(1);
-        contractRepository.add(new Contract(client, new NumbersPool("89314523412", true), tariff, null));
+        contractRepository.add(new Contract(client, new NumbersPool("89314523412", true), tariff, new ArrayList<>()));
         assertEquals(contractRepository.getAll().size(), 5);
     }
 
-    @Test(expected = RepositoryException.class)
+    @Test(expected = ConstraintViolationException.class)
     @Rollback
     public void addExceptionTest() {
         contractRepository.add(new Contract());

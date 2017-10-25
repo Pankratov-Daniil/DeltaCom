@@ -21,12 +21,15 @@ public class NumbersPoolServiceImpl implements NumbersPoolService {
 
     /**
      * Updates NumbersPool entity in database.
-     * @param entity NumbersPool entity to be updated
+     * @param numbersPool NumbersPool entity to be updated
      */
     @Transactional
-    public void updateNumbersPool(NumbersPool entity) {
+    public void updateNumbersPool(NumbersPool numbersPool) {
         try {
-            numbersPoolRepository.update(entity);
+            if(numbersPool == null) {
+                throw new PersistenceException("Numbers pool cannot be null.");
+            }
+            numbersPoolRepository.update(numbersPool);
         } catch (PersistenceException ex) {
             throw new NumbersPoolException("NumbersPool wasn't updated: ", ex);
         }

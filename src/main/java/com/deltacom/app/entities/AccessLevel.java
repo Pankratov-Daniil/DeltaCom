@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 
 /**
@@ -11,10 +13,11 @@ import javax.persistence.*;
 public class AccessLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     public AccessLevel() {}

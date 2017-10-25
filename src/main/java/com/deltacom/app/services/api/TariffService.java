@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface TariffService {
     public List<Tariff> getAllTariffs();
-    public Tariff getTariffById(Integer id);
+    public Tariff getTariffById(int id);
     public void addTariff(Tariff tariff, String[] tariffOptionsIds);
     public void updateTariff(Tariff tariff, String[] tariffOptionsIds);
     public void deleteTariff(int id);

@@ -208,7 +208,7 @@ function openChangeContractModal() {
     var tariffSelect = $("#selectTariff");
     var optionsSelect = $("#selectOptions");
     var curTariffInfoDiv = $("#curTariff");
-    var tariff = undefined;
+    var tariff;
     var selectedOptions = [];
     tariffSelect.html(makeOptionsForSelect(tariffs));
     if(useCart) {

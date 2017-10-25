@@ -1,6 +1,7 @@
 package com.deltacom.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,30 +16,36 @@ import java.util.Set;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = false)
+    @NotBlank
     private String firstName;
     @Basic
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false)
+    @NotBlank
     private String lastName;
     @Basic
-    @Column(name = "birthDate")
+    @Column(name = "birthDate", nullable = false)
     @Temporal(value = TemporalType.DATE)
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private Date birthDate;
     @Basic
-    @Column(name = "passport")
+    @Column(name = "passport", nullable = false)
+    @NotBlank
     private String passport;
     @Basic
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
+    @NotBlank
     private String address;
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
+    @NotBlank
     private String email;
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
+    @NotBlank
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "`clients_access_levels`",

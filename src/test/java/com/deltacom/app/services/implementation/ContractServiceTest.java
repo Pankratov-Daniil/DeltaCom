@@ -99,7 +99,7 @@ public class ContractServiceTest {
     @Test
     @Rollback
     public void updateContract() throws Exception {
-        contractService.updateContract("89222222222", 2, new int[0]);
+        contractService.updateContract("89222222222", 2, new int[]{1});
 
         assertEquals(contractService.getContractByNumber("89222222222").getTariff().getId(), 2);
     }

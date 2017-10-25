@@ -27,7 +27,7 @@ public class OptionServiceImpl implements OptionService {
      */
     @Override
     @Transactional
-    public Option getOptionById(Integer id) {
+    public Option getOptionById(int id) {
         try {
             return optionRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -66,17 +66,25 @@ public class OptionServiceImpl implements OptionService {
 
     /**
      * Updates option
-     * @param option otion without comp. and incomp. options
+     * @param option option without comp. and incomp. options
      * @param incompatibleOptionsIds list of incompatible options ids
      * @param compatibleOptionsIds list of compatible options ids
      */
     @Override
     @Transactional
     public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
-        option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
-        option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
-
         try {
+            if(option == null){
+                throw new PersistenceException("Option cannot be null.");
+            }
+            if(incompatibleOptionsIds == null || incompatibleOptionsIds.length == 0) {
+                throw new PersistenceException("Incompatible options list cannot be empty.");
+            }
+            if(compatibleOptionsIds == null || compatibleOptionsIds.length == 0) {
+                throw new PersistenceException("Compatible options list cannot be empty.");
+            }
+            option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
+            option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
             optionRepository.update(option);
         } catch (PersistenceException ex) {
             throw new OptionException("Option wasn't updated: ", ex);
@@ -92,10 +100,18 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional
     public void addOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds) {
-        option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
-        option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
-
-        try {
+        try{
+            if(option == null){
+                throw new PersistenceException("Option cannot be null.");
+            }
+            if(incompatibleOptionsIds == null || incompatibleOptionsIds.length == 0) {
+                throw new PersistenceException("Incompatible options list cannot be empty.");
+            }
+            if(compatibleOptionsIds == null || compatibleOptionsIds.length == 0) {
+                throw new PersistenceException("Compatible options list cannot be empty.");
+            }
+            option.setIncompatibleOptions(createOptionListFromIds(incompatibleOptionsIds));
+            option.setCompatibleOptions(createOptionListFromIds(compatibleOptionsIds));
             optionRepository.add(option);
         } catch (PersistenceException ex) {
             throw new OptionException("Option wasn't added: ", ex);
@@ -110,7 +126,11 @@ public class OptionServiceImpl implements OptionService {
     @Transactional
     public void deleteOption(int id) {
         try {
-            optionRepository.remove(getOptionById(id));
+            Option option = getOptionById(id);
+            if(option == null) {
+                throw new PersistenceException("Option wasn't found");
+            }
+            optionRepository.remove(option);
         } catch (PersistenceException ex) {
             throw new OptionException("Option wasn't deleted: ", ex);
         }

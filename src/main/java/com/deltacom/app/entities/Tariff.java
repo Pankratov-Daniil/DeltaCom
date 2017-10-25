@@ -1,5 +1,9 @@
 package com.deltacom.app.entities;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,18 +15,20 @@ import java.util.List;
 public class Tariff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
     @Basic
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private float price;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "`tariff_option`",
             joinColumns = @JoinColumn(name = "idTariff"),
             inverseJoinColumns = @JoinColumn(name = "idOption"))
+    @NotEmpty
     private List<Option> options;
 
     public Tariff(){

@@ -3,6 +3,7 @@ package com.deltacom.app.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -13,10 +14,10 @@ import java.util.List;
 public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private int id;
     @OneToOne
-    @JoinColumn(name = "number")
+    @JoinColumn(name = "number", nullable = false)
     private NumbersPool numbersPool;
     @Basic
     @Column(name = "blocked")
@@ -25,7 +26,7 @@ public class Contract {
     @Column(name = "blockedByOperator")
     private boolean blockedByOperator;
     @Basic
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false)
     private float balance;
     @ManyToOne
     @JoinColumn(name = "idTariff")
@@ -38,6 +39,7 @@ public class Contract {
     @JoinTable(name = "`contract_option`",
                 joinColumns = @JoinColumn(name = "idContract"),
                 inverseJoinColumns = @JoinColumn(name = "idOption"))
+    @NotNull
     private List<Option> options;
 
     public Contract() {

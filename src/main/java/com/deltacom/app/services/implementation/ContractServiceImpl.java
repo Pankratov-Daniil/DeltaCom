@@ -37,9 +37,12 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public List<Contract> getAllClientContractsByEmail(String email) {
         try {
+            if(email == null) {
+                throw new PersistenceException("Email cannot be null.");
+            }
             Client client = clientService.getClientByEmail(email);
             if(client == null) {
-                throw new PersistenceException("User wasn't found");
+                throw new PersistenceException("Client wasn't found");
             }
             int id = client.getId();
             return contractRepository.getAllClientContractsById(id);
@@ -57,6 +60,9 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public List<Contract> getAllContractsByTariff(Tariff tariff) {
         try {
+            if(tariff == null) {
+                throw new PersistenceException("Tariff cannot be null.");
+            }
             return contractRepository.getAllContractsByTariff(tariff);
         } catch (PersistenceException ex) {
             throw new ContractException("Contracts wasn't gotten: ", ex);
@@ -72,6 +78,9 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public Contract getContractByNumber(String number) {
         try {
+            if(number == null) {
+                throw new PersistenceException("Number cannot be null.");
+            }
             return contractRepository.getContractByNumber(number);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't gotten by number: ", ex);
@@ -105,10 +114,12 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     public void addNewContract(int clientId, String number, int tariffId, int[] selectedOptions) {
         List<Option> options = getOptionsFromIds(selectedOptions);
-
-        NumbersPool numbersPool = new NumbersPool(number, true);
-
         try {
+            if(number == null) {
+                throw new PersistenceException("Number cannot be null.");
+            }
+            NumbersPool numbersPool = new NumbersPool(number, true);
+
             if(!checkOptions(options)) {
                 throw new PersistenceException("Check option failed");
             }
@@ -121,12 +132,15 @@ public class ContractServiceImpl implements ContractService {
             if(tariff == null) {
                 throw new PersistenceException("Tariff wasn't found");
             }
+            if(selectedOptions == null || selectedOptions.length == 0) {
+                throw new PersistenceException("Options cannot be empty");
+            }
             Contract contract = new Contract(client, numbersPool, tariff, options);
             contractRepository.add(contract);
+            numbersPoolService.updateNumbersPool(numbersPool);
         } catch (PersistenceException ex) {
             throw new ContractException("Contract wasn't added: ", ex);
         }
-        numbersPoolService.updateNumbersPool(numbersPool);
     }
 
     /**
@@ -192,6 +206,9 @@ public class ContractServiceImpl implements ContractService {
             Tariff tariff = tariffService.getTariffById(newTariffId);
             if(tariff == null) {
                 throw new PersistenceException("Tariff wasn't found");
+            }
+            if(newOptionsId == null || newOptionsId.length == 0) {
+                throw new PersistenceException("Options cannot be empty.");
             }
             contract.setTariff(tariff);
             contract.setOptions(getOptionsFromIds(newOptionsId));

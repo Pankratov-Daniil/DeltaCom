@@ -13,6 +13,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -36,21 +39,25 @@ public class TariffServiceTest {
     @Test
     @Rollback
     public void addTariff() throws Exception {
-        tariffService.addTariff(new Tariff(), new String[]{"1","2"});
+        Tariff tariff = new Tariff(343, "Tartar", 0, new ArrayList<>());
+        tariff.setId(0);
+        tariffService.addTariff(tariff, new String[]{"1","2"});
         assertEquals(tariffService.getAllTariffs().size(), 4);
     }
 
-    @Test(expected = RepositoryException.class)
+    @Test(expected = TariffException.class)
     @Rollback
     public void addTariffException() throws Exception {
-        tariffService.addTariff(new Tariff(), new String[0]);
-        tariffService.addTariff(new Tariff(), new String[0]);
+        Tariff tariff = new Tariff(343, "Tartar", 0, new ArrayList<>());
+        tariff.setId(0);
+        tariffService.addTariff(tariff, new String[0]);
+        tariffService.addTariff(tariff, new String[0]);
     }
 
     @Test
     @Rollback
     public void updateTariff() throws Exception {
-        tariffService.updateTariff(new Tariff(1, "MyNewTariffName", 200, null), new String[0]);
+        tariffService.updateTariff(new Tariff(1, "MyNewTariffName", 200, new ArrayList<>()), new String[]{"1"});
 
         assertEquals(tariffService.getTariffById(1).getName(), "MyNewTariffName");
     }

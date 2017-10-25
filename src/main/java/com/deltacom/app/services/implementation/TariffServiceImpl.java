@@ -35,7 +35,7 @@ public class TariffServiceImpl implements TariffService {
      */
     @Override
     @Transactional
-    public Tariff getTariffById(Integer id) {
+    public Tariff getTariffById(int id) {
         try {
             return tariffRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -65,8 +65,14 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void addTariff(Tariff tariff, String[] tariffOptionsIds) {
-        tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
         try {
+            if(tariff == null) {
+                throw new PersistenceException("Tariff cannot be null.");
+            }
+            if(tariffOptionsIds == null || tariffOptionsIds.length == 0){
+                throw new PersistenceException("Options ids cannot be empty.");
+            }
+            tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
             tariffRepository.add(tariff);
         } catch (PersistenceException ex) {
             throw new TariffException("Tariff wasn't added: ", ex);
@@ -81,8 +87,14 @@ public class TariffServiceImpl implements TariffService {
     @Override
     @Transactional
     public void updateTariff(Tariff tariff, String[] tariffOptionsIds) {
-        tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
         try {
+            if(tariff == null) {
+                throw new PersistenceException("Tariff cannot be null.");
+            }
+            if(tariffOptionsIds == null || tariffOptionsIds.length == 0){
+                throw new PersistenceException("Options ids cannot be empty.");
+            }
+            tariff.setOptions(createOptionsListFromIds(tariffOptionsIds));
             tariffRepository.update(tariff);
         } catch (PersistenceException ex) {
             throw new TariffException("Tariff wasn't updated: ", ex);
@@ -126,8 +138,13 @@ public class TariffServiceImpl implements TariffService {
                     }
                 }
                 if(newTariff != null) {
+                    List<Option> options = optionRepository.getAllOptionsForTariff(newTariff.getId());
+                    int[] optionsIds = new int[options.size()];
+                    for(int i = 0; i < options.size(); i++) {
+                        optionsIds[i] = options.get(i).getId();
+                    }
                     for (Contract contract : contracts) {
-                        contractService.updateContract(contract.getNumbersPool().getNumber(), newTariff.getId(), new int[0]);
+                        contractService.updateContract(contract.getNumbersPool().getNumber(), newTariff.getId(), optionsIds);
                         contract.setTariff(newTariff);
                     }
                 }

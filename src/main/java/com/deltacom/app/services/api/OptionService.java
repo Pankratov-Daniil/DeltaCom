@@ -8,7 +8,7 @@ import java.util.List;
  * Interface for Option service.
  */
 public interface OptionService {
-    public Option getOptionById(Integer id);
+    public Option getOptionById(int id);
     public List<Option> getAllOptionsForTariff(int id);
     public List<Option> getAllOptions();
     public void updateOption(Option option, String[] incompatibleOptionsIds, String[] compatibleOptionsIds);

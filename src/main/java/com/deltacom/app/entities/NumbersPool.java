@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 
 /**
@@ -9,10 +11,11 @@ import javax.persistence.*;
 @Table(name = "number_pool")
 public class NumbersPool {
     @Id
-    @Column(name = "number")
+    @Column(name = "number", nullable = false)
+    @NotBlank
     private String number;
     @Basic
-    @Column(name = "used")
+    @Column(name = "used", nullable = false)
     private boolean used;
 
     public NumbersPool() {

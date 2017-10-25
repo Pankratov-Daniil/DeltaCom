@@ -8,7 +8,7 @@ import java.util.List;
  * Interface for Client service.
  */
 public interface ClientService {
-    public Client getClientById(Integer id);
+    public Client getClientById(int id);
     public Client getClientByEmail(String email);
     public boolean addNewClient(Client client, String[] accessLevelsIds);
     public List<Client> getClientsFromIndex(int startIndex, int amount);

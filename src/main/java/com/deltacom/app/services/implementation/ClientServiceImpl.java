@@ -32,8 +32,9 @@ public class ClientServiceImpl implements ClientService{
      * @param id id of Client entity to be found
      * @return founded Client entity
      */
+    @Override
     @Transactional
-    public Client getClientById(Integer id) {
+    public Client getClientById(int id) {
         try {
             return clientRepository.getById(id);
         } catch (PersistenceException ex) {
@@ -50,6 +51,9 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     public Client getClientByEmail(String email) {
         try {
+            if(email == null) {
+                throw new PersistenceException("Email cannot be null.");
+            }
             return clientRepository.getClientByEmail(email);
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't gotten by email: ", ex);
@@ -66,19 +70,22 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     public boolean addNewClient(Client client, String[] accessLevelsIds) {
         Set<AccessLevel> accessLevels = new HashSet<>();
-
-        if(accessLevelsIds == null || accessLevelsIds.length == 0) {
-            accessLevels.add(new AccessLevel(1));
-        }
-        else {
-            for (String accessLevelId : accessLevelsIds) {
-                accessLevels.add(new AccessLevel(Integer.parseInt(accessLevelId)));
-            }
-        }
-        client.setPassword(PasswordEncrypter.encryptPassword(client.getPassword()));
-        client.setAccessLevels(accessLevels);
-
         try {
+            if(client == null) {
+                throw new PersistenceException("Client cannot be null");
+            }
+            if(accessLevelsIds == null || accessLevelsIds.length == 0) {
+                accessLevels.add(new AccessLevel(1));
+            }
+            else {
+                for (String accessLevelId : accessLevelsIds) {
+                    accessLevels.add(new AccessLevel(Integer.parseInt(accessLevelId)));
+                }
+            }
+            client.setPassword(PasswordEncrypter.encryptPassword(client.getPassword()));
+            client.setAccessLevels(accessLevels);
+
+
             clientRepository.add(client);
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't added: ", ex);
@@ -118,6 +125,9 @@ public class ClientServiceImpl implements ClientService{
     @Transactional
     public Client getClientByNumber(String number) {
         try {
+            if(number == null) {
+                throw new PersistenceException("Number cannot be null.");
+            }
             return clientRepository.getClientByNumber(number);
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't gotten by number: ", ex);
@@ -147,6 +157,9 @@ public class ClientServiceImpl implements ClientService{
     public void deleteClient(int clientId) {
         try {
             Client client = getClientById(clientId);
+            if(client == null) {
+                throw new PersistenceException("Client wasn't found");
+            }
             for(Contract contract : client.getContracts()) {
                 contractService.deleteContract(contract.getId());
             }

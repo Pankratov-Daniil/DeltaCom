@@ -2,6 +2,8 @@ package com.deltacom.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,16 +17,17 @@ import java.util.List;
 public class Option {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
     @Basic
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private float price;
     @Basic
-    @Column(name = "connectionCost")
+    @Column(name = "connectionCost", nullable = false)
     private float connectionCost;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "incompatible_options",
