@@ -13,7 +13,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Class for handling exceptions and redirect user to beautiful error page :)
  */

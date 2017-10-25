@@ -15,9 +15,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-config-test.xml")
+@Transactional
 public class ClientRepositoryTest {
     @Autowired
     private ClientRepositoryImpl clientRepository;
@@ -26,7 +26,7 @@ public class ClientRepositoryTest {
     public void getClientByEmail() {
         Client client = clientRepository.getClientByEmail("mobigod0@gmail.com");
         assertNotNull(client);
-        assertEquals(client.getAddress(), "адрес");
+        assertEquals(client.getAddress(), "Р°РґСЂРµСЃ");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ClientRepositoryTest {
         Client noneClient = clientRepository.getClientByNumber("8922");
 
         assertNotNull(realClient);
-        assertEquals(realClient.getFirstName(), "Даниил");
+        assertEquals(realClient.getFirstName(), "Р”Р°РЅРёРёР»");
         assertNull(noneClient);
     }
 
@@ -58,7 +58,6 @@ public class ClientRepositoryTest {
     public void addTest() {
         clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "one@emai.cl", "passwd", null));
         clientRepository.add(new Client("", "", new Date(1,1,1980), "pass", "addr", "two@emai.cl", "passwd", null));
-
         assertEquals(clientRepository.getAll().size(), 15);
     }
 
@@ -72,7 +71,7 @@ public class ClientRepositoryTest {
     @Test
     @Rollback
     public void updateTest() {
-        Client existingClient = new Client("Даниил","Панкратов",new Date(29, 6, 1995),"паспорт","адрес","mobigod0@gmail.com","newPass", null);
+        Client existingClient = new Client("Р”Р°РЅРёРёР»","РџР°РЅРєСЂР°С‚РѕРІ",new Date(29, 6, 1995),"РїР°СЃРїРѕСЂС‚","Р°РґСЂРµСЃ","mobigod0@gmail.com","newPass", null);
         existingClient.setId(5);
         clientRepository.update(existingClient);
 
@@ -82,7 +81,7 @@ public class ClientRepositoryTest {
     @Test
     @Rollback
     public void removeTest() {
-        Client existingClient = new Client("Даниил","Панкратов",new Date(29, 6, 1995),"паспорт","адрес","mobigod0@gmail.com","newPass", null);
+        Client existingClient = new Client("Р”Р°РЅРёРёР»","РџР°РЅРєСЂР°С‚РѕРІ",new Date(29, 6, 1995),"РїР°СЃРїРѕСЂС‚","Р°РґСЂРµСЃ","mobigod0@gmail.com","newPass", null);
         existingClient.setId(5);
         clientRepository.remove(existingClient);
 

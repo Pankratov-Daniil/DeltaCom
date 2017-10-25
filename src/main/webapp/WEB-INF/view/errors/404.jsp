@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSS-->
-    <link rel="stylesheet" type="text/css" href="./resources/css/bootstrap-template.css">
+    <link rel="stylesheet" type="text/css" href="/DeltaCom/resources/css/bootstrap-template.css">
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css" href="./resources/css/font-awesome.min.css">
-    <script src="./resources/js/jquery-2.1.4.min.js"></script>
-    <script src="./resources/js/bootstrap.min.js"></script>
-    <script src="./resources/js/plugins/pace.min.js"></script>
-    <script src="./resources/js/bootstrap-template.js"></script>
+    <link rel="stylesheet" type="text/css" href="/DeltaCom/resources/css/font-awesome.min.css">
+    <script src="/DeltaCom/resources/js/jquery-2.1.4.min.js"></script>
+    <script src="/DeltaCom/resources/js/bootstrap.min.js"></script>
+    <script src="/DeltaCom/resources/js/plugins/pace.min.js"></script>
+    <script src="/DeltaCom/resources/js/bootstrap-template.js"></script>
 
     <title>My DeltaCom</title>
 </head>

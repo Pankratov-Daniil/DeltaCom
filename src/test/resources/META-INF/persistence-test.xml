@@ -12,14 +12,8 @@
         <class>com.deltacom.app.entities.Tariff</class>
 
         <properties>
-            <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
-
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:PUBLIC" />
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
         </properties>
     </persistence-unit>

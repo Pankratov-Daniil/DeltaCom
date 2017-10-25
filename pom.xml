@@ -22,6 +22,7 @@
       <mockito.version>2.11.0</mockito.version>
       <h2database.version>1.4.196</h2database.version>
       <junit.version>4.12</junit.version>
+      <flyway.version>4.2.0</flyway.version>
 
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
@@ -165,6 +166,12 @@
           <version>${h2database.version}</version>
           <scope>test</scope>
       </dependency>
+      <dependency>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-core</artifactId>
+          <version>${flyway.version}</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
 
   <build>
@@ -197,7 +204,6 @@
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
             <version>3.3.0.603</version>
-
         </plugin>
 
         <plugin>
@@ -231,10 +237,7 @@
             <version>2.20.1</version>
             <configuration>
                 <includes>
-                    <include>**/Test*.java</include>
-                    <include>**/*Test.java</include>
-                    <include>**/*Tests.java</include>
-                    <include>**/*TestCase.java</include>
+                    <include>**/AllTestsSuite.java</include>
                 </includes>
             </configuration>
         </plugin>

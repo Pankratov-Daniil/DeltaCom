@@ -5,8 +5,6 @@ import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.exceptions.RepositoryException;
-import com.deltacom.app.repository.api.ContractRepository;
-import com.deltacom.app.repository.api.TariffRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,7 @@ public class ContractRepositoryTest {
         Contract noneContract = contractRepository.getContractByNumber("8945465164");
 
         assertNotNull(realContract);
-        assertEquals(realContract.getClient().getFirstName(), "Даниил");
+        assertEquals(realContract.getClient().getFirstName(), "Р”Р°РЅРёРёР»");
         assertNull(noneContract);
     }
 
