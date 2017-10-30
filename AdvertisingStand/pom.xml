@@ -29,6 +29,13 @@
           <groupId>org.jboss.resteasy</groupId>
           <artifactId>resteasy-jaxrs</artifactId>
           <version>${resteasy.version}</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.resteasy</groupId>
+          <artifactId>resteasy-client</artifactId>
+          <version>${resteasy.version}</version>
+          <scope>provided</scope>
       </dependency>
       <dependency>
           <groupId>org.jboss.ejb3</groupId>
@@ -74,13 +81,6 @@
             <groupId>org.wildfly.plugins</groupId>
             <artifactId>wildfly-maven-plugin</artifactId>
             <version>1.2.0.Final</version>
-            <configuration>
-                <domain>
-                    <server-groups>
-                        <server-group>main-server-group</server-group>
-                    </server-groups>
-                </domain>
-            </configuration>
         </plugin>
 
         <plugin>

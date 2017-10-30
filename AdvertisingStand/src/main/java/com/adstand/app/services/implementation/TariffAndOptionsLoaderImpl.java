@@ -23,7 +23,7 @@ public class TariffAndOptionsLoaderImpl implements TariffAndOptionsLoader {
 
     @Override
     public void getTariffsAndOptions() {
-        logger.info("TARIFFS");
+        logger.error("TARIFFS");
         System.out.println("Getting tariffs and options!");
     }
 }

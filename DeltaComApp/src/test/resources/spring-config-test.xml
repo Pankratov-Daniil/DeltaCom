@@ -4,7 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:amq="http://activemq.apache.org/schema/core"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.3.xsd
@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	    http://activemq.apache.org/schema/core
-        http://activemq.apache.org/schema/core/activemq-core-5.14.5.xsd">
+        http://activemq.apache.org/schema/core/activemq-core-5.14.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
     <context:annotation-config/>
     <context:component-scan base-package="com.deltacom.app"/>
 
@@ -58,25 +58,17 @@
     <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"
           factory-method="aspectOf"/>
 
-    <!-- Creating ActiveMQ broker -->
-    <amq:broker useJmx="false" persistent="false">
-        <amq:transportConnectors>
-            <amq:transportConnector uri="tcp://localhost:0" />
-        </amq:transportConnectors>
-    </amq:broker>
-    <amq:connectionFactory id="connectionFactory" brokerURL="vm://localhost"/>
-    <!--<amq:connectionFactory id="connectionFactory" brokerURL="tcp://localhost:61616"/>-->
-    <bean id="cachingBrokerConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
-        <property name="targetConnectionFactory" ref="connectionFactory"/>
-        <property name="sessionCacheSize" value="10"/>
-    </bean>
-    <!-- A destination in ActiveMQ -->
-    <bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg index="0" value="DeltaCom.topic" />
-    </bean>
+
+    <jee:jndi-lookup id="connectionFactory"
+                     jndi-name="java:/ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
+                     lookup-on-startup="false"/>
+
+    <jee:jndi-lookup id="jndiSendTopic" jndi-name="java:/deltacom/topic"
+                     proxy-interface="javax.jms.Topic" lookup-on-startup="false"/>
+
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="cachingBrokerConnectionFactory" />
-        <property name="defaultDestination" ref="destination"/>
-        <property name="pubSubDomain" value="true"/>
+        <property name="connectionFactory" ref ="connectionFactory"/>
+        <property name="defaultDestination" ref="jndiSendTopic"/>
+        <property name="sessionAcknowledgeModeName" value="AUTO_ACKNOWLEDGE"/>
     </bean>
 </beans>
