@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
@@ -10,7 +11,9 @@
 	   http://www.springframework.org/schema/context
 	   http://www.springframework.org/schema/context/spring-context.xsd
 	   http://www.springframework.org/schema/tx
-	   http://www.springframework.org/schema/tx/spring-tx.xsd">
+	   http://www.springframework.org/schema/tx/spring-tx.xsd
+	   http://www.springframework.org/schema/jee
+	   http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <import resource="activeMQ-config.xml"/>
 
@@ -18,26 +21,19 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven/>
     <context:annotation-config/>
-    <!-- context:component-scan This tag will scan @Component, @Repository, @Service, @Controller
-         and also resolves @Autowired and @Qualifier -->
     <context:component-scan base-package="com.deltacom.app" />
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/deltacom?characterEncoding=UTF-8" />
-        <property name="username" value="root" />
-        <property name="password" value="123" />
-    </bean>
+    <jee:jndi-lookup id="dataSource" jndi-name="java:jboss/datasources/DeltaComMySQLDS" expected-type="javax.sql.DataSource"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="DeltaCom" />
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
+        <property name="persistenceUnitName" value="DeltaComMySQLDS" />
+        <property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
+    <tx:jta-transaction-manager  />
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="jdbcTemplate"

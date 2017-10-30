@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="adstandLog" fileName="adstand.log" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+        </File>
+        <File name="errorsLog" fileName="errors.log" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.adstand.app" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="adstandLog"/>
+            <AppenderRef ref="errorsLog"/>
+        </Logger>
+        <Root>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="errorsLog"/>
+        </Root>
+    </Loggers>
+</Configuration>

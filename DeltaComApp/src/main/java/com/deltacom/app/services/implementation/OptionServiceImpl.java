@@ -2,6 +2,7 @@ package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.exceptions.OptionException;
+import com.deltacom.app.repository.api.OptionRepository;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.services.api.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service("OptionService")
 public class OptionServiceImpl implements OptionService {
     @Autowired
-    private OptionRepositoryImpl optionRepository;
+    private OptionRepository optionRepository;
 
     /**
      * Gets Option entity by its id from database.

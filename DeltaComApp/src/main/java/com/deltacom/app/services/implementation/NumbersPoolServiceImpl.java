@@ -2,6 +2,7 @@ package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.exceptions.NumbersPoolException;
+import com.deltacom.app.repository.api.NumbersPoolRepository;
 import com.deltacom.app.repository.implementation.NumbersPoolRepositoryImpl;
 import com.deltacom.app.services.api.NumbersPoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 @Service("NumbersPoolService")
 public class NumbersPoolServiceImpl implements NumbersPoolService {
     @Autowired
-    private NumbersPoolRepositoryImpl numbersPoolRepository;
+    private NumbersPoolRepository numbersPoolRepository;
 
     /**
      * Updates NumbersPool entity in database.

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Client repository implementation
  */
-@Repository("Client")
+@Repository("ClientRepository")
 public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> implements ClientRepository {
     @PersistenceContext
     private EntityManager entityManager;

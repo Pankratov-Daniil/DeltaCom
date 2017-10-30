@@ -22,12 +22,13 @@
         <property name="sessionCacheSize" value="10"/>
     </bean>
     <!-- A destination in ActiveMQ -->
-    <bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg index="0" value="DeltaCom.topic" />
-    </bean>
+    <amq:topic id="DeltacomTopic" physicalName="deltacom/topic"/>
+    <!--<bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--<constructor-arg index="0" value="DeltaCom.topic" />-->
+    <!--</bean>-->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="cachingBrokerConnectionFactory" />
-        <property name="defaultDestination" ref="destination"/>
+        <property name="defaultDestination" ref="DeltacomTopic"/>
         <property name="pubSubDomain" value="true"/>
     </bean>
 </beans>

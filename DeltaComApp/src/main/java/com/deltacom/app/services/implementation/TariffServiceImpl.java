@@ -4,6 +4,8 @@ import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.exceptions.TariffException;
+import com.deltacom.app.repository.api.OptionRepository;
+import com.deltacom.app.repository.api.TariffRepository;
 import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
 import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
 import com.deltacom.app.services.api.ContractService;
@@ -22,9 +24,9 @@ import java.util.List;
 @Service("TariffService")
 public class TariffServiceImpl implements TariffService {
     @Autowired
-    private TariffRepositoryImpl tariffRepository;
+    private TariffRepository tariffRepository;
     @Autowired
-    private OptionRepositoryImpl optionRepository;
+    private OptionRepository optionRepository;
     @Autowired
     private ContractService contractService;
 

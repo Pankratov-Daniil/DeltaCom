@@ -11,12 +11,12 @@
   <properties>
       <project.build.java.target>1.8</project.build.java.target>
       <springframework.version>4.3.12.RELEASE</springframework.version>
-      <hibernate-version>5.2.10.Final</hibernate-version>
+      <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+      <hibernate-version>5.2.12.Final</hibernate-version>
       <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
       <jsp.version>2.2</jsp.version>
       <servlet.version>3.1.0</servlet.version>
       <jstl.version>1.2</jstl.version>
-      <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
       <jackson.databind.version>2.9.1</jackson.databind.version>
       <log4j.version>2.9.1</log4j.version>
       <aspectJ.version>1.8.11</aspectJ.version>
@@ -29,6 +29,25 @@
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${springframework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-bom</artifactId>
+                <version>${springsecurity.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
   <dependencies>
     <dependency>
         <groupId>mysql</groupId>
@@ -39,90 +58,55 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>${hibernate-version}</version>
+        <scope>provided</scope>
     </dependency>
       <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-validator</artifactId>
           <version>${hibernate.validator.version}</version>
+          <scope>provided</scope>
       </dependency>
 
     <!-- Spring mvc 4 dependencies -->
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-web</artifactId>
-          <version>${springframework.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
-          <version>${springframework.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-context-support</artifactId>
-          <version>${springframework.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-orm</artifactId>
-          <version>${springframework.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-beans</artifactId>
-          <version>${springframework.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-context</artifactId>
-          <version>${springframework.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-tx</artifactId>
-          <version>${springframework.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-jms</artifactId>
-          <version>${springframework.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-web</artifactId>
-          <version>${springsecurity.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-config</artifactId>
-          <version>${springsecurity.version}</version>
       </dependency>
       <dependency>
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-taglibs</artifactId>
-          <version>${springsecurity.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-test</artifactId>
-          <version>${springsecurity.version}</version>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-test</artifactId>
-          <version>${springframework.version}</version>
-          <scope>test</scope>
       </dependency>
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-core</artifactId>
           <version>${jackson.databind.version}</version>
+          <scope>provided</scope>
       </dependency>
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <version>${jackson.databind.version}</version>
+          <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -141,6 +125,7 @@
           <groupId>javax.servlet</groupId>
           <artifactId>jstl</artifactId>
           <version>${jstl.version}</version>
+          <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -166,6 +151,16 @@
           <version>${activemq.version}</version>
       </dependency>
 
+      <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-test</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-test</artifactId>
+          <scope>test</scope>
+      </dependency>
       <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
@@ -195,18 +190,11 @@
   <build>
     <finalName>DeltaCom</finalName>
 	<plugins>
-	  <plugin>
-	    <groupId>org.apache.tomcat.maven</groupId>
-		<artifactId>tomcat7-maven-plugin</artifactId>
-		<version>2.2</version>
-		<configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <server>TomcatServer</server>
-          <username>root</username>
-          <password>root</password>
-		  <path>/DeltaCom</path>
-		</configuration>
-	  </plugin>
+        <plugin>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
+            <version>1.2.0.Final</version>
+        </plugin>
 
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -257,6 +245,7 @@
             <configuration>
                 <includes>
                     <include>**/AllTestsSuite.java</include>
+                    <!--<include>**/sdadd.java</include>-->
                 </includes>
             </configuration>
         </plugin>

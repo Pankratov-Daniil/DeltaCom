@@ -14,11 +14,28 @@
       <junit.version>4.12</junit.version>
       <log4j.version>2.9.1</log4j.version>
       <activemq.version>5.14.5</activemq.version>
-
+      <javaee.version>8.0</javaee.version>
+      <resteasy.version>3.1.4.Final</resteasy.version>
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
 
   <dependencies>
+      <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>${javaee.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.resteasy</groupId>
+          <artifactId>resteasy-jaxrs</artifactId>
+          <version>${resteasy.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jboss.ejb3</groupId>
+          <artifactId>jboss-ejb3-ext-api</artifactId>
+          <version>2.2.0.Final</version>
+      </dependency>
+
       <dependency>
           <groupId>org.apache.logging.log4j</groupId>
           <artifactId>log4j-api</artifactId>
@@ -53,22 +70,17 @@
   <build>
     <finalName>AdvertisingStand</finalName>
 	<plugins>
-	  <!--<plugin>
-	    <groupId>org.apache.tomcat.maven</groupId>
-		<artifactId>tomcat7-maven-plugin</artifactId>
-		<version>2.2</version>
-		<configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <server>TomcatServer</server>
-          <username>root</username>
-          <password>root</password>
-		  <path>/DeltaCom</path>
-		</configuration>
-	  </plugin>-->
         <plugin>
             <groupId>org.wildfly.plugins</groupId>
             <artifactId>wildfly-maven-plugin</artifactId>
             <version>1.2.0.Final</version>
+            <configuration>
+                <domain>
+                    <server-groups>
+                        <server-group>main-server-group</server-group>
+                    </server-groups>
+                </domain>
+            </configuration>
         </plugin>
 
         <plugin>

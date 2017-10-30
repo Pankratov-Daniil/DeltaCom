@@ -4,11 +4,13 @@ import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.exceptions.ClientException;
+import com.deltacom.app.repository.api.ClientRepository;
 import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
 import com.deltacom.app.utils.PasswordEncrypter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,7 @@ import java.util.Set;
 @Service("ClientService")
 public class ClientServiceImpl implements ClientService{
     @Autowired
-    private ClientRepositoryImpl clientRepository;
+    private ClientRepository clientRepository;
     @Autowired
     private ContractService contractService;
 

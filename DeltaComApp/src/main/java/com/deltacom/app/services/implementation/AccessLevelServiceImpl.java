@@ -2,6 +2,7 @@ package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.exceptions.AccessLevelException;
+import com.deltacom.app.repository.api.AccessLevelRepository;
 import com.deltacom.app.repository.implementation.AccessLevelRepositoryImpl;
 import com.deltacom.app.services.api.AccessLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 @Service("AccessLevelService")
 public class AccessLevelServiceImpl implements AccessLevelService {
     @Autowired
-    private AccessLevelRepositoryImpl accessLevelRepository;
+    private AccessLevelRepository accessLevelRepository;
 
     /**
      * Gets all AccessLevel entities from database.

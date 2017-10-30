@@ -2,6 +2,7 @@ package com.deltacom.app.repository.implementation;
 
 import com.deltacom.app.exceptions.RepositoryException;
 import com.deltacom.app.repository.api.GenericRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,7 @@ import java.util.List;
  * @param <T> type of entity
  * @param <K> id parameter type
  */
+@Repository
 public abstract class HibernateRepository<T, K> implements GenericRepository<T, K> {
     @PersistenceContext
     private EntityManager entityManager;

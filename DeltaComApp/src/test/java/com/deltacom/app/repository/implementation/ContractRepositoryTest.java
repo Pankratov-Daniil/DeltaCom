@@ -4,6 +4,7 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.entities.Tariff;
+import com.deltacom.app.exceptions.ContractException;
 import com.deltacom.app.exceptions.RepositoryException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,7 +76,7 @@ public class ContractRepositoryTest {
         assertEquals(contractRepository.getAll().size(), 5);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = RepositoryException.class)
     @Rollback
     public void addExceptionTest() {
         contractRepository.add(new Contract());

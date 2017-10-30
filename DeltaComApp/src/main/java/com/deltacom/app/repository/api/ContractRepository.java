@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Repository for Contract
  */
-public interface ContractRepository {
+public interface ContractRepository extends GenericRepository<Contract, Integer>{
     public List<Contract> getAllClientContractsById(int clientId);
     public Contract getContractByNumber(String number);
     public List<Contract> getAllContractsByTariff(Tariff tariff);
