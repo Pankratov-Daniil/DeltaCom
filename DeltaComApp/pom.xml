@@ -2,12 +2,19 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+  
+    <parent>
+      <artifactId>DeltaComMain</artifactId>
+	  <groupId>com.deltacom</groupId>
+	  <version>0.6.2</version>
+  </parent>
+  
   <groupId>com.deltacom.app</groupId>
   <artifactId>DeltaCom</artifactId>
   <packaging>war</packaging>
   <version>0.6.2</version>
   <name>DeltaCom Maven Webapp</name>
-
+  
   <properties>
       <project.build.java.target>1.8</project.build.java.target>
       <springframework.version>4.3.12.RELEASE</springframework.version>
@@ -49,6 +56,12 @@
     </dependencyManagement>
 
   <dependencies>
+      <dependency>
+          <groupId>com.deltacom.dto</groupId>
+          <artifactId>DeltaComDTO</artifactId>
+          <version>1.0</version>
+      </dependency>
+
     <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
@@ -244,8 +257,8 @@
             <version>2.20.1</version>
             <configuration>
                 <includes>
-                    <include>**/AllTestsSuite.java</include>
-                    <!--<include>**/sdadd.java</include>-->
+                    <!--<include>**/AllTestsSuite.java</include>-->
+                    <include>**/sdadd.java</include>
                 </includes>
             </configuration>
         </plugin>

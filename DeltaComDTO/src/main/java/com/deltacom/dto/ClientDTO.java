@@ -1,4 +1,4 @@
-package com.deltacom.app.entities;
+package com.deltacom.dto;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -118,9 +118,5 @@ public class ClientDTO {
                 ", password='" + password + '\'' +
                 ", accessLevels=" + Arrays.toString(accessLevels) +
                 '}';
-    }
-
-    public Client toClient() {
-        return new Client(id, firstName, lastName, birthDate, passport, address, email, password, null, null);
     }
 }

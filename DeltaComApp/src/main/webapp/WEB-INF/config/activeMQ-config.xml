@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:amq="http://activemq.apache.org/schema/core" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-	   http://activemq.apache.org/schema/core
-       http://activemq.apache.org/schema/core/activemq-core-5.14.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"
         factory-method="aspectOf"/>
 
 
     <jee:jndi-lookup id="connectionFactory"
-                     jndi-name="java:/ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
-                     lookup-on-startup="false"/>
+                     jndi-name="activemq/ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
+                     lookup-on-startup="true"/>
 
-    <jee:jndi-lookup id="jndiSendTopic" jndi-name="java:/deltacom/topic"
-                     proxy-interface="javax.jms.Topic" lookup-on-startup="false"/>
+    <jee:jndi-lookup id="jndiSendTopic" jndi-name="activemq/deltacom/topic"
+                     proxy-interface="javax.jms.Topic" lookup-on-startup="true"/>
 
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref ="connectionFactory"/>

@@ -1,6 +1,8 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.*;
+import com.deltacom.app.utils.DTOConverter;
+import com.deltacom.dto.*;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -87,7 +89,7 @@ public class CommonController {
     @ResponseBody
     @RequestMapping(value = "/commons/regNewClient", method = RequestMethod.POST)
     public void regNewClient(@RequestBody ClientDTO clientDTO) {
-        clientService.addNewClient(clientDTO.toClient(), clientDTO.getAccessLevels());
+        clientService.addNewClient(DTOConverter.ClientDTOToClient(clientDTO), clientDTO.getAccessLevels());
     }
 
     /**

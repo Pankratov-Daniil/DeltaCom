@@ -1,8 +1,8 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
-import com.deltacom.app.entities.ClientDTO;
 import com.deltacom.app.services.api.*;
+import com.deltacom.dto.ClientDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,8 @@
 package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.*;
+import com.deltacom.app.utils.DTOConverter;
+import com.deltacom.dto.*;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -101,7 +103,7 @@ public class ManagerController extends CommonController {
      */
     @RequestMapping(value = "/changeOption", method = RequestMethod.POST)
     public @ResponseBody void changeOption(@RequestBody OptionDTO optionDTO) {
-        Option option = optionDTO.toOption();
+        Option option = DTOConverter.OptionDTOToOption(optionDTO);
         optionService.updateOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
@@ -111,7 +113,7 @@ public class ManagerController extends CommonController {
      */
     @RequestMapping(value = "/createOption", method = RequestMethod.POST)
     public @ResponseBody void createOption(@RequestBody OptionDTO optionDTO) {
-        Option option = optionDTO.toOption();
+        Option option = DTOConverter.OptionDTOToOption(optionDTO);
         optionService.addOption(option, optionDTO.getIncompatibleOptions(), optionDTO.getCompatibleOptions());
     }
 
@@ -131,7 +133,7 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/createTariff", method = RequestMethod.POST)
     public void createTariff(@RequestBody TariffDTO tariffDTO) {
-        Tariff tariff = tariffDTO.toTariff();
+        Tariff tariff = DTOConverter.TariffDTOToTariff(tariffDTO);
         tariffService.addTariff(tariff, tariffDTO.getOptionsIds());
     }
 
@@ -142,7 +144,7 @@ public class ManagerController extends CommonController {
     @ResponseBody
     @RequestMapping(value = "/changeTariff", method = RequestMethod.POST)
     public void changeTariff(@RequestBody TariffDTO tariffDTO) {
-        Tariff tariff = tariffDTO.toTariff();
+        Tariff tariff = DTOConverter.TariffDTOToTariff(tariffDTO);
         tariffService.updateTariff(tariff, tariffDTO.getOptionsIds());
     }
 

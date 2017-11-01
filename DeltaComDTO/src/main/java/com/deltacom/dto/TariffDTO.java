@@ -1,4 +1,4 @@
-package com.deltacom.app.entities;
+package com.deltacom.dto;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,18 +21,6 @@ public class TariffDTO {
         this.name = name;
         this.price = price;
         this.optionsIds = optionsIds;
-    }
-
-    public TariffDTO(Tariff tariff) {
-        this.id = tariff.getId();
-        this.name = tariff.getName();
-        this.price = tariff.getPrice();
-        List<Option> options = tariff.getOptions();
-        String[] tariffOptionsIds = new String[options.size()];
-        for(int i = 0; i < options.size(); i++) {
-            tariffOptionsIds[i] = Integer.toString(options.get(i).getId());
-        }
-        this.optionsIds = tariffOptionsIds;
     }
 
     public int getId() {
@@ -98,9 +86,5 @@ public class TariffDTO {
                 ", price=" + price +
                 ", optionsIds=" + Arrays.toString(optionsIds) +
                 '}';
-    }
-
-    public Tariff toTariff() {
-        return new Tariff(id, name, price, null);
     }
 }

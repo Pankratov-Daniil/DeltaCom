@@ -1,4 +1,4 @@
-package com.deltacom.app.entities;
+package com.deltacom.dto;
 
 import java.util.Arrays;
 
@@ -112,9 +112,5 @@ public class OptionDTO {
                 ", incompatibleOptions=" + Arrays.toString(incompatibleOptions) +
                 ", compatibleOptions=" + Arrays.toString(compatibleOptions) +
                 '}';
-    }
-
-    public Option toOption() {
-        return new Option(id, name, price, connectionCost, null, null);
     }
 }

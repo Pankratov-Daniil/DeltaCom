@@ -2,6 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>DeltaComMain</artifactId>
+        <groupId>com.deltacom</groupId>
+        <version>0.6.2</version>
+    </parent>
+    
   <groupId>com.adstand.app</groupId>
   <artifactId>AdvertisingStand</artifactId>
   <packaging>war</packaging>
@@ -20,6 +27,12 @@
   </properties>
 
   <dependencies>
+      <dependency>
+          <groupId>com.deltacom.dto</groupId>
+          <artifactId>DeltaComDTO</artifactId>
+          <version>1.0</version>
+      </dependency>
+
       <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>

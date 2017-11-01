@@ -2,7 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:amq="http://activemq.apache.org/schema/core"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,8 +11,8 @@
         http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	    http://activemq.apache.org/schema/core
-        http://activemq.apache.org/schema/core/activemq-core-5.14.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+        http://www.springframework.org/schema/jee
+        http://www.springframework.org/schema/jee/spring-jee.xsd">
     <context:annotation-config/>
     <context:component-scan base-package="com.deltacom.app"/>
 
@@ -60,10 +59,10 @@
 
 
     <jee:jndi-lookup id="connectionFactory"
-                     jndi-name="java:/ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
+                     jndi-name="java:/activemq/deltacom/topic" proxy-interface="javax.jms.ConnectionFactory"
                      lookup-on-startup="false"/>
 
-    <jee:jndi-lookup id="jndiSendTopic" jndi-name="java:/deltacom/topic"
+    <jee:jndi-lookup id="jndiSendTopic" jndi-name="java:/activemq/deltacom/topic"
                      proxy-interface="javax.jms.Topic" lookup-on-startup="false"/>
 
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">

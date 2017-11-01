@@ -9,6 +9,7 @@
             <module name="com.fasterxml.jackson.core.jackson-databind" />
             <module name="org.springframework" services="import" meta-inf="import"/>
             <module name="javax.jms.api" export="true"/>
+            <module name="deployment.activemq-rar-5.14.5.rar" export="true" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

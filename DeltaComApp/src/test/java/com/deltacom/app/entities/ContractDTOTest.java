@@ -1,5 +1,6 @@
 package com.deltacom.app.entities;
 
+import com.deltacom.dto.ContractDTO;
 import org.junit.Before;
 import org.junit.Test;
 

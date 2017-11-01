@@ -1,0 +1,60 @@
+version: '2.1'
+
+services:
+    deltacom-app:
+        build: ./DeltaComApp
+        environment:
+            - "DB_URI:deltacom-mysql:3306"
+        ports:
+            - "8080:8080"
+        container_name: DeltaComApp
+        depends_on:
+            db:
+                condition: service_healthy
+            activemq-service:
+                condition: service_healthy
+        links:
+            - db
+            - activemq-service
+    
+    deltacom-advstand:
+        build: ./AdvertisingStand
+        ports:
+            - "80:8080"
+        container_name: DeltaComAdvStand
+        links:
+            - activemq-service
+        depends_on:
+            activemq-service:
+                condition: service_healthy
+            
+    db:
+        image: deltacom-mysql
+        #build: ./DockerEnv/deltacom-mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD:123"
+        ports:
+            - "3306:3306"
+        container_name : "deltacom-mysql"
+        healthcheck:
+            test: "/usr/bin/mysql --user=root --password=123 --execute \"SHOW DATABASES;\""
+            interval: 10s
+            timeout: 5s
+            retries: 3
+        
+    activemq-service:
+        #build: ./DockerEnv/activemq
+        image: activemq
+        container_name: "activemq"
+        environment:
+            - TZ=CEST
+        ports:
+            - "8161:8161"
+            - "61616:61616"
+        expose:
+            - 8161
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8161"]
+            interval: 30s
+            timeout: 10s
+            retries: 5

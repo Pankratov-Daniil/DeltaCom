@@ -1,8 +1,8 @@
 package com.adstand.app.services.implementation;
 
-import com.adstand.app.entities.OptionDTO;
-import com.adstand.app.entities.TariffDTO;
 import com.adstand.app.services.api.TariffAndOptionsLoader;
+import com.deltacom.dto.OptionDTO;
+import com.deltacom.dto.TariffDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import com.deltacom.app.utils.DTOConverter;
+import com.deltacom.dto.ClientDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -121,7 +123,7 @@ public class ClientDTOTest {
 
     @Test
     public void toClientTest() {
-        assertEquals(clientDTO.toClient(), new Client(2, "Daniil", "Pankratov", new Date(29,6,1995), "passp", "addr", "e@mail.com", "passwd", null, null));
+        assertEquals(DTOConverter.ClientDTOToClient(clientDTO), new Client(2, "Daniil", "Pankratov", new Date(29,6,1995), "passp", "addr", "e@mail.com", "passwd", null, null));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.deltacom.app.entities;
+package com.deltacom.dto;
 
 import java.util.Arrays;
 

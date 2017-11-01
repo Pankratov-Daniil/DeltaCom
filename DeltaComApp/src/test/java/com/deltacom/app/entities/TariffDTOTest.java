@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import com.deltacom.app.utils.DTOConverter;
+import com.deltacom.dto.TariffDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,7 +84,7 @@ public class TariffDTOTest {
 
     @Test
     public void toTariffTest() {
-        assertEquals(tariffDTO.toTariff(), new Tariff(1, "Tariff", 200, null));
+        assertEquals(DTOConverter.TariffDTOToTariff(tariffDTO), new Tariff(1, "Tariff", 200, null));
     }
 
 }

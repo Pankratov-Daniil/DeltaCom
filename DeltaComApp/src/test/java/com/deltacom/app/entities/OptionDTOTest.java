@@ -1,5 +1,7 @@
 package com.deltacom.app.entities;
 
+import com.deltacom.app.utils.DTOConverter;
+import com.deltacom.dto.OptionDTO;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -112,7 +114,7 @@ public class OptionDTOTest {
 
     @Test
     public void toOptionTest() {
-        assertEquals(optionDTO.toOption(), new Option(1, "Name", 200, 500, null, null));
+        assertEquals(DTOConverter.OptionDTOToOption(optionDTO), new Option(1, "Name", 200, 500, null, null));
     }
 
 }
