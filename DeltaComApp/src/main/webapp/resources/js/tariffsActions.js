@@ -33,6 +33,7 @@ function loadAllTariffs() {
         success: function (tariffs) {
             var cardLen = 4;
             var tariffsHtml = "<div class='row'>";
+            tariffsList = [];
             tariffs.forEach(function (tariff) {
                 tariffsHtml += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
                 tariffsHtml += "<p>Name: " + tariff.name + "<br/>Price: " + tariff.price + "</p><br/>Options: ";
