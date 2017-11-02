@@ -2,8 +2,8 @@ package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.utils.DTOConverter;
-import com.deltacom.dto.TariffDTO;
 import com.deltacom.app.services.api.TariffService;
+import com.deltacom.dto.TariffDTOwOpts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +24,11 @@ public class RestTariffsController {
      * @return list of tariffs DTOs
      */
     @RequestMapping("/getTariffsForStand")
-    public List<TariffDTO> getTariffsForStand() {
+    public List<TariffDTOwOpts> getTariffsForStand() {
         List<Tariff> tariffs = tariffService.getAllTariffs();
-        List<TariffDTO> dtos = new ArrayList<>();
+        List<TariffDTOwOpts> dtos = new ArrayList<>();
         for(Tariff tariff : tariffs) {
-            dtos.add(DTOConverter.TariffToTariffDTO(tariff));
+            dtos.add(DTOConverter.TariffToTariffDTOwOpts(tariff));
         }
         return dtos;
     }

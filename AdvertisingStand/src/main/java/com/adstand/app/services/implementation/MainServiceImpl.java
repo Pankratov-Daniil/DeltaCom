@@ -1,6 +1,7 @@
 package com.adstand.app.services.implementation;
 
-import com.adstand.app.services.api.TariffAndOptionsLoader;
+import com.adstand.app.services.api.MessageListenerService;
+import com.adstand.app.services.api.TariffsLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.ejb3.annotation.ResourceAdapter;
@@ -23,15 +24,15 @@ import javax.jms.TextMessage;
 public class MainServiceImpl implements MessageListener {
     private static final Logger logger = LogManager.getLogger(MainServiceImpl.class);
 
-    @EJB(beanName = "tariffAndOptionsLoader")
-    private TariffAndOptionsLoader tariffAndOptionsLoader;
+    @EJB(beanName = "tariffsLoader")
+    private TariffsLoader tariffsLoader;
 
    @Override
     public void onMessage(Message msg) {
        try {
            TextMessage message = (TextMessage)msg;
            logger.info("GOT MESSAGE " + message.getText());
-           tariffAndOptionsLoader.getTariffsAndOptions();
+           tariffsLoader.getTariffsFromServer();
        } catch (JMSException ex) {
 		   logger.error("CAN'T READ MESSAGE!");
            ex.printStackTrace();
