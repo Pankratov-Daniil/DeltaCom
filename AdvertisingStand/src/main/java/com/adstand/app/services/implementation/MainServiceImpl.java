@@ -28,13 +28,12 @@ public class MainServiceImpl implements MessageListener {
 
    @Override
     public void onMessage(Message msg) {
-       logger.error("GOT MESSAGE!");
        try {
            TextMessage message = (TextMessage)msg;
-           logger.info(message.getText());
-           System.out.println("MESSAGE " + message.getText());
+           logger.info("GOT MESSAGE " + message.getText());
            tariffAndOptionsLoader.getTariffsAndOptions();
        } catch (JMSException ex) {
+		   logger.error("CAN'T READ MESSAGE!");
            ex.printStackTrace();
        }
     }

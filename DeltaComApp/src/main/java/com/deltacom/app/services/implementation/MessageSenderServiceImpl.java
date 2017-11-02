@@ -40,8 +40,12 @@ public class MessageSenderServiceImpl implements MessageSenderService {
      */
     @Override
     public void sendTariffChangedMessage() {
-        jmsTemplate.convertAndSend("Tariffs changed.");
-        logger.info("Sent message about tariff changes.");
+        try {
+            jmsTemplate.convertAndSend("Tariffs changed.");
+            logger.info("Sent message about tariff changes.");
+        } catch(Exception e) {
+            return;
+        }
     }
 }
 

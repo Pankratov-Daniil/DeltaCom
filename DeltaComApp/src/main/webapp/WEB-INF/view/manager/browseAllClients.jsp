@@ -43,12 +43,12 @@
                     <div class="card-body">
                         <div>
                             Show
-                                <select id="countEntries">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                </select>
-                                entries
+                            <select id="countEntries">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                            entries
                             <div class="col-md-2  pull-right">
                                 <form id="searchNumberForm">
                                     <div class=" input-group input-group-sm">
@@ -65,16 +65,16 @@
                         <div>
                             <table class="table table-hover" id="clientsTable">
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Birth date</th>
-                                        <th>Passport</th>
-                                        <th>Address</th>
-                                        <th>Email</th>
-                                        <th>Contracts</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Birth date</th>
+                                    <th>Passport</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Contracts</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody id="tableBody">
 
@@ -82,8 +82,8 @@
                             </table>
                             <div class="bs-component">
                                 <ul class="pager">
-                                    <li class=""><a href="javascript:void(0);" id="prevButton">Previous</a></li>
-                                    <li class=""><a href="javascript:void(0);" id="nextButton">Next</a></li>
+                                    <li class="disabled"><a href="javascript:void(0);" id="prevButton">Previous</a></li>
+                                    <li class="disabled"><a href="javascript:void(0);" id="nextButton">Next</a></li>
                                 </ul>
                             </div>
 

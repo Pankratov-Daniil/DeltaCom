@@ -51,6 +51,6 @@ RUN echo "=> Starting WildFly server" && \
 ADD target/DeltaCom.war /opt/jboss/wildfly/standalone/deployments/
 
 # Expose http and admin ports
-EXPOSE 8080
+EXPOSE 8080 8787 9990
 
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

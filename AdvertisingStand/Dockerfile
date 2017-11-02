@@ -1,7 +1,11 @@
 FROM jboss/wildfly:10.1.0.Final
 
+ENV WILDFLY_USER admin
+ENV WILDFLY_PASS admin
 ENV JBOSS_HOME /opt/jboss/wildfly
 ENV JBOSS_CLI ${JBOSS_HOME}/bin/jboss-cli.sh
+
+RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
 
 ADD /WildflyConf/activemq-rar-5.14.5.rar $JBOSS_HOME/standalone/deployments/activemq-rar-5.14.5.rar 
 ADD /WildflyConf/modules $JBOSS_HOME/modules/
@@ -24,6 +28,6 @@ RUN echo "=> Starting WildFly server" && \
 ADD target/AdvertisingStand.war /opt/jboss/wildfly/standalone/deployments/
 
 # Expose http and admin ports
-EXPOSE 8080
+EXPOSE 8080 8787 9990
 
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

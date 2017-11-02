@@ -19,6 +19,12 @@ var addedClient = undefined;
  * Calls when document is ready. Starting page configuration.
  */
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        }
+    });
+
     countEntriesField = $("#countEntries");
 
     getAllOptions(saveAllOptions);
@@ -75,9 +81,6 @@ function getAllTariffs() {
         url: "/DeltaCom/commons/getAllTariffs",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (gottenTariffs) {
             tariffs = gottenTariffs;
         }
@@ -89,6 +92,11 @@ function getAllTariffs() {
  * @param minIndex index of first client on needed page
  */
 function getClientsForTable (minIndex) {
+    var nextBtnPar = $("#nextButton").parent();
+    var prevBtnPar = $("#prevButton").parent();
+    var nextBtnDisabled = nextBtnPar.hasClass('disabled');
+    var prevBtnDisabled = prevBtnPar.hasClass('disabled');
+    enableOrDisableNavBtns(true, nextBtnPar, nextBtnDisabled, prevBtnPar, prevBtnDisabled);
     var countEntries = countEntriesVal + 1;
     $.ajax({
         url:"/DeltaCom/manager/getClientsForSummaryTable",
@@ -98,16 +106,33 @@ function getClientsForTable (minIndex) {
             "startIndex" : minIndex,
             "countEntries" : countEntries
         },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
+            enableOrDisableNavBtns(false, nextBtnPar, nextBtnDisabled, prevBtnPar, prevBtnDisabled);
             updateTable(data, countEntries);
         },
         error: function() {
+            enableOrDisableNavBtns(false, nextBtnPar, nextBtnDisabled, prevBtnPar, prevBtnDisabled);
             notifyError("Error occurred while getting all clients. Try again later.");
         }
     });
+}
+
+function enableOrDisableNavBtns(disable, nextBtn, nextBtnDisabled, prevBtn, prevBtnDisabled) {
+    if(disable) {
+        if(!nextBtnDisabled) {
+            nextBtn.addClass('disabled');
+        }
+        if(!prevBtnDisabled) {
+            prevBtn.addClass('disabled');
+        }
+    } else {
+        if(nextBtnDisabled) {
+            nextBtn.removeClass('disabled');
+        }
+        if(prevBtnDisabled) {
+            prevBtn.removeClass('disabled');
+        }
+    }
 }
 
 /**
@@ -140,9 +165,6 @@ function findUserByNumber() {
             url: "/DeltaCom/manager/searchClientByNumber",
             method: "POST",
             data: {"number" : numberForSearchInput.val()},
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-            },
             success: function (data) {
                 tableBody.empty();
                 searchedByNumber = true;
@@ -226,9 +248,6 @@ function deleteClient() {
         url: '/DeltaCom/manager/deleteClient',
         method: "POST",
         data: {"clientId" : parseInt($(this).attr('id'))},
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();
@@ -254,12 +273,12 @@ function getContractAsHtml(contract) {
     tableRecords += contract.numbersPool.number;
     tableRecords += '<span class="caret"></span></a>';
     tableRecords += '<ul class="dropdown-menu">';
-    tableRecords += '<li><a id="' + contract.id + '" class="manageContract" href="javascript:void(0);">Manage contract</a></li>';
+    tableRecords += '<li><a id="' + contract.id + '" class="manageContract" href="javascript:void(0);"><i class="fa fa-pencil fa-fw"></i> Edit contract</a></li>';
     tableRecords += '<li class="divider"></li>';
     tableRecords += '<li><a id="blockContractLink' + contract.id + '" href="javascript:void(0);">';
-    tableRecords += (contract.blocked ? 'Unblock contract' : 'Block contract');
+    tableRecords += (contract.blocked ? '<i class="fa fa-unlock fa-fw"></i> Unblock contract' : '<i class="fa fa-ban fa-fw"></i> Block contract');
     tableRecords += '</a></li>';
-    tableRecords += '<li><a id="deleteContractLink' + contract.id + '" href="javascript:void(0);">Delete contract</a></li>';
+    tableRecords += '<li><a id="deleteContractLink' + contract.id + '" href="javascript:void(0);"><i class="fa fa-trash-o fa-fw"></i> Delete contract</a></li>';
     tableRecords += '</ul>';
     tableRecords += '</div>';
     tableRecords += '<p></p>';
@@ -296,9 +315,6 @@ function blockContract (contractId, block, blockByOperator, funcOnSuccess, succe
             'block' : block,
             'blockByOperator' : blockByOperator},
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function(data) {
             if(data != '') {
                 onErrorFunc();
@@ -324,9 +340,6 @@ function deleteContract(data) {
         url: '/DeltaCom/manager/deleteContract',
         method: "POST",
         data: JSON.stringify(data.contractId),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function(body) {
             if(body != '') {
                 onErrorFunc();
@@ -381,9 +394,6 @@ function addNewClient(event) {
         url: '/DeltaCom/commons/regNewClient',
         method: "POST",
         data: JSON.stringify(client),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function(data) {
             if(data != '') {
                 onErrorFunc();
@@ -406,9 +416,6 @@ function getClientIdByEmail(email) {
         method: "POST",
         async: false,
         data: {"email" : email},
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (clientId) {
             addedClient = clientId;
         }
@@ -424,9 +431,6 @@ function getClientsCount(funcOnSuccess) {
         contentType: "application/json; charset=utf-8",
         url: '/DeltaCom/manager/getClientsCount',
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (maxClients) {
             clientsCount = maxClients;
             funcOnSuccess();
@@ -477,9 +481,6 @@ function getContractByNumber(number, funcOnSuccess) {
         url: "/DeltaCom/commons/getContractByNumber",
         data: {"number": number},
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             funcOnSuccess(data);
         },
@@ -616,9 +617,6 @@ function onChangeContract(event) {
             url: "/DeltaCom/commons/changeContract",
             data: JSON.stringify(prepareClient(0, $("#numberModal").val())),
             method: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-            },
             success: function (data) {
                 if(data != '') {
                     onErrorFunc();
@@ -641,9 +639,6 @@ function getUnusedNumbers(clientId) {
         contentType: "application/json; charset=utf-8",
         url: "/DeltaCom/manager/getUnusedNumbers",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (numbers) {
             passNumbersToModal(numbers);
             addClickEvent("#applyContractBtn", {"clientId" : clientId}, onAddContract);
@@ -666,9 +661,6 @@ function onAddContract(event) {
             url: "/DeltaCom/manager/regNewContract",
             method: "POST",
             data: JSON.stringify(prepareClient(clientId, number)),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-            },
             success: function (data) {
                 if(data != '') {
                     onErrorFunc();

@@ -7,6 +7,8 @@ services:
             - "DB_URI:deltacom-mysql:3306"
         ports:
             - "8080:8080"
+            - "9990:9990"
+            - "8787:8787"
         container_name: DeltaComApp
         depends_on:
             db:
@@ -21,6 +23,8 @@ services:
         build: ./AdvertisingStand
         ports:
             - "80:8080"
+            - "9991:9990"
+            - "8788:8787"
         container_name: DeltaComAdvStand
         links:
             - activemq-service
