@@ -19,8 +19,9 @@ import java.util.List;
 @Singleton(name = "tariffsLoader")
 public class TariffsLoaderImpl implements TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
-
-    List<TariffDTOwOpts> tariffs;
+    private static final String GET_TARIFFS_URI = "http://deltacom-app:8080/DeltaCom/getTariffsForStand";
+    private List<TariffDTOwOpts> tariffs;
+    private int dataVersion = 0;
 
     @PostConstruct
     private void onBeanCreate() {
@@ -31,7 +32,7 @@ public class TariffsLoaderImpl implements TariffsLoader {
     public void getTariffsFromServer() {
         logger.info("Started getting tariffs and options!");
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target("http://deltacom-app:8080/DeltaCom/getTariffsForStand");
+        ResteasyWebTarget target = client.target(GET_TARIFFS_URI);
         Response response = target.request().get();
         if (response.getStatus() != 200) {
             RuntimeException exception = new RuntimeException("Failed while got tariffs: HTTP error code : "
@@ -44,6 +45,7 @@ public class TariffsLoaderImpl implements TariffsLoader {
         try {
             tariffs = new ObjectMapper().readValue(responseStr,
                             new TypeReference<List<TariffDTOwOpts>>() {});
+            dataVersion = (dataVersion < Integer.MAX_VALUE - 1) ? ++dataVersion : 0;
             logger.info("From server got tariffs: " + tariffs);
         } catch (IOException e) {
             logger.error("Cannot read tariffs!");
@@ -51,7 +53,12 @@ public class TariffsLoaderImpl implements TariffsLoader {
     }
 
     @Override
-    public String getTariffsStr() {
-        return tariffs.toString();
+    public List<TariffDTOwOpts> getTariffs() {
+        return tariffs;
+    }
+
+    @Override
+    public int getDataVersion() {
+        return dataVersion;
     }
 }

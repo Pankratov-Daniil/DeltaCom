@@ -1,6 +1,5 @@
 package com.adstand.app.services.implementation;
 
-import com.adstand.app.services.api.MessageListenerService;
 import com.adstand.app.services.api.TariffsLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +20,8 @@ import javax.jms.TextMessage;
                 @ActivationConfigProperty(propertyName="acknowledgeMode", propertyValue="Auto-acknowledge")
         })
 @ResourceAdapter("activemq-rar")
-public class MainServiceImpl implements MessageListener {
-    private static final Logger logger = LogManager.getLogger(MainServiceImpl.class);
+public class MainService implements MessageListener {
+    private static final Logger logger = LogManager.getLogger(MainService.class);
 
     @EJB(beanName = "tariffsLoader")
     private TariffsLoader tariffsLoader;
