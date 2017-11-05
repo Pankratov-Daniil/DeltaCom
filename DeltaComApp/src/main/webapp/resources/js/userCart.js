@@ -7,6 +7,11 @@ var prevSelected = [];
 var client = null;
 
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        }
+    });
     getCartFromSession();
     addEvent('submit', "#changeContract", {}, changeContract);
     addEvent('hidden.bs.modal', "#changeContractModal", {}, function () {
@@ -25,9 +30,6 @@ function getClient() {
         url: "/DeltaCom/user/getCurrentClient",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             client = data;
             if(typeof updateContractsTable !== 'undefined') {
@@ -53,9 +55,6 @@ function getContractByNumber(number) {
             "number" : number
         },
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             contract = data;
         },
@@ -73,9 +72,6 @@ function getAllTariffs() {
         url: "/DeltaCom/commons/getAllTariffs",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             tariffs = data;
         },
@@ -148,9 +144,6 @@ function addCartToSession() {
         contentType: "application/json; charset=utf-8",
         method: "POST",
         data: JSON.stringify(cart),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();
@@ -176,9 +169,6 @@ function getCartFromSession() {
         url: "/DeltaCom/user/getCart",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             cart = (data.number == undefined ? undefined : data);
 
@@ -294,9 +284,6 @@ function changeContract(event) {
         url: "/DeltaCom/commons/changeContract",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         data: JSON.stringify(contractDTO),
         success: function (data) {
             if(data != '') {
@@ -341,9 +328,6 @@ function removeCartFromSession() {
         url: "/DeltaCom/user/removeCart",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();

@@ -9,18 +9,24 @@ import org.apache.logging.log4j.Logger;
 import javax.ejb.EJB;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
 
+/**
+ * Class for processing requests from view
+ */
 @Path("/")
-public class MainController extends Application {
+public class MainController {
     private static final Logger logger = LogManager.getLogger(MainController.class);
 
     @EJB(beanName = "tariffsLoader")
     private TariffsLoader tariffsLoader;
 
+    /**
+     * Gets tariffs from tariffs loader and returns it
+     * @return tariffs
+     */
     @POST
     @Path("/getTariffs")
-    public String adStand() {
+    public String getTariffs() {
         try {
             return new ObjectMapper().writeValueAsString(tariffsLoader.getTariffs());
         } catch (JsonProcessingException e) {
@@ -29,6 +35,10 @@ public class MainController extends Application {
         return "";
     }
 
+    /**
+     * Gets version of data and return it
+     * @return version of data
+     */
     @POST
     @Path("/getDataVersion")
     public int getDataVersion() {

@@ -18,6 +18,9 @@
     <script src="../resources/js/bootstrap-template.js"></script>
     <script src="../resources/js/commonFunctions.js"></script>
     <script src="../resources/js/browseAllClients.js"></script>
+    <script src="../resources/js/sockjs.min.js"></script>
+    <script src="../resources/js/stomp.min.js"></script>
+    <script src="../resources/js/optionsTariffsSubscription.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
     <script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="../resources/css/bootstrap-select.min.css" type="text/css"/>

@@ -32,6 +32,7 @@
       <junit.version>4.12</junit.version>
       <flyway.version>4.2.0</flyway.version>
       <activemq.version>5.14.5</activemq.version>
+      <javax.websocket.version>1.1</javax.websocket.version>
 
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
@@ -110,6 +111,10 @@
           <artifactId>spring-security-taglibs</artifactId>
       </dependency>
       <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-websocket</artifactId>
+      </dependency>
+      <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-core</artifactId>
           <version>${jackson.databind.version}</version>
@@ -119,6 +124,13 @@
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
           <version>${jackson.databind.version}</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>io.undertow</groupId>
+          <artifactId>undertow-websockets-jsr</artifactId>
+          <version>1.4.21.Final</version>
           <scope>provided</scope>
       </dependency>
 
@@ -138,6 +150,12 @@
           <groupId>javax.servlet</groupId>
           <artifactId>jstl</artifactId>
           <version>${jstl.version}</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>javax.websocket</groupId>
+          <artifactId>javax.websocket-api</artifactId>
+          <version>${javax.websocket.version}</version>
           <scope>provided</scope>
       </dependency>
 

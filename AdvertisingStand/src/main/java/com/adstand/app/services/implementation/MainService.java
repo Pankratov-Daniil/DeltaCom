@@ -26,6 +26,10 @@ public class MainService implements MessageListener {
     @EJB(beanName = "tariffsLoader")
     private TariffsLoader tariffsLoader;
 
+    /**
+     * Calls when message comes to MQ
+     * @param msg message from MQ
+     */
    @Override
     public void onMessage(Message msg) {
        try {
@@ -33,8 +37,7 @@ public class MainService implements MessageListener {
            logger.info("GOT MESSAGE " + message.getText());
            tariffsLoader.getTariffsFromServer();
        } catch (JMSException ex) {
-		   logger.error("CAN'T READ MESSAGE!");
-           ex.printStackTrace();
+		   logger.error("CAN'T READ MESSAGE! " + ex);
        }
     }
 }

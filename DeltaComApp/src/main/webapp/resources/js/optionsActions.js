@@ -13,6 +13,11 @@ var optionIdField;
 var submitBtn;
 
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        }
+    });
     optionsHolder = $("#optionsHolder");
     compatibleOptionsSelect = $("#compatibleOptions");
     incompatibleOptionsSelect = $("#incompatibleOptions");
@@ -113,9 +118,6 @@ function deleteOption() {
         type: "POST",
         url: "/DeltaCom/manager/deleteOption",
         data: JSON.stringify(button.attr('id')),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();
@@ -149,9 +151,6 @@ function addOrEditOption(add) {
         url: "/DeltaCom/manager/" + (add ? "createOption" : "changeOption"),
         method: "POST",
         data: JSON.stringify(option),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();

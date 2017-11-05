@@ -8,6 +8,11 @@ $(document).ready(function () {
 });
 
 function saveAllOptions(allOptions) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        }
+    });
     options = allOptions;
     getAllTariffs();
     getClient();
@@ -72,9 +77,6 @@ function blockContract() {
             "contractId" : contractId,
             "block" : !contract.blocked,
             "blockedByOperator" : contract.blockedByOperator
-        },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         },
         success: function (data) {
             if(data != '') {

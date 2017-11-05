@@ -16,6 +16,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Implementation for a class that loads tariffs
+ */
 @Singleton(name = "tariffsLoader")
 public class TariffsLoaderImpl implements TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
@@ -23,11 +26,17 @@ public class TariffsLoaderImpl implements TariffsLoader {
     private List<TariffDTOwOpts> tariffs;
     private int dataVersion = 0;
 
+    /**
+     * Calls after bean created
+     */
     @PostConstruct
     private void onBeanCreate() {
         getTariffsFromServer();
     }
 
+    /**
+     * Gets tariffs from server and saves it to tariffs list
+     */
     @Override
     public void getTariffsFromServer() {
         logger.info("Started getting tariffs and options!");

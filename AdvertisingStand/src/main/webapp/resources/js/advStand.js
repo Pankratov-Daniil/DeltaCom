@@ -19,12 +19,12 @@ function updateTariffs(data) {
                         then(function onSuccess(response) {
                         data.scope.tariffs = response.data;
                         }, function onErr(response) {
-                            alert(response.status);
+                            //alert(response.status);
                         })
                 }
             },
             function onDataErr(resp) {
-                alert(resp.status);
+                //alert(resp.status);
             }
         );
 }

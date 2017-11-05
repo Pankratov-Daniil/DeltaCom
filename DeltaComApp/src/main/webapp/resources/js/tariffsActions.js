@@ -9,6 +9,11 @@ var tariffIdField;
 var submitBtn;
 
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+        }
+    });
     tariffOptionsSelect =  $("#tariffOptions");
     nameTariffField = $("#nameTariff");
     priceTariffField = $("#priceTariff");
@@ -27,83 +32,87 @@ function loadAllTariffs() {
         url: "/DeltaCom/commons/getAllTariffs",
         contentType: "application/json; charset=utf-8",
         method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (tariffs) {
-            var cardLen = 4;
-            var tariffsHtml = "<div class='row'>";
-            tariffsList = [];
-            tariffs.forEach(function (tariff) {
-                tariffsHtml += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
-                tariffsHtml += "<p>Name: " + tariff.name + "<br/>Price: " + tariff.price + "</p><br/>Options: ";
-
-                tariff.options = idsToObjectInOptionsCompatibilityArr(tariff.options, options);
-                tariff.options.forEach(function (option) {
-                    option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, tariff.options);
-                    option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, tariff.options);
-                });
-
-                tariffsList.push({'id' : tariff.id, 'name' : tariff.name, 'price' : tariff.price, 'options' : tariff.options});
-
-                tariff.options.forEach(function (tariffOption, index) {
-                    tariffsHtml += tariffOption.name;
-                    if(index < tariff.options.length - 1) {
-                        tariffsHtml += ", ";
-                    }
-                });
-                tariffsHtml += "<div class='card-footer'><div class='btn-group'>";
-                tariffsHtml += '<a id="' + tariff.id + '" class="changeTariffBtn btn btn-info" href="#">' +
-                    '<i class="fa fa-lg fa-edit"></i>' +
-                    '</a>' +
-                    '<a id="' + tariff.id + '"class="delTariff btn btn-warning" href="#">' +
-                    '<i class="fa fa-lg fa-trash"></i>' +
-                    '<input type="submit" class="hidden" name="idDelTariff" value="' + tariff.id + '"/>' +
-                    '</a>' ;
-                tariffsHtml += "</div></div></div></div></div>";
-            });
-            tariffsHtml += "</div>";
-            $("#tariffsHolder").html(tariffsHtml);
-
-            addClickEvent(".changeTariffBtn", {}, onOpenChangeTariff);
-            addClickEvent(".delTariff", {}, deleteTariff);
-
-            addEvent("change", "#tariffOptions", {}, onTariffOptionsSelectChange);
-
-            addClickEvent("#addNewTariffBtn", {}, function () {
-                $(".hideMe").addClass('hidden');
-                $(".showMe").removeClass('hidden');
-                $("#modalColumns").removeClass("col-md-6").addClass("col-md-12");
-                $(".modal-dialog").removeClass("modal-lg");
-                tariffOptionsSelect.html(createSelectList(options));
-                tariffOptionsSelect.trigger('change');
-
-                nameTariffField.val('');
-                priceTariffField.val('');
-
-                addEvent('submit', "#updatedTariff", {}, function (event) {
-                    tariffIdField.val(0);
-                    event.preventDefault();
-                    addOrEditTariff(true);
-                    $("#changeTariffModal").modal('hide');
-                });
-
-                $("#changeTariffModal").modal('show');
-            });
-
-            addEvent('hidden.bs.modal', "#changeTariffModal", {},function () {
-                prevSelected = [];
-                curSelected = [];
-
-                $(".hideMe").removeClass('hidden');
-                $(".showMe").addClass('hidden');
-                $("#modalColumns").removeClass("col-md-12").addClass("col-md-6");
-                $(".modal-dialog").addClass("modal-lg");
-            });
+            afterLoadingTariffs(tariffs);
         },
         error: function() {
             notifyError("Error occurred while getting all tariffs. Try again later.");
         }
+    });
+}
+
+function afterLoadingTariffs(tariffs) {
+    var rowLen = 12;
+    var cardLen = 3;
+    var tariffsHtml = "<div class='row'>";
+    tariffsList = [];
+    tariffs.forEach(function (tariff, index) {
+        tariff.options = idsToObjectInOptionsCompatibilityArr(tariff.options, options);
+        tariff.options.forEach(function (option) {
+            option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, tariff.options);
+            option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, tariff.options);
+        });
+        tariffsList.push({'id' : tariff.id, 'name' : tariff.name, 'price' : tariff.price, 'options' : tariff.options});
+
+        if((index % (rowLen/cardLen)) == 0) {
+            tariffsHtml += '<div class="clearfix"></div>';
+        }
+        tariffsHtml += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
+        tariffsHtml += "<div style='text-align: center'><h4><i class='fa fa-lg fa-mobile'></i> " + tariff.name + "</h4></div><br/>";
+        tariffsHtml += "<div class='card-footer'></div>";
+        tariffsHtml += "<p>Price: " + tariff.price + "</p><br/>Options: <br/>";
+        tariffsHtml += "<ul class='fa-ul'>";
+        tariff.options.forEach(function (tariffOption) {
+            tariffsHtml += "<li><i class='fa-li fa fa-filter'></i> " + tariffOption.name + "</li>";
+        });
+        tariffsHtml += "</ul>";
+        tariffsHtml += "<div class='card-footer'><div class='btn-group'>";
+        tariffsHtml += '<a id="' + tariff.id + '" class="changeTariffBtn btn btn-info" href="#">' +
+            '<i class="fa fa-lg fa-edit"></i>' +
+            '</a>' +
+            '<a id="' + tariff.id + '"class="delTariff btn btn-warning" href="#">' +
+            '<i class="fa fa-lg fa-trash"></i>' +
+            '<input type="submit" class="hidden" name="idDelTariff" value="' + tariff.id + '"/>' +
+            '</a>' ;
+        tariffsHtml += "</div></div></div></div></div>";
+    });
+    tariffsHtml += "</div>";
+    $("#tariffsHolder").html(tariffsHtml);
+
+    addClickEvent(".changeTariffBtn", {}, onOpenChangeTariff);
+    addClickEvent(".delTariff", {}, deleteTariff);
+
+    addEvent("change", "#tariffOptions", {}, onTariffOptionsSelectChange);
+
+    addClickEvent("#addNewTariffBtn", {}, function () {
+        $(".hideMe").addClass('hidden');
+        $(".showMe").removeClass('hidden');
+        $("#modalColumns").removeClass("col-md-6").addClass("col-md-12");
+        $(".modal-dialog").removeClass("modal-lg");
+        tariffOptionsSelect.html(createSelectList(options));
+        tariffOptionsSelect.trigger('change');
+
+        nameTariffField.val('');
+        priceTariffField.val('');
+
+        addEvent('submit', "#updatedTariff", {}, function (event) {
+            tariffIdField.val(0);
+            event.preventDefault();
+            addOrEditTariff(true);
+            $("#changeTariffModal").modal('hide');
+        });
+
+        $("#changeTariffModal").modal('show');
+    });
+
+    addEvent('hidden.bs.modal', "#changeTariffModal", {},function () {
+        prevSelected = [];
+        curSelected = [];
+
+        $(".hideMe").removeClass('hidden');
+        $(".showMe").addClass('hidden');
+        $("#modalColumns").removeClass("col-md-12").addClass("col-md-6");
+        $(".modal-dialog").addClass("modal-lg");
     });
 }
 
@@ -184,9 +193,6 @@ function addOrEditTariff(add) {
         url: "/DeltaCom/manager/" + (add ? "createTariff" : "changeTariff"),
         method: "POST",
         data: JSON.stringify(tariff),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();
@@ -215,9 +221,6 @@ function deleteTariff() {
         type: "POST",
         url: "/DeltaCom/manager/deleteTariff",
         data: JSON.stringify(button.attr('id')),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
-        },
         success: function (data) {
             if(data != '') {
                 onErrorFunc();

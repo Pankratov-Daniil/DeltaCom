@@ -9,6 +9,10 @@
 <beans:import resource="mvc-config.xml"/>
 
 <http authentication-manager-ref="authenticationManager" auto-config="true" use-expressions="true">
+    <headers>
+        <frame-options disabled="true"/>
+    </headers>
+
     <intercept-url pattern="/**"/>
     <intercept-url pattern="/user/**" access="hasRole('USER')"/>
     <intercept-url pattern="/manager/**" access="hasRole('MANAGER')"/>
