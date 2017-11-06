@@ -23,16 +23,17 @@ function searchInArrayById(arr, id) {
  * @returns {string} text for option compatibility and where we writes new compatibility options id
  */
 function makeCompatibilityText(arr, curOption, compatible) {
-    var text = '';
+    var text = '<td><ul class="fa-ul">';
     var curOptOptions = compatible ? curOption.compatibleOptions : curOption.incompatibleOptions;
 
     // for each (in)compatible option
     $.each(curOptOptions, function (compatIndex, option) {
         // if this option is on a page
         if(option != undefined && searchInArrayById(arr, option.id) != null) {
-            text += (text == '' ? ((compatible ? "Comes with: " : "Incompatible with: ") + option.name) : ", "+option.name);
+            text += '<li><i class="fa-li fa fa-filter"></i> ' + option.name + '</li>';
         }
     });
+    text += '</ul></td>';
     return text;
 }
 
@@ -55,21 +56,29 @@ function createOptionsHtml(data, cardLen) {
             optionsInfo += "<div class='clearfix'></div>";
         }
         optionsInfo += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
-        optionsInfo += "<p>Name: " + item.name + "<br/>Price: " + item.price + "<br/>Connection cost: " + item.connectionCost + "</p>";
+        optionsInfo += "<div style='text-align: center'><h4 style='margin-top: 0'>" + item.name + "</h4></div>";
+        optionsInfo += "<div style='text-align: center'><table class='table'><tr>";
+        optionsInfo += "<td><h5>Price</h5></td>";
+        optionsInfo += "<td><h5>Connection cost</h5></td>";
+        optionsInfo += "</tr><tr>";
+        optionsInfo += "<td>" + item.price + "</td>";
+        optionsInfo += "<td>" + item.connectionCost + "</td>";
+        optionsInfo += "</tr></table></div>";
 
+        optionsInfo += "<div><table class='table'><tr style='text-align: center'><td><h5>Comes with</h5></td><td><h5>Incompatible with</h5></td></tr><tr>";
         if(item.compatibleOptions.length > 0) {
-            optionsInfo += '<p>' + makeCompatibilityText(data, item, true) + "</p>";
+            optionsInfo += makeCompatibilityText(data, item, true);
             compatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.compatibleOptions});
         } else {
-            optionsInfo += "<br/><p></p>";
+            optionsInfo += "<td style='text-align: center'>-</td>";
         }
-
         if(item.incompatibleOptions.length > 0) {
-            optionsInfo += '<p>' + makeCompatibilityText(data, item, false) + '</p>';
+            optionsInfo += makeCompatibilityText(data, item, false);
             incompatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.incompatibleOptions});
         } else {
-            optionsInfo += "<br/><p></p>";
+            optionsInfo += "<td style='text-align: center'>-</td>";
         }
+        optionsInfo += "</tr></table></div>";
         optionsInfo += "</div></div></div>";
     });
     optionsInfo += "</div>";

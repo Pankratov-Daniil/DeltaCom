@@ -136,7 +136,8 @@ function getOptionFromForm(add) {
         "price" : priceOptionField.val(),
         "connectionCost" : connectionCostField.val(),
         "incompatibleOptions" : incompatibleOptionsSelect.val() != null ? incompatibleOptionsSelect.val() : [],
-        "compatibleOptions" : compatibleOptionsSelect.val() != null ? compatibleOptionsSelect.val() : []}
+        "compatibleOptions" : compatibleOptionsSelect.val() != null ? compatibleOptionsSelect.val() : []
+    }
 }
 
 function addOrEditOption(add) {

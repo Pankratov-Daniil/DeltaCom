@@ -54,13 +54,14 @@ function afterLoadingTariffs(tariffs) {
         });
         tariffsList.push({'id' : tariff.id, 'name' : tariff.name, 'price' : tariff.price, 'options' : tariff.options});
 
-        if((index % (rowLen/cardLen)) == 0) {
+        if((index % (rowLen/cardLen)) === 0) {
             tariffsHtml += '<div class="clearfix"></div>';
         }
         tariffsHtml += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
-        tariffsHtml += "<div style='text-align: center'><h4><i class='fa fa-lg fa-mobile'></i> " + tariff.name + "</h4></div><br/>";
+        tariffsHtml += "<div style='text-align: center'><h3 style='margin-top: 0'><i class='fa fa-lg fa-mobile'></i> " + tariff.name + "</h3></div>";
         tariffsHtml += "<div class='card-footer'></div>";
-        tariffsHtml += "<p>Price: " + tariff.price + "</p><br/>Options: <br/>";
+        tariffsHtml += "<div style='text-align: center'><h4 style='margin-top: 0'>Price</h4><p>" + tariff.price.toLocaleString('ru-RU', {style: 'currency', currency : 'RUB'}) + "</p></div><div class='card-footer'></div>";
+        tariffsHtml += "<h4 style='text-align: center; margin-top: 0'>Options: </h4>";
         tariffsHtml += "<ul class='fa-ul'>";
         tariff.options.forEach(function (tariffOption) {
             tariffsHtml += "<li><i class='fa-li fa fa-filter'></i> " + tariffOption.name + "</li>";
@@ -70,7 +71,7 @@ function afterLoadingTariffs(tariffs) {
         tariffsHtml += '<a id="' + tariff.id + '" class="changeTariffBtn btn btn-info" href="#">' +
             '<i class="fa fa-lg fa-edit"></i>' +
             '</a>' +
-            '<a id="' + tariff.id + '"class="delTariff btn btn-warning" href="#">' +
+            '<a id="' + tariff.id + '" class="delTariff btn btn-warning" href="#">' +
             '<i class="fa fa-lg fa-trash"></i>' +
             '<input type="submit" class="hidden" name="idDelTariff" value="' + tariff.id + '"/>' +
             '</a>' ;
@@ -105,15 +106,17 @@ function afterLoadingTariffs(tariffs) {
         $("#changeTariffModal").modal('show');
     });
 
-    addEvent('hidden.bs.modal', "#changeTariffModal", {},function () {
-        prevSelected = [];
-        curSelected = [];
+    addEvent('hidden.bs.modal', "#changeTariffModal", {}, onHideChangeTariffModal);
+}
 
-        $(".hideMe").removeClass('hidden');
-        $(".showMe").addClass('hidden');
-        $("#modalColumns").removeClass("col-md-12").addClass("col-md-6");
-        $(".modal-dialog").addClass("modal-lg");
-    });
+function onHideChangeTariffModal() {
+    prevSelected = [];
+    curSelected = [];
+
+    $(".hideMe").removeClass('hidden');
+    $(".showMe").addClass('hidden');
+    $("#modalColumns").removeClass("col-md-12").addClass("col-md-6");
+    $(".modal-dialog").addClass("modal-lg");
 }
 
 function onTariffOptionsSelectChange() {
