@@ -34,14 +34,4 @@ public class MainController {
         }
         return "";
     }
-
-    /**
-     * Gets version of data and return it
-     * @return version of data
-     */
-    @POST
-    @Path("/getDataVersion")
-    public int getDataVersion() {
-        return tariffsLoader.getDataVersion();
-    }
 }

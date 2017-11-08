@@ -37,7 +37,7 @@
                     <div class="card-body">
                         <div class="row">
                             <a style="color: #000;" href="browseAllClients">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card">
                                         <h3 class="card-title"><i class="fa fa-users"></i> Clients</h3>
                                         <div class="card-footer">
@@ -54,7 +54,7 @@
                                 </div>
                             </a>
                             <a style="color: #000;" href="tariffsActions">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card">
                                         <h3 class="card-title"><i class="fa fa-mobile"></i> Tariffs</h3>
                                         <div class="card-footer">
@@ -71,7 +71,7 @@
                                 </div>
                             </a>
                             <a style="color: #000;" href="optionsActions">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="card">
                                         <h3 class="card-title"><i class="fa fa-filter"></i> Options</h3>
                                         <div class="card-footer">
@@ -80,6 +80,22 @@
                                             <ul>
                                                 <li>Add, edit or delete options</li>
                                                 <li>Configure their compatibility</li>
+                                            </ul>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a style="color: #000;" href="numberPoolActions">
+                                <div class="col-md-3">
+                                    <div class="card">
+                                        <h3 class="card-title"><i class="fa fa-list-ol"></i> Numbers pool</h3>
+                                        <div class="card-footer">
+                                            <p>
+                                                Manage numbers pool:
+                                            <ul>
+                                                <li>Add new number</li>
+                                                <li>Delete useless number</li>
                                             </ul>
                                             </p>
                                         </div>

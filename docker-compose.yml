@@ -62,3 +62,13 @@ services:
             interval: 30s
             timeout: 10s
             retries: 5
+    
+    jenkins:
+        image: jenkins
+        container_name: jenkins
+        restart: always
+        ports:
+            - "8081:8080"
+            - "50000:50000"
+        volumes:
+            - ./Jenkins/data/:/var/jenkins_home

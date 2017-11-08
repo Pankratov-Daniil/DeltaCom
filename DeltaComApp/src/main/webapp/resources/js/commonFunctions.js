@@ -61,8 +61,8 @@ function createOptionsHtml(data, cardLen) {
         optionsInfo += "<td><h5>Price</h5></td>";
         optionsInfo += "<td><h5>Connection cost</h5></td>";
         optionsInfo += "</tr><tr>";
-        optionsInfo += "<td>" + item.price + "</td>";
-        optionsInfo += "<td>" + item.connectionCost + "</td>";
+        optionsInfo += "<td>" + item.price.toLocaleString('ru-RU', {style: 'currency', currency : 'RUB'}) + "</td>";
+        optionsInfo += "<td>" + item.connectionCost.toLocaleString('ru-RU', {style: 'currency', currency : 'RUB'}) + "</td>";
         optionsInfo += "</tr></table></div>";
 
         optionsInfo += "<div><table class='table'><tr style='text-align: center'><td><h5>Comes with</h5></td><td><h5>Incompatible with</h5></td></tr><tr>";

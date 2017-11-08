@@ -58,6 +58,15 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Processing request to manager 'numbers pool actions' page
+     * @return numbers pool actions page
+     */
+    @RequestMapping(value = "/numberPoolActions")
+    public ModelAndView numberPoolActions() {
+        return new ModelAndView("manager/numberPoolActions");
+    }
+
+    /**
      * Processing request to 'register new contract' and register new client
      */
     @ResponseBody

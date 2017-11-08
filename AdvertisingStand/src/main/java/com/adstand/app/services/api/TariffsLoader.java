@@ -12,5 +12,4 @@ import java.util.List;
 public interface TariffsLoader {
     public void getTariffsFromServer();
     public List<TariffDTOwOpts> getTariffs();
-    public int getDataVersion();
 }

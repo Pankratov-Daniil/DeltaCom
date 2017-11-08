@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../resources/js/jquery-2.1.4.min.js"></script>
-    <script src="../resources/js/bootstrap.min.js"></script>
-    <script src="../resources/js/angular.min.js"></script>
-    <script src="../resources/js/angular-animate.min.js"></script>
-    <script src="../resources/js/advStand.js"></script>
-    <script src="../resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
-    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../resources/css/bootstrap-template.min.css">
+    <script src="./resources/js/jquery-2.1.4.min.js"></script>
+    <script src="./resources/js/bootstrap.min.js"></script>
+    <script src="./resources/js/angular.min.js"></script>
+    <script src="./resources/js/angular-animate.min.js"></script>
+    <script src="./resources/js/advStand.js"></script>
+    <script src="./resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./resources/css/bootstrap-template.min.css">
     <title>DeltaCom Tariffs</title>
 </head>
 <body>
@@ -19,20 +20,25 @@
     </section>
     <section class="login-content">
         <div class="card">
-            <img src="../resources/img/siteLogo.png">
+            <img ng-src="./resources/img/siteLogo.png">
             <div ng-controller="TariffsController">
                 <div uib-carousel interval="carouselInterval" active="carouselActiveSlide" no-pause="true">
                     <div uib-slide ng-repeat="tariff in tariffs" index="$index">
-                        <h2>{{tariff.name}}</h2>
-                        <div style="text-align: left">
-                            <p>Price: {{tariff.price}}</p>
-                            <p>Options: </p>
-                            <ul>
-                                <li ng-repeat="option in tariff.options">
-                                    {{option.name}}
-                                </li>
-                            </ul>
+                        <div class='card-footer'>
+                            <h2 style="margin-top: 0">{{tariff.name}}</h2>
                         </div>
+                        <div class='card-footer'></div>
+                        <div style='text-align: center'>
+                            <h3 style='margin-top: 0'>Price</h3>
+                            <p>{{tariff.price}}</p>
+                        </div>
+                        <div class='card-footer'></div>
+                        <h3 style="margin-top: 0">Options</h3>
+                        <ul style="text-align: left" class='fa-ul'>
+                            <li ng-repeat="option in tariff.options">
+                                <i class='fa-li fa fa-filter'></i> {{option.name}}
+                            </li>
+                        </ul>
                         <div class="carousel-caption"></div>
                     </div>
                 </div>

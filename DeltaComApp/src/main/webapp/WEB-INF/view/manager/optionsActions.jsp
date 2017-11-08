@@ -31,12 +31,6 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <%--<div class="page-title">--%>
-            <%--<div>--%>
-                <%--<h1><i class="fa fa-filter"></i> Options actions</h1>--%>
-                <%--<p>Here you can manage options: add, delete, edit</p>--%>
-            <%--</div>--%>
-        <%--</div>--%>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

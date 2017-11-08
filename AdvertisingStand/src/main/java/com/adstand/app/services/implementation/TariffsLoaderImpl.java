@@ -24,7 +24,6 @@ public class TariffsLoaderImpl implements TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
     private static final String GET_TARIFFS_URI = "http://deltacom-app:8080/DeltaCom/getTariffsForStand";
     private List<TariffDTOwOpts> tariffs;
-    private int dataVersion = 0;
 
     /**
      * Calls after bean created
@@ -54,7 +53,7 @@ public class TariffsLoaderImpl implements TariffsLoader {
         try {
             tariffs = new ObjectMapper().readValue(responseStr,
                             new TypeReference<List<TariffDTOwOpts>>() {});
-            dataVersion = (dataVersion < Integer.MAX_VALUE - 1) ? ++dataVersion : 0;
+            WebSocketService.sendMessage(tariffs);
             logger.info("From server got tariffs: " + tariffs);
         } catch (IOException e) {
             logger.error("Cannot read tariffs!");
@@ -64,10 +63,5 @@ public class TariffsLoaderImpl implements TariffsLoader {
     @Override
     public List<TariffDTOwOpts> getTariffs() {
         return tariffs;
-    }
-
-    @Override
-    public int getDataVersion() {
-        return dataVersion;
     }
 }

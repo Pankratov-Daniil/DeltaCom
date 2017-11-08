@@ -26,6 +26,8 @@
                         href="/DeltaCom/manager/tariffsActions"><i class="fa fa-mobile"></i><span>Tariffs</span></a></li>
                 <li class="${fn:contains(pageContext.request.requestURI, 'manager/optionsActions') ? 'active' : ''}"><a
                         href="/DeltaCom/manager/optionsActions"><i class="fa fa-filter"></i><span>Options</span></a></li>
+                <li class="${fn:contains(pageContext.request.requestURI, 'manager/numberPoolActions') ? 'active' : ''}"><a
+                        href="/DeltaCom/manager/numberPoolActions"><i class="fa fa-list-ol"></i><span>Numbers pool</span></a></li>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ADMIN')">
