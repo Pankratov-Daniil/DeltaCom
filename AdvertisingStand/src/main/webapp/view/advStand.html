@@ -8,10 +8,10 @@
     <script src="./resources/js/angular.min.js"></script>
     <script src="./resources/js/angular-animate.min.js"></script>
     <script src="./resources/js/advStand.js"></script>
-    <script src="./resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="./resources/css/font-awesome.min.css">
     <link rel="stylesheet" href="./resources/css/bootstrap-template.min.css">
+    <link rel="stylesheet" href="./resources/css/advStand.css">
     <title>DeltaCom Tariffs</title>
 </head>
 <body>
@@ -19,29 +19,25 @@
         <div class="cover"></div>
     </section>
     <section class="login-content">
-        <div class="card">
-            <img ng-src="./resources/img/siteLogo.png">
-            <div ng-controller="TariffsController">
-                <div uib-carousel interval="carouselInterval" active="carouselActiveSlide" no-pause="true">
-                    <div uib-slide ng-repeat="tariff in tariffs" index="$index">
-                        <div class='card-footer'>
-                            <h2 style="margin-top: 0">{{tariff.name}}</h2>
-                        </div>
-                        <div class='card-footer'></div>
-                        <div style='text-align: center'>
-                            <h3 style='margin-top: 0'>Price</h3>
-                            <p>{{tariff.price}}</p>
-                        </div>
-                        <div class='card-footer'></div>
-                        <h3 style="margin-top: 0">Options</h3>
-                        <ul style="text-align: left" class='fa-ul'>
-                            <li ng-repeat="option in tariff.options">
-                                <i class='fa-li fa fa-filter'></i> {{option.name}}
-                            </li>
-                        </ul>
-                        <div class="carousel-caption"></div>
-                    </div>
+        <div ng-controller="TariffsController">
+            <div style='text-align: center' class="card ng-class:{'tariff-item' : !isStart, 'tariff-item-start' : isStart}"
+                 ng-repeat="tariff in tariffs" ng-hide="isStart || tariff.id != index">
+                <img src="./resources/img/siteLogo.png">
+                <div class='card-footer'>
+                    <h2 style="margin-top: 0">{{tariff.name}}</h2>
                 </div>
+                <div class='card-footer'></div>
+                <div>
+                    <h3 style='margin-top: 0'>Price</h3>
+                    <p>{{tariff.price}}</p>
+                </div>
+                <div class='card-footer'></div>
+                <h3 style="margin-top: 0">Options</h3>
+                <ul style="text-align: left" class='fa-ul'>
+                    <li ng-repeat="option in tariff.options">
+                        <i class='fa-li fa fa-filter'></i> {{option.name}}
+                    </li>
+                </ul>
             </div>
         </div>
     </section>

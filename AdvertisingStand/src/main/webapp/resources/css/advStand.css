@@ -1,0 +1,33 @@
+@keyframes added {
+    from {
+        opacity: 0;
+        top: -100%;
+    }
+    to {
+        opacity: 1;
+        top: 0;
+    }
+}
+
+@keyframes deleted {
+    from {
+        bottom: 0;
+        opacity: 1;
+    }
+    to {
+        bottom: -50%;
+        opacity: 0;
+    }
+}
+
+.tariff-item {
+    animation: 0.5s linear added;
+}
+
+.tariff-item.ng-hide {
+    animation: 0.5s linear deleted;
+}
+
+.tariff-item-start.ng-hide {
+    display: none !important;
+}
