@@ -66,23 +66,25 @@
                         </div>
                         <br/><br/>
                         <div>
-                            <table class="table table-hover" id="clientsTable">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Birth date</th>
-                                    <th>Passport</th>
-                                    <th>Address</th>
-                                    <th>Email</th>
-                                    <th>Contracts</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tableBody">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="clientsTable">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Birth date</th>
+                                        <th>Passport</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Contracts</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="bs-component">
                                 <ul class="pager">
                                     <li class="disabled"><a href="javascript:void(0);" id="prevButton">Previous</a></li>

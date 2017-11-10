@@ -1,7 +1,7 @@
 var app = angular.module('advStand', ['ngAnimate']);
 
 app.controller('TariffsController', function($scope, $http, $interval, $timeout) {
-    $scope.tariffSwapInterval = 3000;
+    $scope.tariffSwapInterval = 8000;
     $scope.tariffs = [];
     $scope.index = 0;
     $scope.isStart = true;
@@ -18,7 +18,9 @@ app.controller('TariffsController', function($scope, $http, $interval, $timeout)
         $scope.iter = ($scope.iter + 1) % $scope.tariffs.length;
         $scope.index = -1;
         $timeout(function () {
-            $scope.index = $scope.tariffs[$scope.iter].id;
+            if($scope.tariffs.length > 0) {
+                $scope.index = $scope.tariffs[$scope.iter].id;
+            }
         }, 500);
     }, $scope.tariffSwapInterval);
 });

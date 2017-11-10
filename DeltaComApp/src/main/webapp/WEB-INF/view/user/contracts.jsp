@@ -39,20 +39,22 @@
             <div class="col-md-12">
                 <div class="card">
                     <h3 class="card-title">Contracts</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Number</th>
-                                <th>Tariff</th>
-                                <th>Options</th>
-                                <th>Balance</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contractsTableBody">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Tariff</th>
+                                    <th>Options</th>
+                                    <th>Balance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contractsTableBody">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,14 +5,14 @@
   
     <parent>
       <artifactId>DeltaComMain</artifactId>
-	  <groupId>com.deltacom</groupId>
-	  <version>0.6.2</version>
-  </parent>
+      <groupId>com.deltacom</groupId>
+      <version>0.6.2</version>
+    </parent>
   
   <groupId>com.deltacom.app</groupId>
   <artifactId>DeltaCom</artifactId>
   <packaging>war</packaging>
-  <version>0.6.2</version>
+  <version>0.7.0</version>
   <name>DeltaCom Maven Webapp</name>
   
   <properties>
@@ -33,6 +33,7 @@
       <flyway.version>4.2.0</flyway.version>
       <activemq.version>5.14.5</activemq.version>
       <javax.websocket.version>1.1</javax.websocket.version>
+      <spring.oauth.version>2.2.0.RELEASE</spring.oauth.version>
 
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
   </properties>
@@ -114,6 +115,12 @@
           <groupId>org.springframework</groupId>
           <artifactId>spring-websocket</artifactId>
       </dependency>
+      <dependency>
+          <groupId>org.springframework.security.oauth</groupId>
+          <artifactId>spring-security-oauth2</artifactId>
+          <version>${spring.oauth.version}</version>
+      </dependency>
+
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-core</artifactId>

@@ -46,9 +46,17 @@ public class Client {
     @NotBlank
     private String email;
     @Basic
-    @Column(name = "password", nullable = false)
-    @NotBlank
+    @Column(name = "password")
     private String password;
+    @Basic
+    @Column(name = "activated")
+    private boolean isActivated;
+    @Basic
+    @Column(name = "forgottenPassToken")
+    private String forgottenPassToken;
+    @Basic
+    @Column(name = "openIdToken")
+    private String openIdToken;
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(name = "`clients_access_levels`",
@@ -64,7 +72,25 @@ public class Client {
 
     }
 
-    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
+    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email,
+                  String password, boolean isActivated, String forgottenPassToken, String openIdToken, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.isActivated = isActivated;
+        this.forgottenPassToken = forgottenPassToken;
+        this.openIdToken = openIdToken;
+        this.accessLevels = accessLevels;
+        this.contracts = contracts;
+    }
+
+    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address,
+                  String email, String password, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -77,7 +103,8 @@ public class Client {
         this.contracts = contracts;
     }
 
-    public Client(String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, Set<AccessLevel> accessLevels) {
+    public Client(String firstName, String lastName, Date birthDate, String passport, String address, String email,
+                  String password, Set<AccessLevel> accessLevels) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -152,6 +179,30 @@ public class Client {
         this.password = password;
     }
 
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+
+    public String getForgottenPassToken() {
+        return forgottenPassToken;
+    }
+
+    public void setForgottenPassToken(String forgottenPassToken) {
+        this.forgottenPassToken = forgottenPassToken;
+    }
+
+    public String getOpenIdToken() {
+        return openIdToken;
+    }
+
+    public void setOpenIdToken(String openIdToken) {
+        this.openIdToken = openIdToken;
+    }
+
     public Set<AccessLevel> getAccessLevels() {
         return accessLevels;
     }
@@ -179,9 +230,13 @@ public class Client {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", isActivated='" + isActivated + '\'' +
+                ", forgottenPassToken='" + forgottenPassToken + '\'' +
+                ", openIdToken='" + openIdToken + '\'' +
                 ", accessLevels=" + accessLevels +
                 '}';
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -191,6 +246,7 @@ public class Client {
         Client client = (Client) o;
 
         if (id != client.id) return false;
+        if (isActivated != client.isActivated) return false;
         if (firstName != null ? !firstName.equals(client.firstName) : client.firstName != null) return false;
         if (lastName != null ? !lastName.equals(client.lastName) : client.lastName != null) return false;
         if (birthDate != null ? !birthDate.equals(client.birthDate) : client.birthDate != null) return false;
@@ -198,9 +254,10 @@ public class Client {
         if (address != null ? !address.equals(client.address) : client.address != null) return false;
         if (email != null ? !email.equals(client.email) : client.email != null) return false;
         if (password != null ? !password.equals(client.password) : client.password != null) return false;
-        if (accessLevels != null ? !accessLevels.equals(client.accessLevels) : client.accessLevels != null)
+        if (forgottenPassToken != null ? !forgottenPassToken.equals(client.forgottenPassToken) : client.forgottenPassToken != null)
             return false;
-        return contracts != null ? contracts.equals(client.contracts) : client.contracts == null;
+        if (openIdToken != null ? !openIdToken.equals(client.openIdToken) : client.openIdToken != null) return false;
+        return accessLevels != null ? !accessLevels.equals(client.accessLevels) : client.accessLevels != null;
     }
 
     @Override
@@ -213,6 +270,9 @@ public class Client {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (isActivated ? 1 : 0);
+        result = 31 * result + (forgottenPassToken != null ? forgottenPassToken.hashCode() : 0);
+        result = 31 * result + (openIdToken != null ? openIdToken.hashCode() : 0);
         result = 31 * result + (accessLevels != null ? accessLevels.hashCode() : 0);
         return result;
     }

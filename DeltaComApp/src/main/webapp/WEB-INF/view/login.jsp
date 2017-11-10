@@ -68,6 +68,8 @@
                 <p class="semibold-text mb-0"><a data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Back to Login</a>
                 </p>
             </div>
+            <input type="hidden" name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
         </form>
     </div>
     <img src="./resources/img/siteLogo.png" class="img-responsive">

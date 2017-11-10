@@ -381,7 +381,10 @@ function addNewClient(event) {
         "address" : $("#addressField").val(),
         "email" : $("#emailField").val(),
         "password" : $("#passwordField").val(),
-        "accessLevels" : ["1"]
+        "accessLevels" : ["1"],
+        "isActivated" : false,
+        "forgottenPassToken" : "",
+        "openIdToken" : ""
     };
 
     var button = $(this);

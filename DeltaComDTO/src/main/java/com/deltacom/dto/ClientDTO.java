@@ -16,12 +16,16 @@ public class ClientDTO {
     private String email;
     private String password;
     private String[] accessLevels;
+    private boolean isActivated;
+    private String forgottenPassToken;
+    private String openIdToken;
 
     public ClientDTO() {
 
     }
 
-    public ClientDTO(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email, String password, String[] accessLevels) {
+    public ClientDTO(int id, String firstName, String lastName, Date birthDate, String passport, String address,
+                     String email, String password, String[] accessLevels, boolean isActivated, String forgottenPassToken, String openIdToken) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,6 +35,9 @@ public class ClientDTO {
         this.email = email;
         this.password = password;
         this.accessLevels = accessLevels;
+        this.isActivated = isActivated;
+        this.forgottenPassToken = forgottenPassToken;
+        this.openIdToken = openIdToken;
     }
 
     public int getId() {
@@ -105,6 +112,30 @@ public class ClientDTO {
         this.accessLevels = accessLevels;
     }
 
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+
+    public String getForgottenPassToken() {
+        return forgottenPassToken;
+    }
+
+    public void setForgottenPassToken(String forgottenPassToken) {
+        this.forgottenPassToken = forgottenPassToken;
+    }
+
+    public String getOpenIdToken() {
+        return openIdToken;
+    }
+
+    public void setOpenIdToken(String openIdToken) {
+        this.openIdToken = openIdToken;
+    }
+
     @Override
     public String toString() {
         return "ClientDTO{" +
@@ -117,6 +148,9 @@ public class ClientDTO {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", accessLevels=" + Arrays.toString(accessLevels) +
+                ", isActivated=" + isActivated +
+                ", forgottenPassToken='" + forgottenPassToken + '\'' +
+                ", openIdToken='" + openIdToken + '\'' +
                 '}';
     }
 }

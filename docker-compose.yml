@@ -71,4 +71,13 @@ services:
             - "8081:8080"
             - "50000:50000"
         volumes:
-            - ./Jenkins/data/:/var/jenkins_home
+            - DockerEnv/Jenkins/data:/var/jenkins_home
+            
+    smtp:
+        image: namshi/smtp
+        container_name: smtp
+        ports:
+            - "25:25"
+        environment:
+            - "GMAIL_USER:deltacomapp@gmail.com"
+            - "GMAIL_PASSWORD: DeltaComApp1"

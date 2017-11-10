@@ -22,7 +22,7 @@ import java.util.List;
 @Singleton(name = "tariffsLoader")
 public class TariffsLoaderImpl implements TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
-    private static final String GET_TARIFFS_URI = "http://deltacom-app:8080/DeltaCom/getTariffsForStand";
+    private static final String GET_TARIFFS_URI = "https://54.93.171.97:8443/DeltaCom/getTariffsForStand";
     private List<TariffDTOwOpts> tariffs;
 
     /**

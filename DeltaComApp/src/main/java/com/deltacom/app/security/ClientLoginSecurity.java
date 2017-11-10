@@ -30,13 +30,15 @@ public class ClientLoginSecurity implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Client client = clientRepository.getClientByEmail(email);
-
         if (client == null) {
             throw new UsernameNotFoundException(email + " not found.");
+        } else if(client.getPassword().length() < 6 || !client.isActivated()) {
+            throw new UsernameNotFoundException(email + " is not activated.");
         }
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
-        for(AccessLevel accessLevel : client.getAccessLevels())
+        for(AccessLevel accessLevel : client.getAccessLevels()) {
             auths.add(new SimpleGrantedAuthority(accessLevel.getName()));
+        }
         return new User(email, client.getPassword(), true, true, true, true, auths);
     }
 }
