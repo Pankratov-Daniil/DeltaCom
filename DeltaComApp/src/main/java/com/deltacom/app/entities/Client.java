@@ -57,6 +57,12 @@ public class Client {
     @Basic
     @Column(name = "openIdToken")
     private String openIdToken;
+    @Basic
+    @Column(name = "twoFactorAuth")
+    private boolean usingTwoFactorAuth;
+    @Basic
+    @Column(name = "smsCode")
+    private String smsCode;
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(name = "`clients_access_levels`",
@@ -70,6 +76,26 @@ public class Client {
 
     public Client() {
 
+    }
+
+    public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email,
+                  String password, boolean isActivated, String forgottenPassToken, String openIdToken,
+                  boolean usingTwoFactorAuth, String smsCode, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.passport = passport;
+        this.address = address;
+        this.email = email;
+        this.password = password;
+        this.isActivated = isActivated;
+        this.forgottenPassToken = forgottenPassToken;
+        this.openIdToken = openIdToken;
+        this.usingTwoFactorAuth = usingTwoFactorAuth;
+        this.smsCode = smsCode;
+        this.accessLevels = accessLevels;
+        this.contracts = contracts;
     }
 
     public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email,
@@ -201,6 +227,22 @@ public class Client {
 
     public void setOpenIdToken(String openIdToken) {
         this.openIdToken = openIdToken;
+    }
+
+    public boolean getTwoFactorAuth() {
+        return usingTwoFactorAuth;
+    }
+
+    public void setTwoFactorAuth(boolean twoFactorAuth) {
+        usingTwoFactorAuth = twoFactorAuth;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
     }
 
     public Set<AccessLevel> getAccessLevels() {

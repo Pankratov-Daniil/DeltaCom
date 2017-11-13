@@ -4,16 +4,23 @@ import com.adstand.app.services.api.TariffsLoader;
 import com.deltacom.dto.TariffDTOwOpts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.net.ssl.*;
+import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 /**
@@ -22,7 +29,7 @@ import java.util.List;
 @Singleton(name = "tariffsLoader")
 public class TariffsLoaderImpl implements TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
-    private static final String GET_TARIFFS_URI = "https://54.93.171.97:8443/DeltaCom/getTariffsForStand";
+    private static final String GET_TARIFFS_URI = "https://deltacomapp.com/DeltaCom/getTariffsForStand";
     private List<TariffDTOwOpts> tariffs;
 
     /**
@@ -40,8 +47,7 @@ public class TariffsLoaderImpl implements TariffsLoader {
     public void getTariffsFromServer() {
         logger.info("Started getting tariffs and options!");
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(GET_TARIFFS_URI);
-        Response response = target.request().get();
+        Response response = client.target(GET_TARIFFS_URI).request().get();
         if (response.getStatus() != 200) {
             RuntimeException exception = new RuntimeException("Failed while got tariffs: HTTP error code : "
                     + response.getStatus());

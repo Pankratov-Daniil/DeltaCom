@@ -29,7 +29,7 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <div class="page-title">
+        <div class="page-title page-title-xs">
             <div>
                 <h1><i class="fa fa-mobile"></i> Contracts page</h1>
                 <p>Here you can manage your contracts.</p>

@@ -382,9 +382,11 @@ function addNewClient(event) {
         "email" : $("#emailField").val(),
         "password" : $("#passwordField").val(),
         "accessLevels" : ["1"],
-        "isActivated" : false,
-        "forgottenPassToken" : "",
-        "openIdToken" : ""
+        "isActivated" : true,
+        "forgottenPassToken" : null,
+        "openIdToken" : null,
+        "twoFactorAuth" : false,
+        "smsCode" : null
     };
 
     var button = $(this);

@@ -19,6 +19,8 @@ public class ClientDTO {
     private boolean isActivated;
     private String forgottenPassToken;
     private String openIdToken;
+    private boolean usingTwoFactorAuth;
+    private String smsCode;
 
     public ClientDTO() {
 
@@ -136,6 +138,22 @@ public class ClientDTO {
         this.openIdToken = openIdToken;
     }
 
+    public boolean isUsingTwoFactorAuth() {
+        return usingTwoFactorAuth;
+    }
+
+    public void setUsingTwoFactorAuth(boolean usingTwoFactorAuth) {
+        this.usingTwoFactorAuth = usingTwoFactorAuth;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
+    }
+
     @Override
     public String toString() {
         return "ClientDTO{" +
@@ -151,6 +169,8 @@ public class ClientDTO {
                 ", isActivated=" + isActivated +
                 ", forgottenPassToken='" + forgottenPassToken + '\'' +
                 ", openIdToken='" + openIdToken + '\'' +
+                ", usingTwoFactorAuth='" + usingTwoFactorAuth + '\'' +
+                ", smsCode='" + smsCode + '\'' +
                 '}';
     }
 }

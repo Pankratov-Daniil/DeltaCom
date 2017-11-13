@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
     private static final Logger logger = LogManager.getLogger(LoginController.class);
 
-    @RequestMapping(value = "/login")
-    public ModelAndView login(){
+    @RequestMapping(value = "/process-login")
+    public ModelAndView processLogin(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         // if user has already logged in - redirect him to index page

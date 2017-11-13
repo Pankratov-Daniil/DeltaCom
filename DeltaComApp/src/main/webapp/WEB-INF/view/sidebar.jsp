@@ -2,7 +2,14 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <aside class="main-sidebar hidden-print">
     <section class="sidebar">
-        <div class="user-panel">
+        <div class="user-panel hidden-xs">
+            <div class="pull-left image"><img class="img-circle" src="../resources/img/user.png" alt="User Image"></div>
+            <div class="pull-left info">
+                <p class="designation">Welcome,</p>
+                <c:out value="${clientName}"/>
+            </div>
+        </div>
+        <div class="user-panel user-panel-xs visible-xs-block">
             <div class="pull-left image"><img class="img-circle" src="../resources/img/user.png" alt="User Image"></div>
             <div class="pull-left info">
                 <p class="designation">Welcome,</p>

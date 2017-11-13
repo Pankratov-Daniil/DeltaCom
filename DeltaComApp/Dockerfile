@@ -14,7 +14,7 @@ ENV JBOSS_CLI ${JBOSS_HOME}/bin/jboss-cli.sh
 ADD /WildflyConf/activemq-rar-5.14.5.rar $JBOSS_HOME/standalone/deployments/activemq-rar-5.14.5.rar 
 ADD /WildflyConf/modules $JBOSS_HOME/modules/
 ADD /WildflyConf/customisation $JBOSS_HOME/customization/
-
+ADD /WildflyConf/deltacomapp.com.jks $JBOSS_HOME/standalone/configuration/
 RUN $JBOSS_HOME/bin/add-user.sh -u $WILDFLY_USER -p $WILDFLY_PASS --silent
 
 # Configure Wildfly server
@@ -44,7 +44,6 @@ RUN echo "=> Starting WildFly server" && \
 		$JBOSS_CLI -c --file=$JBOSS_HOME/customization/activemq-res-adapter.cli && \
 		$JBOSS_CLI --connect --command="/subsystem=resource-adapters/resource-adapter=activemq-rar/config-properties=ServerUrl/:add(value=${ACTIVEMQ_URI})" && \
 	echo "=> Configure https" && \
-		 keytool -genkeypair -alias wildfly -storetype jks -keyalg RSA -keysize 2048 -keypass password1 -keystore ${JBOSS_HOME}/standalone/configuration/wildfly.keystore.jks -storepass password1 -dname "CN=appserver,OU=Sales,O=Systems Inc,L=Raleigh,ST=NC,C=US" -validity 730 -v && \
 		 $JBOSS_CLI -c --file=$JBOSS_HOME/customization/https-conf.cli && \
     echo "=> Shutting down WildFly and Cleaning up" && \
 		$JBOSS_CLI --connect --command=":shutdown" && \

@@ -1,6 +1,3 @@
-/core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding, value=management-https)
-/core-service=management/management-interface=http-interface:undefine-attribute(name=socket-binding)
 /core-service=management/security-realm=deltacom-ssl:add
-/core-service=management/management-interface=http-interface/:write-attribute(name=security-realm,value=deltacom-ssl)
 /core-service=management/security-realm=deltacom-ssl/server-identity= \
-ssl:add(keystore-path=wildfly.keystore.jks,keystore-relative-to=jboss.server.config.dir,keystore-password=password1, alias=wildfly)
+ssl:add(keystore-path=deltacomapp.com.jks,keystore-relative-to=jboss.server.config.dir,keystore-password=password1)

@@ -63,11 +63,14 @@ CREATE TABLE `client` (
   `activated` tinyint(1) NOT NULL DEFAULT '0',
   `forgottenPassToken` varchar(60),
   `openIdToken` varchar(60),
+  `twoFactorAuth` tinyint(1) NOT NULL DEFAULT '0',
+  `smsCode` varchar(10),
   PRIMARY KEY (`id`),
   UNIQUE KEY `idClient_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `forgottenPassToken_UNIQUE` (`forgottenPassToken`),
-  UNIQUE KEY `openIdToken_UNIQUE` (`openIdToken`)
+  UNIQUE KEY `openIdToken_UNIQUE` (`openIdToken`),
+  UNIQUE KEY `smsCode_UNIQUE` (`smsCode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -77,7 +80,7 @@ CREATE TABLE `client` (
 
 LOCK TABLES `client` WRITE;
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
-INSERT INTO `client` VALUES (5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG', '1', null, null),(6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy', '1', null, null),(7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u', '1', null, null),(26,'Daniil','doiufj','0002-02-12','123','123','1@ma.ri','$2a$11$BUW1XqfWDWRj4HJpS2fAeOghxhkliKSoKI./Cu/9beFAPyXUMudZS', '1', null, null),(27,'Daniil','das','2222-02-22','dassa','fs','s@gmail.comas','$2a$11$H8Qjwp8Adr4EEoL8HffFE..kzI5jdLKyE1lMqpt1Ipi4R4LCfiWdm', '1', null, null),(29,'sad','sda','2222-02-22','dsa','dsa','sadas@gm13ail.com','$2a$11$Rijt6gommkSMirLLP8rNzOaFWdZFX43f4nkAopZhZVQAl0E2rF2h6', '1', null, null),(30,'Daniil','doiufj','1222-12-12','2123','1231','1@ma.ri2','$2a$11$R3T1QtoihyQz8cjR4u//yuSQaRAoZHzqrNF.gyp1BW6LqCUhz71IW', '1', null, null),(31,'Daniil','doiufj','0022-02-12','asd1','a12d3','1a@dsa.as','$2a$11$S4FY4V2Zs3HJ3E.UbTC.Qege9f2jGap/LmU8PtNQu3eo2vtTMUFka', '1', null, null),(32,'Daniil','doiufj','0031-12-12','asd54','ad654as','as@opfask.re','$2a$11$zJqzz9iKvrFt9MMq6bPwBuhBKwb6dvXub29EKKngRy8lxP.vxIE5.', '1', null, null),(33,'dasad','fj','1451-12-22','djfpp','faioj','sadij@ofh.sa','$2a$11$ptAmf7awk91B46nH/2ZYyeeYYYRPawau8qI88yZolO2UQw4MSTdqq', '1', null, null),(35,'New','Client','1992-02-22','pass','addr','newuser@gmail.com','$2a$11$4.UhN3bDVU3UTEVeIG8XcuZR3nTKk04WYU6JSYBYp6cQKBffrRbna', '1', null, null);
+INSERT INTO `client` VALUES (5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG', '1', null, null, '0', null),(6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy', '1', null, null, '0', null),(7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u', '1', null, null, '0', null),(26,'Daniil','doiufj','0002-02-12','123','123','1@ma.ri','$2a$11$BUW1XqfWDWRj4HJpS2fAeOghxhkliKSoKI./Cu/9beFAPyXUMudZS', '1', null, null, '0', null),(27,'Daniil','das','2222-02-22','dassa','fs','s@gmail.comas','$2a$11$H8Qjwp8Adr4EEoL8HffFE..kzI5jdLKyE1lMqpt1Ipi4R4LCfiWdm', '1', null, null, '0', null),(29,'sad','sda','2222-02-22','dsa','dsa','sadas@gm13ail.com','$2a$11$Rijt6gommkSMirLLP8rNzOaFWdZFX43f4nkAopZhZVQAl0E2rF2h6', '1', null, null, '0', null),(30,'Daniil','doiufj','1222-12-12','2123','1231','1@ma.ri2','$2a$11$R3T1QtoihyQz8cjR4u//yuSQaRAoZHzqrNF.gyp1BW6LqCUhz71IW', '1', null, null, '0', null),(31,'Daniil','doiufj','0022-02-12','asd1','a12d3','1a@dsa.as','$2a$11$S4FY4V2Zs3HJ3E.UbTC.Qege9f2jGap/LmU8PtNQu3eo2vtTMUFka', '1', null, null, '0', null),(32,'Daniil','doiufj','0031-12-12','asd54','ad654as','as@opfask.re','$2a$11$zJqzz9iKvrFt9MMq6bPwBuhBKwb6dvXub29EKKngRy8lxP.vxIE5.', '1', null, null, '0', null),(33,'dasad','fj','1451-12-22','djfpp','faioj','sadij@ofh.sa','$2a$11$ptAmf7awk91B46nH/2ZYyeeYYYRPawau8qI88yZolO2UQw4MSTdqq', '1', null, null, '0', null),(35,'New','Client','1992-02-22','pass','addr','newuser@gmail.com','$2a$11$4.UhN3bDVU3UTEVeIG8XcuZR3nTKk04WYU6JSYBYp6cQKBffrRbna', '1', null, null, '0', null);
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 

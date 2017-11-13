@@ -4,6 +4,7 @@
         <dependencies>
             <module name="javax.jms.api" export="true"/>
             <module name="org.jboss.resteasy.resteasy-jackson-provider" services="import"/>
+            <module name="org.apache.httpcomponents" export="true"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

@@ -25,7 +25,7 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <div class="page-title">
+        <div class="page-title page-title-xs">
             <div>
                 <h1><i class="fa fa-dashboard"></i> Blank Page</h1>
                 <p>Start a beautiful journey here</p>

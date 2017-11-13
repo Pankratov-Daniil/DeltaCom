@@ -25,7 +25,7 @@
     <!-- Side-Nav-->
     <%@include file="../sidebar.jsp" %>
     <div class="content-wrapper">
-        <div class="page-title">
+        <div class="page-title page-title-xs">
             <div>
                 <h1><i class="fa fa-user-secret"></i> Manage user roles</h1>
                 <p>Here you can manage user roles</p>
