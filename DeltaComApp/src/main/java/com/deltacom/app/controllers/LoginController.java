@@ -22,7 +22,7 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         // if user has already logged in - redirect him to index page
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
+        if (auth != null && (auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))) {
             for(GrantedAuthority authority : auth.getAuthorities()) {
                 logger.info("User with email: " + auth.getName() + " and authorities: " + auth.getAuthorities() + " logged in.");
                 if (authority.getAuthority().contains("ADMIN"))
@@ -33,6 +33,6 @@ public class LoginController {
                     return new ModelAndView("redirect:/user/index");
             }
         }
-        return new ModelAndView("login");
+        return new ModelAndView("loginPage");
     }
 }

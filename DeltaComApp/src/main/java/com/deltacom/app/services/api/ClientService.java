@@ -13,6 +13,9 @@ public interface ClientService {
     public boolean addNewClient(Client client, String[] accessLevelsIds);
     public List<Client> getClientsFromIndex(int startIndex, int amount);
     public Client getClientByNumber(String number);
+    public Client getClientByForgottenPassToken(String token);
     public long getClientsCount();
+    public void updateForgottenPassToken(String token, String email);
+    public void updateClient(Client client);
     public void deleteClient(int clientId);
 }

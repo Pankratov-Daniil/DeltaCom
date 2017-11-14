@@ -9,47 +9,45 @@
         http://www.springframework.org/schema/security/oauth2
         http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 
-<beans:import resource="mvc-config.xml"/>
+    <beans:import resource="mvc-config.xml"/>
 
-<http authentication-manager-ref="authenticationManager" auto-config="true" use-expressions="true">
-    <headers>
-        <frame-options disabled="true"/>
-        <cache-control/>
-    </headers>
+    <http authentication-manager-ref="authenticationManager" auto-config="true" use-expressions="true">
+        <headers>
+            <frame-options disabled="true"/>
+        </headers>
 
-    <intercept-url pattern="/**" requires-channel="https"/>
-    <intercept-url pattern="/favicon.ico" access="isAnonymous()" />
-    <intercept-url pattern="/j_spring_security_check" access="isAnonymous()" requires-channel="https"/>
-    <intercept-url pattern="/login" access="isAnonymous()" requires-channel="https"/>
-    <intercept-url pattern="/process-login" access="permitAll()" requires-channel="https"/>
-    <intercept-url pattern="/user/**" access="hasRole('USER')" requires-channel="https"/>
-    <intercept-url pattern="/manager/**" access="hasRole('MANAGER')" requires-channel="https"/>
-    <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
-    <intercept-url pattern="/commons/addNewClient**" access="hasAnyRole('MANAGER', 'ADMIN')" requires-channel="https"/>
+        <access-denied-handler error-page="/process-login"/>
 
-    <!-- We're using default-target-url because when we are logged
-        LoginController can redirect us to needed page according to role
-     -->
-    <form-login login-page="/"
-                default-target-url="/process-login"
-                authentication-failure-url="/?error=true"
-                username-parameter="email"
-                password-parameter="password"
-                always-use-default-target="false"
-                login-processing-url="/j_spring_security_check"
-    />
+        <intercept-url pattern="/favicon.ico" access="permitAll()" />
+        <intercept-url pattern="/process-login" access="permitAll()" requires-channel="https"/>
+        <intercept-url pattern="/*" access="hasRole('ANONYMOUS')" requires-channel="https"/>
+        <intercept-url pattern="/user/**" access="hasRole('USER')" requires-channel="https"/>
+        <intercept-url pattern="/manager/**" access="hasRole('MANAGER')" requires-channel="https"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/addNewClient**" access="hasAnyRole('MANAGER', 'ADMIN')" requires-channel="https"/>
 
-    <logout logout-success-url="/" delete-cookies="JSESSIONID" />
-    <csrf/>
+        <!-- We're using default-target-url because when we are logged
+            LoginController can redirect us to needed page according to role
+         -->
+        <form-login login-page="/process-login"
+                    default-target-url="/process-login"
+                    authentication-failure-url="/process-login?error=true"
+                    username-parameter="email"
+                    password-parameter="password"
+                    always-use-default-target="false"
+                    login-processing-url="/login"
+        />
 
-    <remember-me
-            token-validity-seconds="1209600"
-            remember-me-parameter="staySigned"
-            data-source-ref="dataSource"
-            user-service-ref="ClientLoginSecurity"
-    />
+        <logout logout-success-url="/" delete-cookies="JSESSIONID" />
+        <csrf/>
 
-</http>
+        <remember-me
+                token-validity-seconds="1209600"
+                remember-me-parameter="staySigned"
+                data-source-ref="dataSource"
+                user-service-ref="ClientLoginSecurity"
+        />
+    </http>
 
     <authentication-manager id="authenticationManager">
         <authentication-provider user-service-ref="ClientLoginSecurity">
@@ -57,8 +55,7 @@
         </authentication-provider>
     </authentication-manager>
 
-    <beans:bean id="encoder"
-                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <beans:constructor-arg name="strength" value="11" />
     </beans:bean>
 </beans:beans>

@@ -2,6 +2,7 @@ package com.deltacom.app.repository.implementation;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.exceptions.RepositoryException;
+import com.deltacom.app.repository.api.ClientRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
 @Transactional
 public class ClientRepositoryTest {
     @Autowired
-    private ClientRepositoryImpl clientRepository;
+    private ClientRepository clientRepository;
 
     @Test
     public void getClientByEmail() {

@@ -9,6 +9,7 @@
             <module name="com.fasterxml.jackson.core.jackson-databind" export="true" />
             <module name="org.springframework" export="true"/>
             <module name="javax.jms.api" export="true"/>
+            <module name="javax.mail.api" export="true"/>
             <module name="deployment.activemq-rar-5.14.5.rar" export="true" />
             <module name="io.undertow.websocket" export="true"/>
             <module name="io.undertow.core" export="true"/>

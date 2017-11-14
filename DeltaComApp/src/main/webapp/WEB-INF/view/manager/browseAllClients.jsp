@@ -198,10 +198,10 @@
                                                                     <label class="control-label">Email</label>
                                                                     <input class="form-control" type="email" placeholder="Enter email address" id="emailField" required>
                                                                 </div>
-                                                                <div class="form-group">
+                                                                <%--<div class="form-group">
                                                                     <label class="control-label">Password</label>
                                                                     <input class="form-control" type="password" placeholder="Enter password" id="passwordField" required pattern=".{6,}">
-                                                                </div>
+                                                                </div>--%>
                                                                 <div class="form-group">
                                                                     <button id="submitNewUser" class="btn btn-success" type="submit">Submit</button>
                                                                     <button id="resetNewUser" class="btn btn-default" type="reset">Clear form</button>

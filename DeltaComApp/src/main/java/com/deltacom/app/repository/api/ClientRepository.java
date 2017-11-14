@@ -13,4 +13,5 @@ public interface ClientRepository extends GenericRepository<Client, Integer> {
     public List<Client> getClientsFromIndex(int startIndex, int amount);
     public Client getClientByNumber(String number);
     public long getClientsCount();
+    public Client getClientByForgottenPassToken(String token);
 }

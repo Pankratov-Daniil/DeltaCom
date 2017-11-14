@@ -22,6 +22,7 @@
       <hibernate-version>5.2.12.Final</hibernate-version>
       <hibernate.validator.version>5.4.1.Final</hibernate.validator.version>
       <jsp.version>2.2</jsp.version>
+      <javax.mail.version>1.6.0</javax.mail.version>
       <servlet.version>3.1.0</servlet.version>
       <jstl.version>1.2</jstl.version>
       <jackson.databind.version>2.9.1</jackson.databind.version>
@@ -167,6 +168,12 @@
           <groupId>javax.websocket</groupId>
           <artifactId>javax.websocket-api</artifactId>
           <version>${javax.websocket.version}</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>javax.mail</groupId>
+          <artifactId>javax.mail-api</artifactId>
+          <version>${javax.mail.version}</version>
           <scope>provided</scope>
       </dependency>
 

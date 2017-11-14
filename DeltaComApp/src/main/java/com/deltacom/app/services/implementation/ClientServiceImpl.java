@@ -5,12 +5,10 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.exceptions.ClientException;
 import com.deltacom.app.repository.api.ClientRepository;
-import com.deltacom.app.repository.implementation.ClientRepositoryImpl;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
-import com.deltacom.app.utils.PasswordEncrypter;
+import com.deltacom.app.services.api.MessageSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +26,8 @@ public class ClientServiceImpl implements ClientService{
     private ClientRepository clientRepository;
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private MessageSenderService messageSenderService;
 
     /**
      * Gets Client entity by its id from database.
@@ -84,11 +84,9 @@ public class ClientServiceImpl implements ClientService{
                     accessLevels.add(new AccessLevel(Integer.parseInt(accessLevelId)));
                 }
             }
-            client.setPassword(PasswordEncrypter.encryptPassword(client.getPassword()));
             client.setAccessLevels(accessLevels);
-
-
             clientRepository.add(client);
+            messageSenderService.sendResetPasswordEmail(client.getEmail());
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't added: ", ex);
         }
@@ -137,6 +135,25 @@ public class ClientServiceImpl implements ClientService{
     }
 
     /**
+     * Gets client by forgotten pass token
+     * @param token unique token
+     * @return client
+     */
+    @Override
+    @Transactional
+    public Client getClientByForgottenPassToken(String token) {
+        try {
+            if(token == null || token.isEmpty()) {
+                throw new PersistenceException("Invalid token!");
+            } else {
+                return clientRepository.getClientByForgottenPassToken(token);
+            }
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't gotten by token: ", ex);
+        }
+    }
+
+    /**
      * Gets clients count
      * @return clients count
      */
@@ -147,6 +164,37 @@ public class ClientServiceImpl implements ClientService{
             return clientRepository.getClientsCount();
         } catch (PersistenceException ex) {
             throw new ClientException("Clients count wasn't gotten: ", ex);
+        }
+    }
+
+    /**
+     * Updates client forgotten pass token
+     * @param token unique token
+     * @param email clients email
+     */
+    @Override
+    @Transactional
+    public void updateForgottenPassToken(String token, String email) {
+        try {
+            Client client = getClientByEmail(email);
+            client.setForgottenPassToken(token);
+            updateClient(client);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Forgotten password token wasn't updated: ", ex);
+        }
+    }
+
+    /**
+     * Updates client
+     * @param client new client data
+     */
+    @Override
+    @Transactional
+    public void updateClient(Client client) {
+        try {
+            clientRepository.update(client);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Client wasn't updated: ", ex);
         }
     }
 

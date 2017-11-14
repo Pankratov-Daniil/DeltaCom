@@ -81,4 +81,19 @@ public class ClientRepositoryImpl extends HibernateRepository<Client, Integer> i
             return 0;
         }
     }
+
+    /**
+     * Gets client by forgotten password token
+     * @param token unique token
+     * @return found client or null if there was exception
+     */
+    @Override
+    public Client getClientByForgottenPassToken(String token) {
+        try {
+            return (Client) entityManager.createQuery("select client from Client client where client.forgottenPassToken = :forgottenPassToken")
+                    .setParameter("forgottenPassToken", token).getSingleResult();
+        } catch (PersistenceException e) {
+            return null;
+        }
+    }
 }
