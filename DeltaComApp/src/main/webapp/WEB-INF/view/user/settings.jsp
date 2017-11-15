@@ -75,7 +75,7 @@
                             <div class="tab-pane fade" id="clientLocations">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <table class="table table-hover">
+                                        <table class="table table-hover table-responsive">
                                             <thead>
                                                 <tr>
                                                     <th>IP</th>

@@ -62,14 +62,15 @@ function getClientLocations() {
 
 function passLocationsToPage(locations) {
     var locationsTable = $("#locationsTableBody");
-    var tableHTML = '<tr>';
+    var tableHTML = '';
     locations.forEach(function (location) {
+        tableHTML += '<tr>';
         tableHTML += '<td>' + location.ipAddress + '</td>';
         tableHTML += '<td>' + location.country + '</td>';
         tableHTML += '<td>' + location.city + '</td>';
         tableHTML += '<td>' + new Date(location.enteredDate).toLocaleString() + '</td>';
+        tableHTML += '</tr>';
     });
-    tableHTML += '</tr>';
     locationsTable.html(tableHTML);
 }
 

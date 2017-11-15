@@ -1,5 +1,6 @@
 package com.deltacom.app.services.implementation;
 
+import com.deltacom.app.entities.ClientLocation;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.services.api.OptionService;
@@ -78,22 +79,48 @@ public class MessageSenderServiceImpl implements MessageSenderService {
 
     /**
      * Send email to client with generated token
-     * @param email
+     * @param email client email
      */
     @Override
     public void sendResetPasswordEmail(String email) {
         String token = UUID.randomUUID().toString();
+        String emailBody = "Dear client!\n\nFollow the link to reset your password: https://deltacomapp.com/forgotPassword?token="+token;
+        sendEmail(email, "Password reset", emailBody);
+        clientService.updateForgottenPassToken(token, email);
+    }
+
+    /**
+     * Sends email to client
+     * @param email client email
+     * @param text text of message
+     * @param subject
+     */
+    @Override
+    public void sendEmail(String email, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         message.setFrom("no-reply@deltacomapp.com");
-        message.setSubject("Password reset");
-        message.setText("Dear client!\n\nFollow the link to reset your password: https://deltacomapp.com/forgotPassword?token="+token);
+        message.setSubject(subject);
+        message.setText(text);
         try {
             mailSender.send(message);
         } catch (Exception e) {
             return;
         }
-        clientService.updateForgottenPassToken(token, email);
     }
+
+    /**
+     * Sends security alert email
+     * @param email client email
+     * @param location client location
+     */
+    @Override
+    public void sendSecurityAlertEmail(String email, ClientLocation location) {
+        String emailBody = "Dear client!\n\nWe noticed that someone entered to your account from city: " + location.getCity() +
+                ", country: " + location.getCountry() + ", with ip: " + location.getIpAddress() +
+                ".\n\nIf it wasn't you, please change your password as fast as you can!";
+        sendEmail(email, "Security alert", emailBody);
+    }
+
 }
 

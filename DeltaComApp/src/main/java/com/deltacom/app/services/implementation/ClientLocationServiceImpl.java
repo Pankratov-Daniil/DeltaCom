@@ -47,4 +47,19 @@ public class ClientLocationServiceImpl implements ClientLocationService {
             throw new ClientLocationException("Can't add client location for client with id: " + clientLocation.getClient().getId(), ex);
         }
     }
+
+    /**
+     * Gets last client location
+     * @param clientId client id
+     *
+     */
+    @Override
+    @Transactional
+    public ClientLocation getLastClientLocation(int clientId) {
+        try {
+            return clientLocationRepository.getLastClientLocation(clientId);
+        } catch (PersistenceException ex) {
+            throw new ClientLocationException("Can't get last client location for client with id: " + clientId, ex);
+        }
+    }
 }

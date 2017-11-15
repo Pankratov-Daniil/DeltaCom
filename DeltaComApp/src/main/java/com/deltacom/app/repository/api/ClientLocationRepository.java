@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface ClientLocationRepository extends GenericRepository<ClientLocation, Integer>{
     public List<ClientLocation> getClientLocationsByClientId(int id);
+    public ClientLocation getLastClientLocation(int clientId);
 }

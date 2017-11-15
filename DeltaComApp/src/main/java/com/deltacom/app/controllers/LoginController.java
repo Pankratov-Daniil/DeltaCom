@@ -4,6 +4,7 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientLocation;
 import com.deltacom.app.services.api.ClientLocationService;
 import com.deltacom.app.services.api.ClientService;
+import com.deltacom.app.services.api.MessageSenderService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +38,8 @@ public class LoginController {
     private ClientService clientService;
     @Autowired
     private ClientLocationService clientLocationService;
+    @Autowired
+    private MessageSenderService messageSenderService;
 
     @RequestMapping(value = "/")
     public ModelAndView rootProcessing() {
@@ -87,6 +90,20 @@ public class LoginController {
             throw new RuntimeException("Can't get client with email: " + clientEmail + " .");
         }
         ClientLocation clientLocation = new ClientLocation(client, latitude, longitude, city, country, ip, null);
+        checkLastLocation(client, clientLocation);
         clientLocationService.addClientLocations(clientLocation);
+    }
+
+    /**
+     * Compare last and current client locations. If city or country doesn't equals, sends email to client.
+     * @param client logged client
+     * @param currentClientLocation logged client location
+     */
+    private void checkLastLocation(Client client, ClientLocation currentClientLocation) {
+        ClientLocation lastClientLocation = clientLocationService.getLastClientLocation(client.getId());
+        if(lastClientLocation != null && (!lastClientLocation.getCity().equals(currentClientLocation.getCity()) ||
+                !lastClientLocation.getCountry().equals(currentClientLocation.getCountry()))) {
+            messageSenderService.sendSecurityAlertEmail(client.getEmail(), currentClientLocation);
+        }
     }
 }

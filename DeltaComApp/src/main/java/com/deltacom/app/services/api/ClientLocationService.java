@@ -10,4 +10,5 @@ import java.util.List;
 public interface ClientLocationService {
     public List<ClientLocation> getClientLocationsByClientId(int id);
     public void addClientLocations(ClientLocation clientLocation);
+    public ClientLocation getLastClientLocation(int clientId);
 }

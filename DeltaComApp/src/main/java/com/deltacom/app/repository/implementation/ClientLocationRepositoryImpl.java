@@ -31,4 +31,24 @@ public class ClientLocationRepositoryImpl extends HibernateRepository<ClientLoca
             return new ArrayList<>();
         }
     }
+
+    /**
+     * Gets last client location
+     * @param clientId client id
+     * @return client location or null
+     */
+    @Override
+    public ClientLocation getLastClientLocation(int clientId) {
+        try {
+            List<ClientLocation> locations = entityManager.createNativeQuery("SELECT * FROM client_location " +
+                    "WHERE client_location.client_id = :clientId ORDER BY client_location.entered_date DESC", ClientLocation.class)
+                    .setParameter("clientId", clientId)
+                    .getResultList();
+            return locations.size() > 0 ? locations.get(0) : null;
+        } catch (PersistenceException e) {
+            return null;
+        }
+    }
+
+
 }
