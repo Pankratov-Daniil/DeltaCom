@@ -2,7 +2,11 @@ package com.deltacom.app.controllers;
 
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientCart;
+import com.deltacom.app.entities.ClientLocation;
 import com.deltacom.app.exceptions.ClientException;
+import com.deltacom.app.services.api.ClientLocationService;
+import com.deltacom.app.utils.PasswordEncrypter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Controller for processing requests from/to user pages
@@ -17,6 +22,9 @@ import java.security.Principal;
 @Controller
 @RequestMapping(value = "/user")
 public class ClientController extends CommonController {
+    @Autowired
+    private ClientLocationService clientLocationService;
+
     /**
      * Processing request to client index page
      * @return client index page
@@ -34,6 +42,15 @@ public class ClientController extends CommonController {
     @RequestMapping(value = "/contracts")
     public ModelAndView contracts() {
         return new ModelAndView("user/contracts");
+    }
+
+    /**
+     * Processing request to client settings page
+     * @return client settings page
+     */
+    @RequestMapping(value = "/settings")
+    public ModelAndView settings() {
+        return new ModelAndView("user/settings");
     }
 
     /**
@@ -94,4 +111,43 @@ public class ClientController extends CommonController {
     public void removeCart(HttpSession session) {
         session.removeAttribute("cart");
     }
+
+    /**
+     * Processing ajax request from client settings page to get current client locations
+     * @return list of client locations
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getLocations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ClientLocation> getLocations(Principal principal) {
+        Client client = clientService.getClientByEmail(principal.getName());
+        return clientLocationService.getClientLocationsByClientId(client.getId());
+    }
+
+    /**
+     * Processing ajax request from client settings page to change password
+     * @param oldPassword old password
+     * @param newPassword new password
+     * @param confirmPassword confirmation for new password
+     */
+    @ResponseBody
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword,
+                                 @RequestParam String confirmPassword, Principal principal) {
+        if(!newPassword.equals(confirmPassword)) {
+            return "Passwords not equal.";
+        }
+        if(oldPassword.equals(newPassword)) {
+            return "";
+        }
+
+        Client client = clientService.getClientByEmail(principal.getName());
+        try {
+            clientService.changePassword(client, oldPassword, newPassword);
+        } catch (ClientException ex) {
+            return ex.getMessage();
+        }
+        return "";
+    }
+
+
 }

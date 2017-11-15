@@ -261,6 +261,14 @@ public class Client {
         this.contracts = contracts;
     }
 
+    public boolean isUsingTwoFactorAuth() {
+        return usingTwoFactorAuth;
+    }
+
+    public void setUsingTwoFactorAuth(boolean usingTwoFactorAuth) {
+        this.usingTwoFactorAuth = usingTwoFactorAuth;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -276,6 +284,7 @@ public class Client {
                 ", forgottenPassToken='" + forgottenPassToken + '\'' +
                 ", openIdToken='" + openIdToken + '\'' +
                 ", accessLevels=" + accessLevels +
+                ", usingTwoFactorAuth=" + usingTwoFactorAuth +
                 '}';
     }
 

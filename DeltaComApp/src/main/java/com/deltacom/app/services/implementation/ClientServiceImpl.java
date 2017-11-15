@@ -8,6 +8,7 @@ import com.deltacom.app.repository.api.ClientRepository;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
 import com.deltacom.app.services.api.MessageSenderService;
+import com.deltacom.app.utils.PasswordEncrypter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -164,6 +165,28 @@ public class ClientServiceImpl implements ClientService{
             return clientRepository.getClientsCount();
         } catch (PersistenceException ex) {
             throw new ClientException("Clients count wasn't gotten: ", ex);
+        }
+    }
+
+    /**
+     * Changes client password
+     * @param client client
+     * @param oldPassword entered old password
+     * @param newPassword new password
+     */
+    @Override
+    @Transactional
+    public void changePassword(Client client, String oldPassword, String newPassword) {
+        if(!PasswordEncrypter.passwordsEquals(oldPassword, client.getPassword())) {
+            throw new ClientException("Entered old password doesn't equal to current password", new RuntimeException());
+        }
+
+        String newEncryptedPassword = PasswordEncrypter.encryptPassword(newPassword);
+        client.setPassword(newEncryptedPassword);
+        try {
+            updateClient(client);
+        } catch (PersistenceException ex) {
+            throw new ClientException("Can't change password: ", ex);
         }
     }
 

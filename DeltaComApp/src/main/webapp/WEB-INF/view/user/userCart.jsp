@@ -1,10 +1,10 @@
 <script src="../resources/js/commonFunctions.js"></script>
-<script type="text/javascript" src="../resources/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="../resources/js/plugins/bootstrap-select.min.js"></script>
 <link rel="stylesheet" href="../resources/css/bootstrap-select.min.css" type="text/css"/>
 
 <c:if test="${fn:contains(pageContext.request.requestURI, '/user/contracts') || sessionScope.cart ne null}">
 
-    <script src="../resources/js/userCart.js"></script>
+    <script src="../resources/js/client/userCart.js"></script>
 
     <div id="changeContractModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">

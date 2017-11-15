@@ -85,6 +85,29 @@ INSERT INTO `client` VALUES (5,'Даниил','Панкратов','1995-06-29',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `client_location`
+--
+
+DROP TABLE IF EXISTS `client_location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `client_location` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL,
+  `city` varchar(30) NOT NULL,
+  `country` varchar(30) NOT NULL,
+  `ip_address` varchar(15) NOT NULL,
+  `entered_date` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_client_location_UNIQUE` (`id`),
+  KEY `fk_client_location_client_idx` (`client_id`),
+  CONSTRAINT `fk_client_location_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `clients_access_levels`
 --
 

@@ -1,18 +1,20 @@
 $(document).ready(function () {
     var button = $("#changePassBtn");
-    button.click(function () {
+    var form = $("#changePassForm");
+    form.submit(function (e) {
         var password = $("#password").val();
+        e.preventDefault();
         button.addClass('disabled');
         $.ajax({
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             url: "/DeltaCom/resetPassword",
             method: "POST",
+            beforeSend: function(request) {
+                request.setRequestHeader($('meta[name="_csrf_header"]').attr('content'), $('meta[name="_csrf"]').attr('content'));
+            },
             data: {
                 "password" : password,
                 "token" : $('meta[name="token"]').attr('content')
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
             },
             success: function(data, textStatus, xhr) { afterChangePassword(data, textStatus, xhr, button); },
             error: function (data, textStatus, xhr) { afterChangePassword(data, textStatus, xhr, button); }

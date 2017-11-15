@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf8" pageEncoding="utf8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +14,10 @@
     <link rel="stylesheet" type="text/css" href="./resources/css/NiconneFont.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="./resources/css/font-awesome.min.css">
-    <script src="./resources/js/jquery-2.1.4.min.js"></script>
-    <script src="./resources/js/bootstrap.min.js"></script>
+    <script src="./resources/js/plugins/jquery-2.1.4.min.js"></script>
+    <script src="./resources/js/plugins/bootstrap.min.js"></script>
     <script src="./resources/js/plugins/pace.min.js"></script>
-    <script src="./resources/js/bootstrap-template.js"></script>
+    <script src="./resources/js/plugins/bootstrap-template.js"></script>
     <script src="../resources/js/plugins/bootstrap-notify.min.js"></script>
     <script src="./resources/js/process-login.js"></script>
 

@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <header class="main-header hidden-print">
     <div class="logo hidden-xs"><img src="../resources/img/siteLogoPages.png" class="img-responsive" /></div>
     <nav class="navbar navbar-static-top">
@@ -12,8 +13,9 @@
                 <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button"
                                         aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
                     <ul class="dropdown-menu settings-menu">
-                        <%--<li><a href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>--%>
-                        <%--<li><a href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li>--%>
+                        <s:authorize access="hasRole('USER')">
+                            <li><a href="/DeltaCom/user/settings"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
+                        </s:authorize>
                         <li>
                             <a onclick="logoutForm.submit();">
                                 <c:url var="logoutUrl" value="/logout"/>

@@ -7,10 +7,10 @@
     <link rel="stylesheet" type="text/css" href="/DeltaCom/resources/css/bootstrap-template.css">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="/DeltaCom/resources/css/font-awesome.min.css">
-    <script src="/DeltaCom/resources/js/jquery-2.1.4.min.js"></script>
-    <script src="/DeltaCom/resources/js/bootstrap.min.js"></script>
+    <script src="/DeltaCom/resources/js/plugins/jquery-2.1.4.min.js"></script>
+    <script src="/DeltaCom/resources/js/plugins/bootstrap.min.js"></script>
     <script src="/DeltaCom/resources/js/plugins/pace.min.js"></script>
-    <script src="/DeltaCom/resources/js/bootstrap-template.js"></script>
+    <script src="/DeltaCom/resources/js/plugins/bootstrap-template.js"></script>
 
     <title>My DeltaCom</title>
 </head>

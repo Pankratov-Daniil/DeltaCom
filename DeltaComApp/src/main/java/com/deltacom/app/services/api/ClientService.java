@@ -15,6 +15,7 @@ public interface ClientService {
     public Client getClientByNumber(String number);
     public Client getClientByForgottenPassToken(String token);
     public long getClientsCount();
+    public void changePassword(Client client, String oldPassword, String newPassword);
     public void updateForgottenPassToken(String token, String email);
     public void updateClient(Client client);
     public void deleteClient(int clientId);
