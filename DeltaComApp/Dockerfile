@@ -7,7 +7,7 @@ ENV DB_URI deltacom-mysql:3306
 ENV DB_USER root
 ENV DB_PASS 123
 ENV DB_LINK deltacom?characterEncoding=UTF-8
-ENV ACTIVEMQ_URI tcp://18.195.20.204:61616
+ENV ACTIVEMQ_URI tcp://54.93.245.198:61616
 ENV JBOSS_HOME /opt/jboss/wildfly
 ENV JBOSS_CLI ${JBOSS_HOME}/bin/jboss-cli.sh
 

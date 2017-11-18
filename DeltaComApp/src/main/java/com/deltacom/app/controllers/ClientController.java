@@ -5,7 +5,7 @@ import com.deltacom.app.entities.ClientCart;
 import com.deltacom.app.entities.ClientLocation;
 import com.deltacom.app.exceptions.ClientException;
 import com.deltacom.app.services.api.ClientLocationService;
-import com.deltacom.app.utils.PasswordEncrypter;
+import com.deltacom.app.services.api.MessageSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -24,6 +24,8 @@ import java.util.List;
 public class ClientController extends CommonController {
     @Autowired
     private ClientLocationService clientLocationService;
+    @Autowired
+    MessageSenderService messageSenderService;
 
     /**
      * Processing request to client index page
@@ -149,5 +151,47 @@ public class ClientController extends CommonController {
         return "";
     }
 
+    /**
+     * Processing ajax request from client settings page to confirm number for two factor authorization
+     * @param number client number
+     * @return "" if ok, "time" if sms was send less than 5 minutes ago, "Error" if there was error with adding sms code to DB
+     */
+    @ResponseBody
+    @RequestMapping(value = "/confirmNumber", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String confirmNumber(@RequestParam String number,
+                                Principal principal) {
+        return clientService.confirmNumberFor2FA(principal.getName(), number);
+    }
 
+    /**
+     * Processing ajax request from client settings page to change status of two factor authorization
+     * @param number client number for two factor auth
+     */
+    @ResponseBody
+    @RequestMapping(value = "/changeTwoFactorAuth", method = RequestMethod.POST)
+    public void changeTwoFactorAuth(@RequestParam String number,
+                                    @RequestParam String smsCode,
+                                    Principal principal) {
+        clientService.updateTwoFactorAuth(principal.getName(), number, smsCode);
+    }
+
+    /**
+     * Processing ajax request from client settings page to get client contract numbers
+     * @return list of client contracts numbers or null
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getClientNumbers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getClientNumbers(Principal principal) {
+        return clientService.getClientNumbers(principal.getName());
+    }
+
+    /**
+     * Processing ajax request from client settings page to get client 2FA status
+     * @return number witch used for 2FA or empty string
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getTwoFactorAuthStatus", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getTwoFactorAuthStatus(Principal principal) {
+        return clientService.getTwoFactorAuthStatus(principal.getName());
+    }
 }

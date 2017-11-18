@@ -61,7 +61,8 @@ public class CommonControllerTest {
     @Test
     @Rollback
     public void regNewClient() throws Exception {
-        ClientDTO clientDTO = new ClientDTO(0, "new", "user", new Date(10,10,1999), "passp", "addr", "m@fsd.asd", "passwd", new String[]{"1"}, true, "","");
+        ClientDTO clientDTO = new ClientDTO(0, "new", "user", new Date(10,10,1999), "passp", "addr",
+                "m@fsd.asd", "passwd", new String[]{"1"}, true, "","", "");
         mockMvc.perform(MockMvcRequestBuilders.post("/commons/regNewClient")
                 .contentType("application/json")
                 .content(new ObjectMapper().writeValueAsString(clientDTO)))

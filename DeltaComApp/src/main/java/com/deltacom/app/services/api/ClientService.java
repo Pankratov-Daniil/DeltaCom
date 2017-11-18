@@ -17,6 +17,11 @@ public interface ClientService {
     public long getClientsCount();
     public void changePassword(Client client, String oldPassword, String newPassword);
     public void updateForgottenPassToken(String token, String email);
+    public String confirmNumberFor2FA(String email, String number);
+    public String addSmsCode(String email);
+    public void updateTwoFactorAuth(String email, String number, String smsCode);
+    public String getTwoFactorAuthStatus(String email);
     public void updateClient(Client client);
     public void deleteClient(int clientId);
+    public List<String> getClientNumbers(String email);
 }

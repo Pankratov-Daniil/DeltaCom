@@ -4,15 +4,15 @@ var curSelected = [];
 var tariffs = [];
 
 $(document).ready(function () {
-    getAllOptions(saveAllOptions);
-});
-
-function saveAllOptions(allOptions) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
         }
     });
+    getAllOptions(saveAllOptions);
+});
+
+function saveAllOptions(allOptions) {
     options = allOptions;
     getAllTariffs();
     getClient();

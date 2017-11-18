@@ -5,18 +5,23 @@ import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.services.api.OptionService;
 import com.deltacom.app.services.api.TariffService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -120,6 +125,33 @@ public class MessageSenderServiceImpl implements MessageSenderService {
                 ", country: " + location.getCountry() + ", with ip: " + location.getIpAddress() +
                 ".\n\nIf it wasn't you, please change your password as fast as you can!";
         sendEmail(email, "Security alert", emailBody);
+    }
+
+    /**
+     * Sends sms
+     * @param number number for sending sms
+     * @param smsText sms text
+     * @return response from sms server or null if sms successfully sent
+     */
+    @Override
+    public String sendSms(String number, String smsText) {
+        RestTemplate restTemplate = new RestTemplate();
+        String sendSmsURL = "http://smsc.ru/sys/send.php?login=Ko0LeR&psw=13572468qQ&phones=" + number + "&mes=" + smsText + "&fmt=3";
+        ResponseEntity<String> response = restTemplate.getForEntity(sendSmsURL, String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        try {
+            root = mapper.readTree(response.getBody());
+        } catch (IOException e) {
+            logger.error("Can't read response from smsc.");
+            return "Error.";
+        }
+        if(root.has("error")) {
+            String error = root.path("error").asText();
+            logger.error(error);
+            return "Error.";
+        }
+        return null;
     }
 
 }

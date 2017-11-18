@@ -63,6 +63,13 @@ public class Client {
     @Basic
     @Column(name = "smsCode")
     private String smsCode;
+    @Basic
+    @Column(name = "smsSendDate")
+    @DateTimeFormat(pattern = "dd.MM.yyyy'T'hh:mm:ss")
+    private Date smsSendDate;
+    @Basic
+    @Column(name = "twoFactorAuthNumber")
+    private String twoFactorAuthNumber;
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @JoinTable(name = "`clients_access_levels`",
@@ -80,7 +87,7 @@ public class Client {
 
     public Client(int id, String firstName, String lastName, Date birthDate, String passport, String address, String email,
                   String password, boolean isActivated, String forgottenPassToken, String openIdToken,
-                  boolean usingTwoFactorAuth, String smsCode, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
+                  boolean usingTwoFactorAuth, String smsCode, Date smsSendDate, String twoFactorAuthNumber, Set<AccessLevel> accessLevels, Set<Contract> contracts) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,6 +101,8 @@ public class Client {
         this.openIdToken = openIdToken;
         this.usingTwoFactorAuth = usingTwoFactorAuth;
         this.smsCode = smsCode;
+        this.smsSendDate = smsSendDate;
+        this.twoFactorAuthNumber = twoFactorAuthNumber;
         this.accessLevels = accessLevels;
         this.contracts = contracts;
     }
@@ -245,6 +254,22 @@ public class Client {
         this.smsCode = smsCode;
     }
 
+    public Date getSmsSendDate() {
+        return smsSendDate;
+    }
+
+    public void setSmsSendDate(Date smsSendDate) {
+        this.smsSendDate = smsSendDate;
+    }
+
+    public String getTwoFactorAuthNumber() {
+        return twoFactorAuthNumber;
+    }
+
+    public void setTwoFactorAuthNumber(String twoFactorAuthNumber) {
+        this.twoFactorAuthNumber = twoFactorAuthNumber;
+    }
+
     public Set<AccessLevel> getAccessLevels() {
         return accessLevels;
     }
@@ -285,6 +310,8 @@ public class Client {
                 ", openIdToken='" + openIdToken + '\'' +
                 ", accessLevels=" + accessLevels +
                 ", usingTwoFactorAuth=" + usingTwoFactorAuth +
+                ", smsCode=" + smsCode +
+                ", twoFactorAuthNumber=" + twoFactorAuthNumber +
                 '}';
     }
 

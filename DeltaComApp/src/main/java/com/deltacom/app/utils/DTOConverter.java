@@ -45,7 +45,8 @@ public class DTOConverter {
         return new Client(clientDTO.getId(), clientDTO.getFirstName(), clientDTO.getLastName(), clientDTO.getBirthDate(),
                 clientDTO.getPassport(), clientDTO.getAddress(), clientDTO.getEmail(), clientDTO.getPassword(),
                 clientDTO.isActivated(), clientDTO.getForgottenPassToken(), clientDTO.getOpenIdToken(),
-                clientDTO.isUsingTwoFactorAuth(), clientDTO.getSmsCode(), null, null);
+                clientDTO.isUsingTwoFactorAuth(), clientDTO.getSmsCode(), clientDTO.getSmsSendDate(),
+                clientDTO.getTwoFactorAuthNumber(), null, null);
     }
 
     /**

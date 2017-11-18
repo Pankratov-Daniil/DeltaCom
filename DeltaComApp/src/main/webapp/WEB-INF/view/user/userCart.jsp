@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="card">
                                 <form id="changeContract" name="changeContract" acceptCharset="utf8">
                                     <div class="form-group">
@@ -40,7 +40,7 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="card">
                                 <div class="card-body">
                                     <h3>Current tariff info</h3>

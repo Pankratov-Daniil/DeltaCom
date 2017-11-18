@@ -21,13 +21,16 @@ public class ClientDTO {
     private String openIdToken;
     private boolean usingTwoFactorAuth;
     private String smsCode;
+    private Date smsSendDate;
+    private String twoFactorAuthNumber;
 
     public ClientDTO() {
 
     }
 
     public ClientDTO(int id, String firstName, String lastName, Date birthDate, String passport, String address,
-                     String email, String password, String[] accessLevels, boolean isActivated, String forgottenPassToken, String openIdToken) {
+                     String email, String password, String[] accessLevels, boolean isActivated, String forgottenPassToken,
+                     String openIdToken, String twoFactorAuthNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,6 +43,7 @@ public class ClientDTO {
         this.isActivated = isActivated;
         this.forgottenPassToken = forgottenPassToken;
         this.openIdToken = openIdToken;
+        this.twoFactorAuthNumber = twoFactorAuthNumber;
     }
 
     public int getId() {
@@ -154,6 +158,22 @@ public class ClientDTO {
         this.smsCode = smsCode;
     }
 
+    public Date getSmsSendDate() {
+        return smsSendDate;
+    }
+
+    public void setSmsSendDate(Date smsSendDate) {
+        this.smsSendDate = smsSendDate;
+    }
+
+    public String getTwoFactorAuthNumber() {
+        return twoFactorAuthNumber;
+    }
+
+    public void setTwoFactorAuthNumber(String twoFactorAuthNumber) {
+        this.twoFactorAuthNumber = twoFactorAuthNumber;
+    }
+
     @Override
     public String toString() {
         return "ClientDTO{" +
@@ -171,6 +191,8 @@ public class ClientDTO {
                 ", openIdToken='" + openIdToken + '\'' +
                 ", usingTwoFactorAuth='" + usingTwoFactorAuth + '\'' +
                 ", smsCode='" + smsCode + '\'' +
+                ", smsSendDate=" + smsSendDate +
+                ", twoFactorAuthNumber=" + twoFactorAuthNumber +
                 '}';
     }
 }

@@ -14,7 +14,8 @@ public class ClientDTOTest {
 
     @Before
     public void setUp() throws Exception {
-        clientDTO = new ClientDTO(2, "Daniil", "Pankratov", new Date(29,6,1995), "passp", "addr", "e@mail.com", "passwd", new String[]{"1"}, true, "", "");
+        clientDTO = new ClientDTO(2, "Daniil", "Pankratov", new Date(29,6,1995), "passp", "addr",
+                "e@mail.com", "passwd", new String[]{"1"}, true, "", "", "");
     }
 
     @Test

@@ -14,13 +14,11 @@
     <http create-session="never" disable-url-rewriting="true" authentication-manager-ref="authenticationManager" auto-config="true" use-expressions="true">
         <headers>
             <frame-options disabled="true"/>
+            <cache-control />
         </headers>
 
         <intercept-url pattern="/favicon.ico" access="permitAll()" />
         <intercept-url pattern="/process-login" access="permitAll()" requires-channel="https"/>
-        <intercept-url pattern="/getLocation" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
-        <intercept-url pattern="/setLocation" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
-        <intercept-url pattern="/getClientLocation" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
         <intercept-url pattern="/*" access="hasRole('ANONYMOUS')" requires-channel="https"/>
         <intercept-url pattern="/user/**" access="hasRole('USER')" requires-channel="https"/>
         <intercept-url pattern="/manager/**" access="hasRole('MANAGER')" requires-channel="https"/>
@@ -31,7 +29,7 @@
             LoginController can redirect us to needed page according to role
          -->
         <form-login login-page="/process-login"
-                    default-target-url="/getClientLocation"
+                    default-target-url="/process-login"
                     authentication-failure-url="/process-login?error=true"
                     username-parameter="email"
                     password-parameter="password"

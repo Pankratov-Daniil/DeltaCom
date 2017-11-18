@@ -1,8 +1,10 @@
 package com.deltacom.app.repository.api;
 
 import com.deltacom.app.entities.Client;
+import com.deltacom.app.entities.Contract;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,4 +16,7 @@ public interface ClientRepository extends GenericRepository<Client, Integer> {
     public Client getClientByNumber(String number);
     public long getClientsCount();
     public Client getClientByForgottenPassToken(String token);
+    public List<Contract> getClientContracts(String email);
+    public Date getSmsSendDate(String email);
+    public String getTwoFactorAuthNumber(String email);
 }

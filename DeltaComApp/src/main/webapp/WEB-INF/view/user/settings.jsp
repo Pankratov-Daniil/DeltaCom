@@ -49,6 +49,9 @@
                             <li>
                                 <a href="#clientLocations" data-toggle="tab" aria-expanded="true">Locations</a>
                             </li>
+                            <li>
+                                <a href="#twoFactorAuth" data-toggle="tab" aria-expanded="true">Two factor authentication</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="passwordChange">
@@ -75,22 +78,51 @@
                             <div class="tab-pane fade" id="clientLocations">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <table class="table table-hover table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>IP</th>
-                                                    <th>Country</th>
-                                                    <th>City</th>
-                                                    <th>Date</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="locationsTableBody">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>IP</th>
+                                                        <th>Country</th>
+                                                        <th>City</th>
+                                                        <th>Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="locationsTableBody">
 
-                                            </tbody>
-                                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="col-md-7" id="map">
 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="twoFactorAuth">
+                                <div class="animated-checkbox">
+                                    <label>
+                                        <input id="twoFactorAuthCheckbox" type="checkbox"><span class="label-text">Enable two factor authorization</span>
+                                    </label>
+                                </div>
+                                <br/>
+                                <div id="selectNumberDiv" class="form-group row hidden">
+                                    <div class="col-md-3 input-group">
+                                        <select class="form-control" id="selectNumber">
+
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button id="confirmNumberBtn" type="button" class="btn btn-primary">Use this number</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div id="verificationCodeDiv" class="form-group row hidden">
+                                    <div class="col-md-3 input-group">
+                                        <input id="verificationCodeInput" type="text" class="form-control" pattern=".{4,4}"/>
+                                        <span class="input-group-btn">
+                                            <button id="checkCodeBtn" type="button" class="btn btn-primary">Check code</button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
