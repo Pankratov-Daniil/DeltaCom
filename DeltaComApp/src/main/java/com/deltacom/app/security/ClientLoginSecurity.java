@@ -36,8 +36,12 @@ public class ClientLoginSecurity implements UserDetailsService {
             throw new UsernameNotFoundException(email + " is not activated.");
         }
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
-        for(AccessLevel accessLevel : client.getAccessLevels()) {
-            auths.add(new SimpleGrantedAuthority(accessLevel.getName()));
+        if(client.getTwoFactorAuth()) {
+            auths.add(new SimpleGrantedAuthority("ROLE_PRE_AUTH"));
+        } else {
+            for (AccessLevel accessLevel : client.getAccessLevels()) {
+                auths.add(new SimpleGrantedAuthority(accessLevel.getName()));
+            }
         }
         return new User(email, client.getPassword(), true, true, true, true, auths);
     }

@@ -244,7 +244,7 @@ public class ClientServiceImpl implements ClientService{
         Date smsDate = clientRepository.getSmsSendDate(email);
         if(smsDate != null) {
             Date now = new Date();
-            if(((now.getDate() - smsDate.getDate()) == 0) && (((now.getTime() - smsDate.getTime())/(secondsInMinute * millisecondsInSecond)) < waitTime)) {
+            if((((now.getTime() - smsDate.getTime())/(secondsInMinute * millisecondsInSecond)) < waitTime)) {
                 return "time";
             }
         }

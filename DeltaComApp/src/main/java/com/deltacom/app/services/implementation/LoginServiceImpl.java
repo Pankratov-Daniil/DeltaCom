@@ -1,7 +1,9 @@
 package com.deltacom.app.services.implementation;
 
+import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientLocation;
+import com.deltacom.app.exceptions.LoginException;
 import com.deltacom.app.services.api.ClientLocationService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.LoginService;
@@ -12,10 +14,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.PersistenceException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService {
@@ -29,11 +40,72 @@ public class LoginServiceImpl implements LoginService {
     private MessageSenderService messageSenderService;
 
     /**
+     * Sends sms with two factor auth code
+     * @param email client email
+     */
+    @Override
+    @Transactional
+    public String sendPreAuthCode(String email) {
+        String smsCode;
+        try {
+            smsCode = clientService.addSmsCode(email);
+        } catch (PersistenceException ex) {
+            throw new LoginException("Error with adding sms code to DB: ", ex);
+        }
+        if (smsCode.equals("time")) {
+            return smsCode;
+        }
+        //return messageSenderService.sendSms(client.getTwoFactorAuthNumber(), "Your DeltaCom verification code: " + smsCode);
+        return messageSenderService.sendSms("79313438188", "Your DeltaCom verification code: " + smsCode);
+    }
+
+    /**
+     * Checks if entered code is valid
+     * @param email client email
+     * @param preAuthCode entered pre auth code
+     * @return true if code is valid, false if not
+     */
+    @Override
+    @Transactional
+    public boolean isEnteredPreAuthCodeValid(String email, String preAuthCode) {
+        Client client = clientService.getClientByEmail(email);
+        boolean codeValid = client.getSmsCode().equals(preAuthCode);
+        if(codeValid) {
+            client.setSmsCode(null);
+            client.setSmsSendDate(null);
+            try {
+                clientService.updateClient(client);
+            } catch (PersistenceException ex) {
+                throw new LoginException("Can't update sms code and sms send date for client: " + email, ex);
+            }
+        }
+        return codeValid;
+    }
+
+    /**
+     * Grants authorities to client
+     * @param email client email
+     */
+    @Override
+    @Transactional
+    public void grantAuthorities(String email) {
+        Client client = clientService.getClientByEmail(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (AccessLevel accessLevel : client.getAccessLevels()) {
+            authorities.add(new SimpleGrantedAuthority(accessLevel.getName()));
+        }
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), authorities);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
+
+    /**
      * Save client location
      * @param ip client ip
      * @param clientEmail client email
      */
     @Override
+    @Transactional
     public void saveClientLocation(String ip, String clientEmail) {
         Client client = clientService.getClientByEmail(clientEmail);
         if(client == null) {
