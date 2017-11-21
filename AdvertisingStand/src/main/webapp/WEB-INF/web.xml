@@ -14,6 +14,11 @@
     </servlet-mapping>
 
     <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>omega</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>resteasy.servlet.mapping.prefix</param-name>
         <param-value>/tariffs</param-value>
     </context-param>

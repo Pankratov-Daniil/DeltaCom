@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+        <title>
+            Admin panel
+        </title>
+    </h:head>
+
+    <h:body>
+        <h:form id="tariffForm">
+            <p:growl id="message" />
+
+            <p:dataTable reflow="true" value="#{adminPanelBean.tariffsToShows}" var="tariff">
+                <p:column headerText="Shown">
+                    <p:selectBooleanCheckbox value="#{tariff.shown}">
+                        <p:ajax update=":tariffForm:message" listener="#{adminPanelBean.sendMessage}" />
+                    </p:selectBooleanCheckbox>
+                </p:column>
+                <p:column headerText="Id">
+                    <h:outputText value="#{tariff.tariff.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{tariff.tariff.name}"/>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{tariff.tariff.price}"/>
+                </p:column>
+                <p:column headerText="Options">
+                    <p> Options:
+                        <p:repeat value="#{tariff.tariff.options}" var="option">
+                            #{option.name};
+                        </p:repeat>
+                    </p>
+                </p:column>
+            </p:dataTable>
+
+            <a href="/AdvertisingStand">Go to stand!</a>
+        </h:form>
+    </h:body>
+</f:view>
+</html>

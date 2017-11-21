@@ -22,6 +22,7 @@
       <log4j.version>2.9.1</log4j.version>
       <activemq.version>5.14.5</activemq.version>
       <javaee.version>8.0</javaee.version>
+      <primefaces.version>6.1</primefaces.version>
       <resteasy.version>3.1.4.Final</resteasy.version>
       <jackson.databind.version>2.9.1</jackson.databind.version>
       <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
@@ -46,6 +47,11 @@
           <version>2.3</version>
           <scope>provided</scope>
       </dependency>
+      <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>${primefaces.version}</version>
+    </dependency>
       <dependency>
           <groupId>org.jboss.resteasy</groupId>
           <artifactId>resteasy-jaxrs</artifactId>

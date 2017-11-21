@@ -168,8 +168,8 @@ function getClientNumbers() {
             getTwoFactorAuthStatus(function (status) {
                 if(status != null && status != "") {
                     twoFactorCheckbox.prop('checked', true);
-                    numberSelect.attr('disabled', true);
                     numberSelect.val(status);
+                    numberSelect.attr('disabled', true);
                     selectNumberDiv.removeClass('hidden');
                     confirmNumberBtn.addClass('hidden');
                 } else {

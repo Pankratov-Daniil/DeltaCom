@@ -28,7 +28,7 @@ public class MainController {
     @Path("/getTariffs")
     public String getTariffs() {
         try {
-            return new ObjectMapper().writeValueAsString(tariffsLoader.getTariffs());
+            return new ObjectMapper().writeValueAsString(tariffsLoader.getTariffsForStand());
         } catch (JsonProcessingException e) {
             logger.error("Can't write tariffs as JSON: " + e);
         }
