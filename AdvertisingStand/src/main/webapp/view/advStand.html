@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="./resources/js/jquery-2.1.4.min.js"></script>
-    <script src="./resources/js/bootstrap.min.js"></script>
-    <script src="./resources/js/angular.min.js"></script>
-    <script src="./resources/js/angular-animate.min.js"></script>
-    <script src="./resources/js/advStand.js"></script>
-    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./resources/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./resources/css/bootstrap-template.min.css">
-    <link rel="stylesheet" href="./resources/css/advStand.css">
+    <script src="../resources/js/jquery-2.1.4.min.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <script src="../resources/js/angular.min.js"></script>
+    <script src="../resources/js/angular-animate.min.js"></script>
+    <script src="../resources/js/advStand.js"></script>
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../resources/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/css/bootstrap-template.min.css">
+    <link rel="stylesheet" href="../resources/css/advStand.css">
     <title>DeltaCom Tariffs</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
         <div ng-controller="TariffsController">
             <div style='text-align: center' class="card ng-class:{'tariff-item' : !isStart, 'tariff-item-start' : isStart}"
                  ng-repeat="tariff in tariffs" ng-hide="isStart || tariff.id != index">
-                <img src="./resources/img/siteLogo.png">
+                <img src="../resources/img/siteLogo.png">
                 <div class='card-footer'>
                     <h2 style="margin-top: 0">{{tariff.name}}</h2>
                 </div>

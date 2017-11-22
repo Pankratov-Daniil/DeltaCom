@@ -6,6 +6,8 @@ import com.deltacom.app.services.api.ClientLocationService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.LoginService;
 import com.deltacom.app.services.api.MessageSenderService;
+import com.deltacom.dto.ClientDTO;
+import com.deltacom.dto.CredentialsDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -89,6 +92,12 @@ public class LoginController {
             loginService.grantAuthorities(principal.getName());
         }
         return processLogin(request, principal);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/remoteLogin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> remoteLogin(CredentialsDTO credentialsDTO) {
+        return loginService.remoteLogin(credentialsDTO);
     }
 
     /**

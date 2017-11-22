@@ -13,6 +13,15 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.adstand.app.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/view/*</url-pattern>
+    </filter-mapping>
+
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>omega</param-value>
@@ -24,6 +33,11 @@
     </context-param>
 
     <welcome-file-list>
-        <welcome-file>view/advStand.html</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
 </web-app>

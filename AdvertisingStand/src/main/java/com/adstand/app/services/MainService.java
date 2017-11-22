@@ -1,6 +1,6 @@
-package com.adstand.app.services.implementation;
+package com.adstand.app.services;
 
-import com.adstand.app.services.api.TariffsLoader;
+import com.adstand.app.services.TariffsLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.ejb3.annotation.ResourceAdapter;

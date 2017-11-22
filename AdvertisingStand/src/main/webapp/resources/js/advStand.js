@@ -7,7 +7,7 @@ app.controller('TariffsController', function($scope, $http, $interval, $timeout)
     $scope.isStart = true;
     $scope.iter = 0;
     var dataToFunc = {http : $http, scope : $scope, timeout: $timeout};
-    var uri = "ws://" + document.location.host + document.location.pathname + "tariffSubscription";
+    var uri = "ws://" + document.location.host + "/tariffSubscription";
     var webSocket = new WebSocket(uri);
 
     webSocket.onopen = function (evt) { console.log("Connected to tariffSubscription socket!") };

@@ -1,8 +1,6 @@
-package com.adstand.app.services.implementation;
+package com.adstand.app.services;
 
-import com.adstand.app.controllers.AdminPanelBean;
 import com.adstand.app.entity.TariffsToShow;
-import com.adstand.app.services.api.TariffsLoader;
 import com.deltacom.dto.TariffDTOwOpts;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,20 +10,19 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
+import javax.faces.bean.SessionScoped;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Implementation for a class that loads tariffs
  */
-@Singleton(name = "tariffsLoader")
-public class TariffsLoaderImpl implements TariffsLoader {
+@Stateless(name = "tariffsLoader")
+@SessionScoped
+public class TariffsLoader {
     private static final Logger logger = LogManager.getLogger(TariffsLoader.class);
     private static final String GET_TARIFFS_URI = "https://deltacomapp.com/DeltaCom/getTariffsForStand";
     private List<TariffDTOwOpts> tariffs;
@@ -42,7 +39,6 @@ public class TariffsLoaderImpl implements TariffsLoader {
     /**
      * Gets tariffs from server and saves it to tariffs list
      */
-    @Override
     public void getTariffsFromServer() {
         logger.info("Started getting tariffs and options!");
         ResteasyClient client = new ResteasyClientBuilder().build();
@@ -69,12 +65,10 @@ public class TariffsLoaderImpl implements TariffsLoader {
         }
     }
 
-    @Override
     public List<TariffDTOwOpts> getTariffs() {
         return tariffs;
     }
 
-    @Override
     public List<TariffDTOwOpts> getTariffsForStand() {
         List<TariffDTOwOpts> tariffsForStand = new ArrayList<>();
         for(TariffsToShow tariff : tariffsToShow) {
@@ -85,7 +79,6 @@ public class TariffsLoaderImpl implements TariffsLoader {
         return tariffsForStand;
     }
 
-    @Override
     public void setTariffsToShow(List<TariffsToShow> tariffsToShows) {
         this.tariffsToShow = tariffsToShows;
         WebSocketService.sendMessage(getTariffsForStand());

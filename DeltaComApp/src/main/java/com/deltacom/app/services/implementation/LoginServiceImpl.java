@@ -8,6 +8,9 @@ import com.deltacom.app.services.api.ClientLocationService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.LoginService;
 import com.deltacom.app.services.api.MessageSenderService;
+import com.deltacom.app.utils.PasswordEncrypter;
+import com.deltacom.dto.ClientDTO;
+import com.deltacom.dto.CredentialsDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -128,6 +131,27 @@ public class LoginServiceImpl implements LoginService {
                 root.path("country_name").asText(), root.path("ip").asText(), null);
         checkLastLocation(client, clientLocation);
         clientLocationService.addClientLocations(clientLocation);
+    }
+
+    /**
+     * Checks if email and password from clientDTO are correct and returns accessLevels or null
+     * @param credentialsDTO client dto
+     * @return null if email and password are incorrect or list of access levels
+     */
+    @Override
+    public List<String> remoteLogin(CredentialsDTO credentialsDTO) {
+        Client client = clientService.getClientByEmail(credentialsDTO.getEmail());
+        if(client == null) {
+            return null;
+        }
+        if(!PasswordEncrypter.passwordsEquals(credentialsDTO.getPassword(), client.getPassword())) {
+            return null;
+        }
+        List<String> accessLevelsList = new ArrayList<>();
+        for(AccessLevel accessLevel :  client.getAccessLevels()) {
+            accessLevelsList.add(accessLevel.getName());
+        }
+        return accessLevelsList;
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.adstand.app.controllers;
 
 import com.adstand.app.entity.TariffsToShow;
-import com.adstand.app.services.api.TariffsLoader;
+import com.adstand.app.services.TariffsLoader;
 import com.deltacom.dto.TariffDTOwOpts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,14 +9,14 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "adminPanelBean")
-@ApplicationScoped
+@SessionScoped
 public class AdminPanelBean {
     private static final Logger logger = LogManager.getLogger(AdminPanelBean.class);
 
