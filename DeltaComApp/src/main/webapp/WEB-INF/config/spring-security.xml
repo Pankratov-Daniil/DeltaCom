@@ -17,15 +17,18 @@
             <cache-control />
         </headers>
 
+        <intercept-url pattern="/resources/**" access="permitAll()" requires-channel="https"/>
         <intercept-url pattern="/process-login" access="permitAll()" requires-channel="https"/>
         <intercept-url pattern="/preAuth" access="hasRole('PRE_AUTH')" requires-channel="https"/>
         <intercept-url pattern="/sendPreAuthCode" access="hasRole('PRE_AUTH')" requires-channel="https"/>
         <intercept-url pattern="/checkPreAuthCode" access="hasRole('PRE_AUTH')" requires-channel="https"/>
-        <intercept-url pattern="/**" access="hasRole('ANONYMOUS')" requires-channel="https"/>
         <intercept-url pattern="/user/**" access="hasRole('USER')" requires-channel="https"/>
         <intercept-url pattern="/manager/**" access="hasRole('MANAGER')" requires-channel="https"/>
+        <intercept-url pattern="/subscrToOptions/**" access="hasRole('MANAGER')" requires-channel="https"/>
+        <intercept-url pattern="/subscrToTariffs/**" access="hasRole('MANAGER')" requires-channel="https"/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
-        <intercept-url pattern="/commons/addNewClient**" access="hasAnyRole('MANAGER', 'ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/**" access="hasAnyRole('MANAGER', 'ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/**" access="hasRole('ANONYMOUS')" requires-channel="https"/>
 
         <!-- We're using default-target-url because when we are logged
             LoginController can redirect us to needed page according to role

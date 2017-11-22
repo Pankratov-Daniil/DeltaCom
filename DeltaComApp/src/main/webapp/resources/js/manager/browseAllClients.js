@@ -554,7 +554,12 @@ function passTariffsToModal() {
     updateSelect(selectTariff, tariffHtml);
     selectTariff.selectpicker('val', savedTariff.id);
     if(tariffs.length > 0) {
-        var optionsHtml = createOptionsHtml(idsToObjectInOptionsCompatibilityArr(savedTariff.options, options), 6);
+        savedTariff.options = idsToObjectInOptionsCompatibilityArr(savedTariff.options, options);
+        savedTariff.options.forEach(function (option) {
+            option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, options);
+            option.incompatibleOptions = idsToObjectInOptionsCompatibilityArr(option.incompatibleOptions, options);
+        });
+        var optionsHtml = createOptionsHtml(savedTariff.options, 6);
         compatibleOptions = (optionsHtml.compatibleOptions);
         incompatibleOptions = (optionsHtml.incompatibleOptions);
         updateSelect(selectOptions, optionsHtml.optionsList);

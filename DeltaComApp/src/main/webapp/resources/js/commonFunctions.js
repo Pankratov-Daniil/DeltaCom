@@ -34,7 +34,11 @@ function makeCompatibilityText(arr, curOption, compatible) {
         }
     });
     text += '</ul></td>';
-    return text;
+    if(text.indexOf("<li>") !== -1) {
+        return text;
+    } else {
+        return "";
+    }
 }
 
 /**
@@ -57,7 +61,7 @@ function createOptionsHtml(data, cardLen) {
         }
         optionsInfo += "<div class='col-md-" + cardLen + "'><div class='card'><div class='card-body'>";
         optionsInfo += "<div style='text-align: center'><h4 style='margin-top: 0'>" + item.name + "</h4></div>";
-        optionsInfo += "<div style='text-align: center'><table class='table'><tr>";
+        optionsInfo += "<div class='table-responsive' style='text-align: center'><table class='table'><tr>";
         optionsInfo += "<td><h5>Price</h5></td>";
         optionsInfo += "<td><h5>Connection cost</h5></td>";
         optionsInfo += "</tr><tr>";
@@ -65,18 +69,24 @@ function createOptionsHtml(data, cardLen) {
         optionsInfo += "<td>" + item.connectionCost.toLocaleString('ru-RU', {style: 'currency', currency : 'RUB'}) + "</td>";
         optionsInfo += "</tr></table></div>";
 
-        optionsInfo += "<div><table class='table'><tr style='text-align: center'><td><h5>Comes with</h5></td><td><h5>Incompatible with</h5></td></tr><tr>";
+        optionsInfo += "<div class='table-responsive'><table class='table'><tr style='text-align: center'><td><h5>Comes with</h5></td><td><h5>Incompatible with</h5></td></tr><tr>";
+
+        var emptyRow = "<td style='text-align: center'>-</td>";
+
+        var compatabilityText;
         if(item.compatibleOptions.length > 0) {
-            optionsInfo += makeCompatibilityText(data, item, true);
+            compatabilityText = makeCompatibilityText(data, item, true);
+            optionsInfo += (compatabilityText != "") ? compatabilityText : emptyRow;
             compatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.compatibleOptions});
         } else {
-            optionsInfo += "<td style='text-align: center'>-</td>";
+            optionsInfo += emptyRow;
         }
         if(item.incompatibleOptions.length > 0) {
-            optionsInfo += makeCompatibilityText(data, item, false);
+            compatabilityText = makeCompatibilityText(data, item, false);
+            optionsInfo += (compatabilityText != "") ? compatabilityText : emptyRow;
             incompatibleOptions.push({'id' : item.id, 'compatibleOptions' : item.incompatibleOptions});
         } else {
-            optionsInfo += "<td style='text-align: center'>-</td>";
+            optionsInfo += emptyRow;
         }
         optionsInfo += "</tr></table></div>";
         optionsInfo += "</div></div></div>";
