@@ -27,6 +27,10 @@
         <intercept-url pattern="/subscrToOptions/**" access="hasRole('MANAGER')" requires-channel="https"/>
         <intercept-url pattern="/subscrToTariffs/**" access="hasRole('MANAGER')" requires-channel="https"/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/getContractByNumber" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/getAllTariffs" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/getAllOptions" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
+        <intercept-url pattern="/commons/changeContract" access="hasAnyRole('USER', 'MANAGER', 'ADMIN')" requires-channel="https"/>
         <intercept-url pattern="/commons/**" access="hasAnyRole('MANAGER', 'ADMIN')" requires-channel="https"/>
         <intercept-url pattern="/**" access="hasRole('ANONYMOUS')" requires-channel="https"/>
 

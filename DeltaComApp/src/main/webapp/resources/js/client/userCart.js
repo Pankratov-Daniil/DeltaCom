@@ -5,8 +5,11 @@ var options = [];
 var curSelected = [];
 var prevSelected = [];
 var client = null;
+var balanceField = undefined;
 
 $(document).ready(function () {
+    balanceField = $("#contractBalance");
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
@@ -102,7 +105,7 @@ function checkChanges() {
 }
 
 /**
- * Finds if option exists by id
+ * Checks if option exists by id
  */
 function findInOptions(options, needId) {
     var selectedOptions = $("#selectOptions").selectpicker('val');
@@ -217,6 +220,7 @@ function openChangeContractModal() {
     tariffSelect.selectpicker('refresh');
 
     $("#numberModal").val(contractModal.numbersPool.number);
+    balanceField.val(contractModal.balance);
 
     var selTariffInfo = '<p>Name: ' + tariff.name + '<br/>Price: ' + tariff.price;
     $("#tariffInfo").html(selTariffInfo);

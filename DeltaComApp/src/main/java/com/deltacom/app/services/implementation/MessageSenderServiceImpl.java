@@ -1,6 +1,7 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.ClientLocation;
+import com.deltacom.app.exceptions.MessageSenderException;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.services.api.OptionService;
@@ -9,9 +10,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
@@ -27,7 +25,6 @@ import java.util.UUID;
 /**
  * Operations with sending messages to message queue
  */
-@Aspect
 @Service("MessageSenderService")
 public class MessageSenderServiceImpl implements MessageSenderService {
     private static final Logger logger = LogManager.getLogger(MessageSenderService.class);
@@ -36,50 +33,27 @@ public class MessageSenderServiceImpl implements MessageSenderService {
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
     @Autowired
-    private OptionService optionService;
-    @Autowired
-    private TariffService tariffService;
-    @Autowired
     private ClientService clientService;
     @Autowired
     private JavaMailSender mailSender;
 
     /**
-     * Pointcut for add, update, delete methods of TariffService
+     * Sends object to topic
+     * @param topicName name of topic
+     * @param object object to send
      */
-    @Pointcut("execution(void com.deltacom.app.services.api.TariffService.*(..))")
-    public void tariffChanged(){ };
-
-    /**
-     * Method for catching successful return from add, update, delete methods of TariffService
-     */
-    @AfterReturning("tariffChanged()")
-    public void afterTariffChanged() {
-        try {
-            messagingTemplate.convertAndSend("/topic/tariffs", tariffService.getAllTariffs());
-            jmsTemplate.convertAndSend("Tariffs changed.");
-            logger.info("Sent message about tariff changes.");
-        } catch(Exception e) {
-            return;
-        }
+    @Override
+    public void sendToTopic(String topicName, Object object) {
+        messagingTemplate.convertAndSend(topicName, object);
     }
 
     /**
-     * Pointcut for add, update, delete methods of OptionService
+     * Sends message to queue
+     * @param message message to send
      */
-    @Pointcut("execution(void com.deltacom.app.services.api.OptionService.*(..))")
-    public void optionChanged(){ };
-
-    /**
-     * Method for catching successful return from add, update, delete methods of OptionService
-     */
-    @AfterReturning("optionChanged()")
-    public void afterOptionChanged() {
-        try {
-            messagingTemplate.convertAndSend("/topic/options", optionService.getAllOptions());
-        } catch(Exception e) {
-            return;
-        }
+    @Override
+    public void sendToQueue(String message) {
+        jmsTemplate.convertAndSend("Tariffs changed.");
     }
 
     /**
@@ -110,7 +84,7 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         try {
             mailSender.send(message);
         } catch (Exception e) {
-            return;
+            throw new MessageSenderException("Can't send email: ", e);
         }
     }
 
@@ -124,7 +98,11 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         String emailBody = "Dear client!\n\nWe noticed that someone entered to your account from city: " + location.getCity() +
                 ", country: " + location.getCountry() + ", with ip: " + location.getIpAddress() +
                 ".\n\nIf it wasn't you, please change your password as fast as you can!";
-        sendEmail(email, "Security alert", emailBody);
+        try {
+            sendEmail(email, "Security alert", emailBody);
+        } catch (Exception e) {
+            throw new MessageSenderException("Can't send security alert email: ", e);
+        }
     }
 
     /**

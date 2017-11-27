@@ -62,22 +62,4 @@ services:
             interval: 30s
             timeout: 10s
             retries: 5
-    
-    jenkins:
-        image: jenkins
-        container_name: jenkins
-        restart: always
-        ports:
-            - "8081:8080"
-            - "50000:50000"
-        volumes:
-            - DockerEnv/Jenkins/data:/var/jenkins_home
-            
-    smtp:
-        image: namshi/smtp
-        container_name: smtp
-        ports:
-            - "25:25"
-        environment:
-            - "GMAIL_USER:deltacomapp@gmail.com"
-            - "GMAIL_PASSWORD: DeltaComApp1"
+ 

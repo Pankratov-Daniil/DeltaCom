@@ -111,6 +111,19 @@ public class Logging {
     }
 
     /**
+     * Method for logging send services methods
+     * @param pjp proceed join point
+     * @return join point proceed result
+     */
+    @Around("execution(* com.deltacom.app.services.api..send*(..))")
+    public Object aroundSendServices(ProceedingJoinPoint pjp) throws Throwable {
+        logger.info("Invoked " + pjp.toShortString() + " with args: " + Arrays.toString(pjp.getArgs()));
+        Object obj = pjp.proceed();
+        logger.info("Method " + pjp.toShortString() + " with args: " + Arrays.toString(pjp.getArgs()) + " sent message.");
+        return obj;
+    }
+
+    /**
      * Method for logging exception
      * @param jp join point
      * @param exception raised exception

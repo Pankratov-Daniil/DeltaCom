@@ -23,6 +23,10 @@
                                         <input class="btn btn-primary" type="text" name="numberModal" id="numberModal" readonly="true" value="" />
                                     </div>
                                     <div class="form-group">
+                                        <label class="control-label">Contract balance</label><br/>
+                                        <input class="btn btn-primary" type="text" name="contractBalance" id="contractBalance" readonly="true" value="" />
+                                    </div>
+                                    <div class="form-group">
                                         <label class="control-label" >Available tariffs</label><br/>
                                         <select class="selectpicker form-control" data-style="btn-primary" id="selectTariff" name="selectTariff">
 

@@ -6,6 +6,8 @@ import com.deltacom.app.entities.ClientLocation;
  * Interface for sending message
  */
 public interface MessageSenderService {
+    public void sendToTopic(String topicName, Object object);
+    public void sendToQueue(String message);
     public void sendResetPasswordEmail(String email);
     public void sendEmail(String email, String text, String subject);
     public void sendSecurityAlertEmail(String email, ClientLocation location);

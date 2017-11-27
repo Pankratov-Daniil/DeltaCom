@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jee="http://www.springframework.org/schema/jee"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,7 +13,9 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/jee
-        http://www.springframework.org/schema/jee/spring-jee.xsd">
+        http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/websocket
+		http://www.springframework.org/schema/websocket/spring-websocket.xsd">
     <context:annotation-config/>
     <context:component-scan base-package="com.deltacom.app"/>
 
@@ -54,9 +57,8 @@
         <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"
-          factory-method="aspectOf"/>
-
+<!--    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"
+          factory-method="aspectOf"/>-->
 
     <jee:jndi-lookup id="connectionFactory"
                      jndi-name="java:/activemq/deltacom/topic" proxy-interface="javax.jms.ConnectionFactory"
@@ -69,5 +71,36 @@
         <property name="connectionFactory" ref ="connectionFactory"/>
         <property name="defaultDestination" ref="jndiSendTopic"/>
         <property name="sessionAcknowledgeModeName" value="AUTO_ACKNOWLEDGE"/>
+    </bean>
+
+    <websocket:message-broker>
+        <websocket:stomp-endpoint allowed-origins="*" path="/subscrToOptions">
+            <websocket:sockjs />
+        </websocket:stomp-endpoint>
+        <websocket:stomp-endpoint allowed-origins="*" path="/subscrToTariffs">
+            <websocket:sockjs />
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic" />
+    </websocket:message-broker>
+
+    <bean id="defaultHandshakeHandler" class="org.springframework.web.socket.server.support.DefaultHandshakeHandler">
+        <constructor-arg ref="upgradeStrategy"/>
+    </bean>
+
+    <bean id="upgradeStrategy" class="org.springframework.web.socket.server.standard.UndertowRequestUpgradeStrategy"/>
+
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="deltacomapp@gmail.com" />
+        <property name="password" value="DeltaComApp1" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
     </bean>
 </beans>

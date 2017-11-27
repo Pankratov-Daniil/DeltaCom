@@ -16,9 +16,9 @@ public class PasswordEncrypterTest {
     public void encryptPassword() throws Exception {
         final int PASSWORD_STRENGTH = 11;
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(PASSWORD_STRENGTH);
-        String encryptedPassword = PasswordEncrypter.encryptPassword("13572468");
+        String encryptedPassword = PasswordEncrypter.encryptPassword("123456");
 
-        assertTrue(encoder.matches("13572468", encryptedPassword));
+        assertTrue(encoder.matches("123456", encryptedPassword));
     }
 
     @Test(expected = InvocationTargetException.class)

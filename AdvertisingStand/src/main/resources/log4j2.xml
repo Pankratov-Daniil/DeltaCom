@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+    <Properties>
+        <Property name="defaultpattern">logdate=(%d{ISO8601}) thread=(%thread) level=(%level) loggerclass=(%logger{36}) message=(%msg)%n</Property>
+    </Properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="adstandLog" fileName="adstand.log" append="false">
+        <File name="adstandLog" fileName="logs/adstand.log" append="false">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
         </File>
-        <File name="errorsLog" fileName="errors.log" append="false">
+        <File name="errorsLog" fileName="logs/errors.log" append="false">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
             <Filters>
                 <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
         </File>
+
+        <Socket name="LogstashSocket" host="deltacomapp.hopto.org" port="5044" reconnectDelayMillis="30000" immediateFail="false">
+            <PatternLayout pattern="${defaultpattern}" charset="UTF-8"/>
+        </Socket>
+        <Async name="LogstashSocketAsync">
+            <AppenderRef ref="LogstashSocket" />
+        </Async>
     </Appenders>
     <Loggers>
         <Logger name="com.adstand.app" level="info" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="adstandLog"/>
             <AppenderRef ref="errorsLog"/>
+            <AppenderRef ref="LogstashSocketAsync" />
         </Logger>
         <Root>
             <AppenderRef ref="Console"/>
             <AppenderRef ref="errorsLog"/>
+            <AppenderRef ref="LogstashSocketAsync" />
         </Root>
     </Loggers>
 </Configuration>
