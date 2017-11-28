@@ -304,7 +304,6 @@ public class Client {
                 ", passport='" + passport + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", isActivated='" + isActivated + '\'' +
                 ", forgottenPassToken='" + forgottenPassToken + '\'' +
                 ", openIdToken='" + openIdToken + '\'' +

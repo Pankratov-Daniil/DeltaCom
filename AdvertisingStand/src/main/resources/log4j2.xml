@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="defaultpattern">logdate=(%d{ISO8601}) thread=(%thread) level=(%level) loggerclass=(%logger{36}) message=(%msg)%n</Property>
+        <Property name="socketPattern">logdate=(%d{ISO8601}) thread=(%thread) level=(%level) loggerclass=(%logger{36}) message=(%replace{%replace{%msg}{\)}{\]}}{\n}{\\n})%n</Property>
     </Properties>
 
     <Appenders>
@@ -19,7 +19,7 @@
         </File>
 
         <Socket name="LogstashSocket" host="deltacomapp.hopto.org" port="5044" reconnectDelayMillis="30000" immediateFail="false">
-            <PatternLayout pattern="${defaultpattern}" charset="UTF-8"/>
+            <PatternLayout pattern="${socketPattern}" charset="UTF-8"/>
         </Socket>
         <Async name="LogstashSocketAsync">
             <AppenderRef ref="LogstashSocket" />
