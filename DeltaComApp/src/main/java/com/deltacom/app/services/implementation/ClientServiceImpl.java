@@ -4,11 +4,14 @@ import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.exceptions.ClientException;
+import com.deltacom.app.exceptions.MessageSenderException;
 import com.deltacom.app.repository.api.ClientRepository;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.utils.PasswordEncrypter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * Operations with repository for Client entities.
  */
 @Service("ClientService")
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
+    private static final Logger logger = LogManager.getLogger(ClientService.class);
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
@@ -86,7 +90,11 @@ public class ClientServiceImpl implements ClientService{
             }
             client.setAccessLevels(accessLevels);
             clientRepository.add(client);
-            messageSenderService.sendResetPasswordEmail(client.getEmail());
+            try {
+                messageSenderService.sendResetPasswordEmail(client.getEmail());
+            } catch(MessageSenderException ex) {
+                logger.error("Can't send email to new user: " + ex.getMessage());
+            }
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't added: ", ex);
         }

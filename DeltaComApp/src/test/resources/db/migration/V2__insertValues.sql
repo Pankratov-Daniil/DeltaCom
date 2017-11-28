@@ -24,9 +24,9 @@ INSERT INTO "option" VALUES (11,'New option',200,500);
 -- Dumping data for table "tariff"
 --
 
-INSERT INTO "tariff" VALUES (1,'Tariff1',200);
-INSERT INTO "tariff" VALUES (2,'Tariff2',123);
-INSERT INTO "tariff" VALUES (4,'New tariff2',3005);
+INSERT INTO "tariff" VALUES (1,'Tariff1',20);
+INSERT INTO "tariff" VALUES (2,'Tariff2',13);
+INSERT INTO "tariff" VALUES (4,'New tariff2',30);
 
 --
 -- Dumping data for table "access_level"
@@ -86,10 +86,10 @@ INSERT INTO "compatible_options" VALUES (87,11,1);
 -- Dumping data for table "contract"
 --
 
-INSERT INTO "contract" VALUES (16,'89219999999',2,5,0,1,1);
-INSERT INTO "contract" VALUES (21,'89222222222',1,5,0,0,0);
-INSERT INTO "contract" VALUES (34,'89212923412',2,7,0,0,0);
-INSERT INTO "contract" VALUES (35,'89113111133',2,45,0,0,0);
+INSERT INTO "contract" VALUES (16,'89219999999',2,5,7000,1,1);
+INSERT INTO "contract" VALUES (21,'89222222222',1,5,7000,0,0);
+INSERT INTO "contract" VALUES (34,'89212923412',2,7,7000,0,0);
+INSERT INTO "contract" VALUES (35,'89113111133',2,45,7000,0,0);
 
 --
 -- Dumping data for table "contract_option"

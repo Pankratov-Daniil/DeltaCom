@@ -81,7 +81,7 @@ public class MessageSenderServiceImpl implements MessageSenderService {
         message.setText(text);
         try {
             mailSender.send(message);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new MessageSenderException("Can't send email: ", e);
         }
     }
