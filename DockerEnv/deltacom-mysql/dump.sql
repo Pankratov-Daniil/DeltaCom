@@ -338,16 +338,6 @@ CREATE TABLE `persistent_logins` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `persistent_logins`
---
-
-LOCK TABLES `persistent_logins` WRITE;
-/*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
-INSERT INTO `persistent_logins` VALUES ('manager@manager.com','+N8nOvM+iHgS7u1bBlREzA==','rvMwW3Yv9hozDOtmh/bBlQ==','2017-10-18 17:31:48');
-/*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tariff`
 --
 

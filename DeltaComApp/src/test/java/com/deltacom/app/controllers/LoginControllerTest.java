@@ -40,30 +40,30 @@ public class LoginControllerTest {
     @Test
     @WithAnonymousUser
     public void loginAnonymous() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/login"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/process-login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("login"));
+                .andExpect(view().name("loginPage"));
     }
 
 
     @Test
     @WithMockUser(username = "admin@admin.com", authorities = {"ADMIN"})
     public void loginAdmin() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/login"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/process-login"))
                 .andExpect(view().name("redirect:/admin/index"));
     }
 
     @Test
     @WithMockUser(username = "manager@manager.com", authorities = {"MANAGER"})
     public void loginManager() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/login"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/process-login"))
                 .andExpect(view().name("redirect:/manager/index"));
     }
 
     @Test
     @WithMockUser(username = "user@user.com", authorities = {"USER"})
     public void loginUser() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/login"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/process-login"))
                 .andExpect(view().name("redirect:/user/index"));
     }
 }

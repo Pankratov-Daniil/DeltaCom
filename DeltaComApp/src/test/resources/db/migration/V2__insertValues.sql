@@ -40,19 +40,19 @@ INSERT INTO "access_level" VALUES (1,'ROLE_USER');
 -- Dumping data for table "client"
 --
 
-INSERT INTO "client" VALUES (5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG');
-INSERT INTO "client" VALUES (6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy');
-INSERT INTO "client" VALUES (7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u');
-INSERT INTO "client" VALUES (26,'Daniil','doiufj','0002-02-12','123','123','1@ma.ri','$2a$11$BUW1XqfWDWRj4HJpS2fAeOghxhkliKSoKI./Cu/9beFAPyXUMudZS');
-INSERT INTO "client" VALUES (27,'Daniil','das','2222-02-22','dassa','fs','s@gmail.comas','$2a$11$H8Qjwp8Adr4EEoL8HffFE..kzI5jdLKyE1lMqpt1Ipi4R4LCfiWdm');
-INSERT INTO "client" VALUES (29,'sad','sda','2222-02-22','dsa','dsa','sadas@gm13ail.com','$2a$11$Rijt6gommkSMirLLP8rNzOaFWdZFX43f4nkAopZhZVQAl0E2rF2h6');
-INSERT INTO "client" VALUES (30,'Daniil','doiufj','1222-12-12','2123','1231','1@ma.ri2','$2a$11$R3T1QtoihyQz8cjR4u//yuSQaRAoZHzqrNF.gyp1BW6LqCUhz71IW');
-INSERT INTO "client" VALUES (31,'Daniil','doiufj','0022-02-12','asd1','a12d3','1a@dsa.as','$2a$11$S4FY4V2Zs3HJ3E.UbTC.Qege9f2jGap/LmU8PtNQu3eo2vtTMUFka');
-INSERT INTO "client" VALUES (32,'Daniil','doiufj','0031-12-12','asd54','ad654as','as@opfask.re','$2a$11$zJqzz9iKvrFt9MMq6bPwBuhBKwb6dvXub29EKKngRy8lxP.vxIE5.');
-INSERT INTO "client" VALUES (33,'dasad','fj','1451-12-22','djfpp','faioj','sadij@ofh.sa','$2a$11$ptAmf7awk91B46nH/2ZYyeeYYYRPawau8qI88yZolO2UQw4MSTdqq');
-INSERT INTO "client" VALUES (35,'New','Client','1992-02-22','pass','addr','newuser@gmail.com','$2a$11$4.UhN3bDVU3UTEVeIG8XcuZR3nTKk04WYU6JSYBYp6cQKBffrRbna');
-INSERT INTO "client" VALUES (44,'Daniil','Pankratov','2222-02-22','2123','123','mobi@god.com','$2a$11$5MP4ZKyS5vL4/mX4zie4x.3Y5pJzTTs/v271zNIzLX4V6V2nLJa7K');
-INSERT INTO "client" VALUES (45,'Daniil','Pankratov','1995-06-29','pass','addr','newuser@gmai.com','$2a$11$p8ND50qlW.J4T0Et9UMB2u/u70vlLPlgHJsPHehjfqUnJCJd3ZZom');
+INSERT INTO "client" VALUES (5,'Даниил','Панкратов','1995-06-29','паспорт','адрес','mobigod0@gmail.com','$2a$11$2F/Dn2gUwF2B.GZ/nxwaZONsUeFTLReCoHSHZ4Q9dGG36abBuIgQG', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (6,'Admin','Adminov','1970-01-01','1337','1337','admin@admin.com','$2a$11$GtkB3K53SJDMutXNew1KhO.E0EKgEARgj2V3ZqKVxjsFuEZgnq.Xy', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (7,'Manager','Manager','2000-05-05','212','456','manager@manager.com','$2a$11$21jfNHnUJ6wRF0HNZbMXyudZFXR8RMouZluUrCsdOovYcGTtDJY/u', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (26,'Daniil','doiufj','0002-02-12','123','123','1@ma.ri','$2a$11$BUW1XqfWDWRj4HJpS2fAeOghxhkliKSoKI./Cu/9beFAPyXUMudZS', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (27,'Daniil','das','2222-02-22','dassa','fs','s@gmail.comas','$2a$11$H8Qjwp8Adr4EEoL8HffFE..kzI5jdLKyE1lMqpt1Ipi4R4LCfiWdm', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (29,'sad','sda','2222-02-22','dsa','dsa','sadas@gm13ail.com','$2a$11$Rijt6gommkSMirLLP8rNzOaFWdZFX43f4nkAopZhZVQAl0E2rF2h6', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (30,'Daniil','doiufj','1222-12-12','2123','1231','1@ma.ri2','$2a$11$R3T1QtoihyQz8cjR4u//yuSQaRAoZHzqrNF.gyp1BW6LqCUhz71IW', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (31,'Daniil','doiufj','0022-02-12','asd1','a12d3','1a@dsa.as','$2a$11$S4FY4V2Zs3HJ3E.UbTC.Qege9f2jGap/LmU8PtNQu3eo2vtTMUFka', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (32,'Daniil','doiufj','0031-12-12','asd54','ad654as','as@opfask.re','$2a$11$zJqzz9iKvrFt9MMq6bPwBuhBKwb6dvXub29EKKngRy8lxP.vxIE5.', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (33,'dasad','fj','1451-12-22','djfpp','faioj','sadij@ofh.sa','$2a$11$ptAmf7awk91B46nH/2ZYyeeYYYRPawau8qI88yZolO2UQw4MSTdqq', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (35,'New','Client','1992-02-22','pass','addr','newuser@gmail.com','$2a$11$4.UhN3bDVU3UTEVeIG8XcuZR3nTKk04WYU6JSYBYp6cQKBffrRbna', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (44,'Daniil','Pankratov','2222-02-22','2123','123','mobi@god.com','$2a$11$5MP4ZKyS5vL4/mX4zie4x.3Y5pJzTTs/v271zNIzLX4V6V2nLJa7K', true, null, null, true, null, null, null);
+INSERT INTO "client" VALUES (45,'Daniil','Pankratov','1995-06-29','pass','addr','newuser@gmai.com','$2a$11$p8ND50qlW.J4T0Et9UMB2u/u70vlLPlgHJsPHehjfqUnJCJd3ZZom', true, null, null, true, null, null, null);
 
 --
 -- Dumping data for table "clients_access_levels"

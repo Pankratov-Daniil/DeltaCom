@@ -42,7 +42,11 @@ public class LoginController {
         if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)) {
             if(!auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PRE_AUTH"))) {
                 logger.info("User with email: " + auth.getName() + " and authorities: " + auth.getAuthorities() + " logged in.");
-                saveClientLocation(request, principal.getName());
+                try {
+                    saveClientLocation(request, principal.getName());
+                } catch (RuntimeException ex) {
+                    logger.error("Can't save client location:" + ex.getMessage());
+                }
             } else {
                 return new ModelAndView("redirect:/preAuth");
             }
