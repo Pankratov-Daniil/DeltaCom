@@ -156,7 +156,7 @@ public class Contract {
         result = 31 * result + (numbersPool != null ? numbersPool.hashCode() : 0);
         result = 31 * result + (blocked ? 1 : 0);
         result = 31 * result + (blockedByOperator ? 1 : 0);
-        result = 31 * result + (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
+        result = 31 * result + (Float.compare(balance, 0.0f) != 0 ? Float.floatToIntBits(balance) : 0);
         result = 31 * result + (tariff != null ? tariff.hashCode() : 0);
         result = 31 * result + (client != null ? client.hashCode() : 0);
         result = 31 * result + (options != null ? options.hashCode() : 0);

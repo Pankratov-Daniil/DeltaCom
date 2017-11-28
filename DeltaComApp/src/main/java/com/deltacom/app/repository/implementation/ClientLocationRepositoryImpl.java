@@ -44,7 +44,7 @@ public class ClientLocationRepositoryImpl extends HibernateRepository<ClientLoca
                     "WHERE client_location.client_id = :clientId ORDER BY client_location.entered_date DESC", ClientLocation.class)
                     .setParameter("clientId", clientId)
                     .getResultList();
-            return locations.size() > 0 ? locations.get(0) : null;
+            return !locations.isEmpty() ? locations.get(0) : null;
         } catch (PersistenceException e) {
             return null;
         }

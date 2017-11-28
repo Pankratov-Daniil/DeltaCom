@@ -1,7 +1,6 @@
 package com.deltacom.app.services.implementation;
 
 import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.exceptions.RepositoryException;
 import com.deltacom.app.exceptions.TariffException;
 import com.deltacom.app.services.api.TariffService;
 import org.junit.Test;
@@ -11,9 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.PersistenceException;
-import javax.validation.ConstraintViolationException;
 
 import java.util.ArrayList;
 

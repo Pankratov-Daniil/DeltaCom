@@ -4,7 +4,6 @@ import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.Contract;
 import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.entities.Tariff;
-import com.deltacom.app.exceptions.ContractException;
 import com.deltacom.app.exceptions.RepositoryException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 

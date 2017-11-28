@@ -3,13 +3,13 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.AccessLevel;
 import com.deltacom.app.entities.Client;
 import com.deltacom.app.entities.ClientLocation;
+import com.deltacom.app.exceptions.ClientLocationException;
 import com.deltacom.app.exceptions.LoginException;
 import com.deltacom.app.services.api.ClientLocationService;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.LoginService;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.utils.PasswordEncrypter;
-import com.deltacom.dto.ClientDTO;
 import com.deltacom.dto.CredentialsDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -112,7 +111,7 @@ public class LoginServiceImpl implements LoginService {
     public void saveClientLocation(String ip, String clientEmail) {
         Client client = clientService.getClientByEmail(clientEmail);
         if(client == null) {
-            throw new RuntimeException("Can't get client with email: " + clientEmail + " .");
+            throw new ClientLocationException("Can't get client with email: " + clientEmail + " .", new RuntimeException());
         }
         RestTemplate restTemplate = new RestTemplate();
         String getIpURL = "https://freegeoip.net/json/" + ip;
@@ -141,11 +140,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public List<String> remoteLogin(CredentialsDTO credentialsDTO) {
         Client client = clientService.getClientByEmail(credentialsDTO.getEmail());
-        if(client == null) {
-            return null;
-        }
-        if(!PasswordEncrypter.passwordsEquals(credentialsDTO.getPassword(), client.getPassword())) {
-            return null;
+        if(client == null || !PasswordEncrypter.passwordsEquals(credentialsDTO.getPassword(), client.getPassword())) {
+            return new ArrayList<>();
         }
         List<String> accessLevelsList = new ArrayList<>();
         for(AccessLevel accessLevel :  client.getAccessLevels()) {

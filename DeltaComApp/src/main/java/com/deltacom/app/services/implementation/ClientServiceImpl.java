@@ -8,10 +8,8 @@ import com.deltacom.app.repository.api.ClientRepository;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.ContractService;
 import com.deltacom.app.services.api.MessageSenderService;
-import com.deltacom.app.services.api.NumbersPoolService;
 import com.deltacom.app.utils.PasswordEncrypter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -6,8 +6,6 @@ import com.deltacom.app.entities.Tariff;
 import com.deltacom.app.exceptions.TariffException;
 import com.deltacom.app.repository.api.OptionRepository;
 import com.deltacom.app.repository.api.TariffRepository;
-import com.deltacom.app.repository.implementation.OptionRepositoryImpl;
-import com.deltacom.app.repository.implementation.TariffRepositoryImpl;
 import com.deltacom.app.services.api.ContractService;
 import com.deltacom.app.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,9 +123,6 @@ public class TariffServiceImpl implements TariffService {
     public void deleteTariff(int id) {
         try {
             Tariff tariff = getTariffById(id);
-            if(tariff == null) {
-                throw new PersistenceException("Tariff wasn't found");
-            }
             List<Contract> contracts = contractService.getAllContractsByTariff(tariff);
             if(!contracts.isEmpty()) {
                 //try to add another tariff to contracts

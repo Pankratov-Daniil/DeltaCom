@@ -3,7 +3,6 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.NumbersPool;
 import com.deltacom.app.exceptions.NumbersPoolException;
 import com.deltacom.app.repository.api.NumbersPoolRepository;
-import com.deltacom.app.repository.implementation.NumbersPoolRepositoryImpl;
 import com.deltacom.app.services.api.NumbersPoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

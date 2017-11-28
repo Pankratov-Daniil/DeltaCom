@@ -56,7 +56,6 @@ public class Credentials {
     public String toString() {
         return "Credentials{" +
                 "email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

@@ -1,10 +1,7 @@
 package com.deltacom.app.utils;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +23,7 @@ public class PasswordEncrypterTest {
         Constructor<PasswordEncrypter> constructor = PasswordEncrypter.class.getDeclaredConstructor();
         constructor.setAccessible(true);
 
-        PasswordEncrypter passwordEncrypter = constructor.newInstance();
+        constructor.newInstance();
     }
 
 }

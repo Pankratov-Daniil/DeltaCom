@@ -4,8 +4,6 @@ import com.deltacom.app.entities.ClientLocation;
 import com.deltacom.app.exceptions.MessageSenderException;
 import com.deltacom.app.services.api.ClientService;
 import com.deltacom.app.services.api.MessageSenderService;
-import com.deltacom.app.services.api.OptionService;
-import com.deltacom.app.services.api.TariffService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;

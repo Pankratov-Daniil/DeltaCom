@@ -1,38 +1,23 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.entities.Client;
-import com.deltacom.app.entities.ClientLocation;
-import com.deltacom.app.services.api.ClientLocationService;
-import com.deltacom.app.services.api.ClientService;
+import com.deltacom.app.exceptions.ClientLocationException;
 import com.deltacom.app.services.api.LoginService;
-import com.deltacom.app.services.api.MessageSenderService;
-import com.deltacom.dto.ClientDTO;
 import com.deltacom.dto.CredentialsDTO;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,6 +105,8 @@ public class LoginController {
                 }
             }
             loginService.saveClientLocation(ip, email);
-        } catch (RuntimeException ex) { }
+        } catch (RuntimeException ex) {
+            throw new ClientLocationException("Can't save client location: ", ex);
+        }
     }
 }

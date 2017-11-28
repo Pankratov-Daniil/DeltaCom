@@ -1,8 +1,6 @@
 package com.adstand.app.filter;
 
 import com.adstand.app.services.LoginBean;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.*;
@@ -25,11 +23,11 @@ public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        // not needed
     }
 
     @Override
     public void destroy() {
-
+        // not needed
     }
 }

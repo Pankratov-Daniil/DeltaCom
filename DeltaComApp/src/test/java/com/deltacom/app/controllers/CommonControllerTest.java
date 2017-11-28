@@ -1,6 +1,5 @@
 package com.deltacom.app.controllers;
 
-import com.deltacom.app.entities.Client;
 import com.deltacom.app.services.api.*;
 import com.deltacom.dto.ClientDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +22,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.Date;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 

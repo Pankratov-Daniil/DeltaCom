@@ -1,6 +1,5 @@
 package com.deltacom.app.services.implementation;
 
-import com.deltacom.app.exceptions.TariffsWatcherException;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.services.api.OptionService;
 import com.deltacom.app.services.api.TariffService;

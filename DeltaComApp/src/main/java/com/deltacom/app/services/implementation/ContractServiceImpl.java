@@ -3,7 +3,6 @@ package com.deltacom.app.services.implementation;
 import com.deltacom.app.entities.*;
 import com.deltacom.app.exceptions.ContractException;
 import com.deltacom.app.repository.api.ContractRepository;
-import com.deltacom.app.repository.implementation.ContractRepositoryImpl;
 import com.deltacom.app.services.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

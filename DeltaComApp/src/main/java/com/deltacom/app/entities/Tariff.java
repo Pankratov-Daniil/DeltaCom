@@ -1,6 +1,5 @@
 package com.deltacom.app.entities;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -102,7 +101,7 @@ public class Tariff {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (price != +0.0f ? Float.floatToIntBits(price) : 0);
+        result = 31 * result + (Float.compare(price, 0.0f) != 0 ? Float.floatToIntBits(price) : 0);
         result = 31 * result + (options != null ? options.hashCode() : 0);
         return result;
     }

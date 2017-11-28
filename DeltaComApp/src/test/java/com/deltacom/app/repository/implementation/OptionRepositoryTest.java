@@ -2,7 +2,6 @@ package com.deltacom.app.repository.implementation;
 
 import com.deltacom.app.entities.Option;
 import com.deltacom.app.exceptions.RepositoryException;
-import com.deltacom.app.repository.api.OptionRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;

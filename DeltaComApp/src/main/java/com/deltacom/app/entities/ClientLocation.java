@@ -48,17 +48,6 @@ public class ClientLocation {
 
     }
 
-    public ClientLocation(int id, Client client, float latitude, float longitude, String city, String country, String ipAddress, Date enteredDate) {
-        this.id = id;
-        this.client = client;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.city = city;
-        this.country = country;
-        this.ipAddress = ipAddress;
-        this.enteredDate = enteredDate;
-    }
-
     public ClientLocation(int id, float latitude, float longitude, String city, String country, String ipAddress, Date enteredDate) {
         this.id = id;
         this.latitude = latitude;
@@ -175,8 +164,8 @@ public class ClientLocation {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (latitude != +0.0f ? Float.floatToIntBits(latitude) : 0);
-        result = 31 * result + (longitude != +0.0f ? Float.floatToIntBits(longitude) : 0);
+        result = 31 * result + (Float.compare(latitude, 0.0f) != 0 ? Float.floatToIntBits(latitude) : 0);
+        result = 31 * result + (Float.compare(longitude, 0.0f) != 0 ? Float.floatToIntBits(longitude) : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (ipAddress != null ? ipAddress.hashCode() : 0);
