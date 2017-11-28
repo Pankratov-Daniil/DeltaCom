@@ -56,7 +56,7 @@ public class LoginBean implements Serializable {
         }
 
         if(roles.contains("ROLE_MANAGER") || roles.contains("ROLE_ADMIN")) {
-            user = new User(credentials.getEmail(), "", roles);
+            user = new User(credentials.getEmail(), roles);
             logger.info("User with email: " + credentials.getEmail() + " logged in.");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You are successfully logged in."));
         } else {
