@@ -38,11 +38,11 @@
             </c:if>
             <div class="form-group">
                 <label class="control-label">EMAIL</label>
-                <input class="form-control" type="email" name="email" placeholder="Email" autofocus>
+                <input class="form-control" type="email" name="email" placeholder="Email" autofocus required>
             </div>
             <div class="form-group">
                 <label class="control-label">PASSWORD</label>
-                <input class="form-control" type="password" name="password" placeholder="Password">
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
             </div>
             <div class="form-group">
                 <div class="utility">

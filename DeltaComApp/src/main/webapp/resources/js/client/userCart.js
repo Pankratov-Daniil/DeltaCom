@@ -6,6 +6,7 @@ var curSelected = [];
 var prevSelected = [];
 var client = null;
 var balanceField = undefined;
+var curContract;
 
 $(document).ready(function () {
     balanceField = $("#contractBalance");
@@ -198,6 +199,7 @@ function openChangeContractModal() {
         return;
     }
     var contractModal = useCart ? contract : clientContract;
+    curContract = contractModal;
     var tariffSelect = $("#selectTariff");
     var optionsSelect = $("#selectOptions");
     var curTariffInfoDiv = $("#curTariff");
@@ -238,7 +240,10 @@ function openChangeContractModal() {
     curTariffInfoDiv.html(curTariffInfo);
 
 
-    addEvent('change', "#selectTariff", {}, optionsUpdated);
+    addEvent('change', "#selectTariff", {}, function() {
+        calculateBalance(curSelected);
+        optionsUpdated();
+    });
     tariff.options = idsToObjectInOptionsCompatibilityArr(tariff.options, options);
     tariff.options.forEach(function (option) {
         option.compatibleOptions = idsToObjectInOptionsCompatibilityArr(option.compatibleOptions, options);
@@ -269,6 +274,11 @@ function changeContract(event) {
     }
     event.preventDefault();
 
+    if(calculateBalance(curSelected) < 0) {
+        notifyError("Balance cannot be less than 0.");
+        return;
+    }
+
     var selectedOptionsSelect = $("#selectOptions").val();
     var selectedOptions = [];
     selectedOptionsSelect.forEach(function (optionStr) {
@@ -282,7 +292,7 @@ function changeContract(event) {
     };
 
     var onErrorFunc = function () {
-        notifyError("Error occurred while removing cart. Try again later.");
+        notifyError("Error occurred while changing contract. Try again later.");
     };
     $.ajax({
         url: "/DeltaCom/commons/changeContract",
@@ -308,6 +318,7 @@ function onOptionsSelectChange() {
     prevSelected = optChanged.prevSelected;
     curSelected = optChanged.curSelected;
     $(this).selectpicker('refresh');
+    calculateBalance(curSelected);
 }
 
 /**

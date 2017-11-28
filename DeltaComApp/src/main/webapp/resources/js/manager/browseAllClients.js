@@ -633,6 +633,11 @@ function onChangeContract(event) {
     var onErrorFunc = function () {
         notifyError("Error occurred while changing contract. Try again later.");
     };
+    if(calculateBalance(curSelected) < 0) {
+        notifyError("Balance cannot be less than 0.");
+        event.preventDefault();
+        return;
+    }
     if(checkValidityChangeContract(event)) {
         $.ajax({
             contentType: "application/json; charset=utf-8",
@@ -717,41 +722,6 @@ function optsChanged() {
     curSelected = optChanged.curSelected;
 
     calculateBalance(curSelected);
-}
-
-function calculateBalance(curSelected) {
-    var balance = curContract.balance;
-    var tariffId = $("#selectTariff").selectpicker('val');
-
-    if(tariffId == curContract.tariff.id) {
-        curSelected.forEach(function (selectedOptionId) {
-            var foundOption = $.grep(curContract.options, function (option) {
-                return option.id == selectedOptionId;
-            });
-            if (foundOption.length <= 0) {
-                var newOption = $.grep(options, function (option) {
-                    return option.id == selectedOptionId;
-                })[0];
-                if (newOption != undefined) {
-                    balance -= newOption.connectionCost;
-                }
-            }
-        });
-    } else {
-        var tariff = $.grep(tariffs, function(tariff){ return tariff.id == tariffId; })[0];
-        if(tariff != undefined) {
-            balance -= tariff.price;
-        }
-        curSelected.forEach(function (selectedOptionId) {
-            var newOption = $.grep(options, function (option) {
-                return option.id == selectedOptionId;
-            })[0];
-            if (newOption != undefined) {
-                balance -= newOption.connectionCost;
-            }
-        });
-    }
-    $("#contractBalance").val(balance);
 }
 
 function onSuccessfullBlock(successData) {

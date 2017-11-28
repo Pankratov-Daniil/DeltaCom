@@ -90,13 +90,13 @@ public class ClientServiceImpl implements ClientService {
             }
             client.setAccessLevels(accessLevels);
             clientRepository.add(client);
-            try {
-                messageSenderService.sendResetPasswordEmail(client.getEmail());
-            } catch(MessageSenderException ex) {
-                logger.error("Can't send email to new user: " + ex.getMessage());
-            }
         } catch (PersistenceException ex) {
             throw new ClientException("Client wasn't added: ", ex);
+        }
+        try {
+            messageSenderService.sendResetPasswordEmail(client.getEmail());
+        } catch(MessageSenderException ex) {
+            logger.error("Can't send email to new user: " + ex.getMessage());
         }
 
         return true;

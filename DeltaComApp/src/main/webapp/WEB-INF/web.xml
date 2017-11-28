@@ -71,5 +71,9 @@
     <session-timeout>10</session-timeout>
     <tracking-mode>COOKIE</tracking-mode>
   </session-config>
+  
+  <welcome-file-list>
+    <welcome-file>/process-login</welcome-file>
+  </welcome-file-list>
 
 </web-app>

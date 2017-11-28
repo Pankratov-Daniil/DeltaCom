@@ -86,22 +86,6 @@
                                     </div>
                                 </div>
                             </a>
-                            <a style="color: #000;" href="numberPoolActions">
-                                <div class="col-md-3">
-                                    <div class="card">
-                                        <h3 class="card-title"><i class="fa fa-list-ol"></i> Numbers pool</h3>
-                                        <div class="card-footer">
-                                            <p>
-                                                Manage numbers pool:
-                                            <ul>
-                                                <li>Add new number</li>
-                                                <li>Delete useless number</li>
-                                            </ul>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
                         </div>
                     </div>
                 </div>

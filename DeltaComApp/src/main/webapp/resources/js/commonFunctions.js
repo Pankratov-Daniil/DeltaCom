@@ -310,6 +310,45 @@ function onOptionsSelectChange(select) {
     }
 }
 
+function calculateBalance(curSelected) {
+    if(curContract == undefined) {
+        return;
+    }
+    var balance = curContract.balance;
+    var tariffId = $("#selectTariff").selectpicker('val');
+
+    if(tariffId == curContract.tariff.id) {
+        curSelected.forEach(function (selectedOptionId) {
+            var foundOption = $.grep(curContract.options, function (option) {
+                return option.id == selectedOptionId;
+            });
+            if (foundOption.length <= 0) {
+                var newOption = $.grep(options, function (option) {
+                    return option.id == selectedOptionId;
+                })[0];
+                if (newOption != undefined) {
+                    balance -= newOption.connectionCost;
+                }
+            }
+        });
+    } else {
+        var tariff = $.grep(tariffs, function(tariff){ return tariff.id == tariffId; })[0];
+        if(tariff != undefined) {
+            balance -= tariff.price;
+        }
+        curSelected.forEach(function (selectedOptionId) {
+            var newOption = $.grep(options, function (option) {
+                return option.id == selectedOptionId;
+            })[0];
+            if (newOption != undefined) {
+                balance -= newOption.connectionCost;
+            }
+        });
+    }
+    $("#contractBalance").val(balance);
+    return balance;
+}
+
 /**
  * Adds click event to element
  * @param elem element on page
