@@ -227,8 +227,31 @@ public class ContractServiceImpl implements ContractService {
             if(newOptionsId == null || newOptionsId.length == 0) {
                 throw new PersistenceException("Options cannot be empty.");
             }
+
+            Tariff oldTariff = contract.getTariff();
+            List<Option> oldOptions = contract.getOptions();
+            List<Option> newOptions = getOptionsFromIds(newOptionsId);
+            float balance = contract.getBalance();
+
+            if(oldTariff.getId() == newTariffId) {
+                for(Option newOption : newOptions) {
+                    if(!oldOptions.contains(newOption)) {
+                        balance -= newOption.getConnectionCost();
+                    }
+                }
+            } else {
+                balance -= tariff.getPrice();
+                for(Option option : newOptions) {
+                    balance -= option.getConnectionCost();
+                }
+            }
+            if(balance < 0) {
+                throw new PersistenceException("Balance cannot be less than 0.");
+            }
+
             contract.setTariff(tariff);
-            contract.setOptions(getOptionsFromIds(newOptionsId));
+            contract.setOptions(newOptions);
+            contract.setBalance(balance);
 
             contractRepository.update(contract);
         } catch (PersistenceException ex) {

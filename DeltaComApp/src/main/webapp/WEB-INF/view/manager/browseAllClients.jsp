@@ -111,7 +111,7 @@
 
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group">
+                                                            <div class="form-group hideOnCreateContract">
                                                                 <label class="control-label">Contract balance</label><br/>
                                                                 <input class="btn btn-primary" type="text" name="contractBalance" id="contractBalance" readonly="true" value="" />
                                                             </div>
