@@ -104,6 +104,22 @@ public class ContractServiceImpl implements ContractService {
     }
 
     /**
+     * Top up balance by value
+     * @param value value to add to balance
+     */
+    @Override
+    @Transactional
+    public void addBalance(int contractId, int value) {
+        try {
+            Contract contract = getContractById(contractId);
+            contract.setBalance(contract.getBalance() + value);
+            contractRepository.update(contract);
+        } catch (PersistenceException ex) {
+            throw new ContractException("Can't top up balance: ", ex);
+        }
+    }
+
+    /**
      * Creates new contract
      * @param clientId client id
      * @param number selected number

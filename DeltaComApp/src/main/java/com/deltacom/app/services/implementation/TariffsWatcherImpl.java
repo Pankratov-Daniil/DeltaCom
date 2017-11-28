@@ -4,6 +4,8 @@ import com.deltacom.app.exceptions.TariffsWatcherException;
 import com.deltacom.app.services.api.MessageSenderService;
 import com.deltacom.app.services.api.OptionService;
 import com.deltacom.app.services.api.TariffService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 @Aspect
 @Service("TariffsWatcher")
 public class TariffsWatcherImpl {
+    private static final Logger logger = LogManager.getLogger(TariffsWatcherImpl.class);
     @Autowired
     private MessageSenderService messageSenderService;
     @Autowired
@@ -26,9 +29,13 @@ public class TariffsWatcherImpl {
     public void afterTariffChanged() {
         try {
             messageSenderService.sendToTopic("/topic/tariffs", tariffService.getAllTariffs());
+        } catch(RuntimeException e) {
+            logger.error("Can't send message about changing tariffs to topic: " + e.getMessage());
+        }
+        try {
             messageSenderService.sendToQueue("Tariffs changed.");
-        } catch(Exception e) {
-            throw new TariffsWatcherException("Can't send message about changing tariffs: ", e);
+        } catch(RuntimeException e) {
+            logger.error("Can't send message about changing tariffs to MQ: " + e.getMessage());
         }
     }
 
@@ -39,8 +46,8 @@ public class TariffsWatcherImpl {
     public void afterOptionChanged() {
         try {
             messageSenderService.sendToTopic("/topic/options", optionService.getAllOptions());
-        } catch(Exception e) {
-            throw new TariffsWatcherException("Can't send message about changing options: ", e);
+        } catch(RuntimeException e) {
+            logger.error("Can't send message about changing options: " + e.getMessage());
         }
     }
 }

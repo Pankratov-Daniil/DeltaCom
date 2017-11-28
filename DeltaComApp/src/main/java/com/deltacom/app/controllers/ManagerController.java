@@ -107,6 +107,17 @@ public class ManagerController extends CommonController {
     }
 
     /**
+     * Top up balance by value
+     * @param value value to add to balance
+     */
+    @ResponseBody
+    @RequestMapping(value = "/topUpBalance", method = RequestMethod.POST)
+    public void topUpBalance(@RequestParam int contractId,
+                             @RequestParam int value) {
+        contractService.addBalance(contractId, value);
+    }
+
+    /**
      * Changes option
      * @param optionDTO option from page
      */

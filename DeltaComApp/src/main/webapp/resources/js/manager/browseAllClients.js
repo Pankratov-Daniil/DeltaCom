@@ -14,6 +14,7 @@ var options = [];
 var tariffs = [];
 var countEntriesField;
 var addedClient = undefined;
+var addBalanceModal;
 
 /**
  * Calls when document is ready. Starting page configuration.
@@ -26,6 +27,7 @@ $(document).ready(function () {
     });
 
     countEntriesField = $("#countEntries");
+    addBalanceModal = $("#topUpBalanceModal");
 
     getAllOptions(saveAllOptions);
     addClickEvent('#prevButton', {}, function () {
@@ -59,7 +61,7 @@ $(document).ready(function () {
     addClickEvent("#startSearchByNumber", {} ,findUserByNumber);
     addClickEvent("#resetFindUserByNumber", {}, resetFindUserByNumber);
     addClickEvent("#addNewClientBtn", {}, addNewClientOpenModal);
-    addClickEvent("#submitNewUser", {}, addNewClient)
+    addClickEvent("#submitNewUser", {}, addNewClient);
 
     countEntriesField.trigger('change');
 });
@@ -229,6 +231,7 @@ function updateTable (data, countEntries) {
     addClickEvent(".deleteClient", {}, deleteClient);
     addClickEvent(".manageContract", {"addContract" : false}, onOpenContractManager);
     addClickEvent(".addContract", {"addContract" : true}, onOpenContractManager);
+    addClickEvent(".topUpBalance", {}, onOpenAddBalanceModal);
 
     tableBody.html(tableRecords);
 
@@ -274,6 +277,7 @@ function getContractAsHtml(contract) {
     tableRecords += '<span class="caret"></span></a>';
     tableRecords += '<ul class="dropdown-menu">';
     tableRecords += '<li><a id="' + contract.id + '" class="manageContract" href="javascript:void(0);"><i class="fa fa-pencil fa-fw"></i> Edit contract</a></li>';
+    tableRecords += '<li><a id="' + contract.id + '" class="topUpBalance" href="javascript:void(0);"><i class="fa fa-dollar fa-fw"></i> Top up balance</a></li>';
     tableRecords += '<li class="divider"></li>';
     tableRecords += '<li><a id="blockContractLink' + contract.id + '" href="javascript:void(0);">';
     tableRecords += (contract.blocked ? '<i class="fa fa-unlock fa-fw"></i> Unblock contract' : '<i class="fa fa-ban fa-fw"></i> Block contract');
@@ -513,6 +517,7 @@ function onOpenContractManager(event) {
     // if changing contract
     if(!event.data.addContract) {
         getContractByNumber(number, function (contract) {
+            $("#contractBalance").val(contract.balance);
             savedTariff = contract.tariff;
             var curTariffHtml = "<p>Tariff name: " + contract.tariff.name + "<br/>" +
                 "Options: ";
@@ -714,4 +719,42 @@ function onSuccessfullBlock(successData) {
     $(successData.linkId).text(textLink);
     
     successData.contract.blocked = successData.blocked;
+}
+
+function onOpenAddBalanceModal() {
+    $("#addBalanceForm").trigger('reset');
+    addBalanceModal.modal('show');
+    addClickEvent("#submitTopUpBalance", {"contractId" : $(this).attr('id')}, topUpBalance);
+}
+
+function topUpBalance(event) {
+    var form = $("#addBalanceForm");
+    if(!form[0].checkValidity()) {
+        form[0].trigger('submit');
+        return false;
+    }
+    event.preventDefault();
+
+    var onErrorFunc = function () {
+        notifyError("Error while topping up balance. Try again later.");
+    };
+
+    $.ajax({
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        url: "/DeltaCom/manager/topUpBalance",
+        method: "POST",
+        data: {
+            'contractId' : event.data.contractId,
+            'value' : $("#addBalanceValue").val()
+        },
+        success: function (data) {
+            if(data != '') {
+                onErrorFunc();
+                return;
+            }
+            addBalanceModal.modal('hide');
+            notifySuccess("Balance successfully topped up.");
+        },
+        error: onErrorFunc
+    });
 }

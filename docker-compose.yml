@@ -40,6 +40,8 @@ services:
         ports:
             - "3306:3306"
         container_name : "deltacom-mysql"
+        volumes:
+            - ./DockerEnv/deltacom-mysql/data:/var/lib/mysql
         healthcheck:
             test: "/usr/bin/mysql --user=root --password=123 --execute \"SHOW DATABASES;\""
             interval: 10s

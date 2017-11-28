@@ -112,6 +112,10 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
+                                                                <label class="control-label">Contract balance</label><br/>
+                                                                <input class="btn btn-primary" type="text" name="contractBalance" id="contractBalance" readonly="true" value="" />
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label class="control-label" >Available tariffs</label><br/>
                                                                 <select class="selectpicker form-control" data-style="btn-primary" id="selectTariff" name="selectTariff">
 
@@ -171,7 +175,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="card">
-                                                        <h3 class="card-title">Add new user</h3>
+                                                        <h3 class="card-title">Add new client</h3>
                                                         <div class="card-body">
                                                             <form method="post" action="regNewClient" id="newUserForm" acceptCharset="utf8">
                                                                 <div class="form-group">
@@ -198,13 +202,40 @@
                                                                     <label class="control-label">Email</label>
                                                                     <input class="form-control" type="email" placeholder="Enter email address" id="emailField" required>
                                                                 </div>
-                                                                <%--<div class="form-group">
-                                                                    <label class="control-label">Password</label>
-                                                                    <input class="form-control" type="password" placeholder="Enter password" id="passwordField" required pattern=".{6,}">
-                                                                </div>--%>
                                                                 <div class="form-group">
                                                                     <button id="submitNewUser" class="btn btn-success" type="submit">Submit</button>
                                                                     <button id="resetNewUser" class="btn btn-default" type="reset">Clear form</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="topUpBalanceModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Add balance</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <h3 class="card-title">Add balance</h3>
+                                                        <div class="card-body">
+                                                            <form id="addBalanceForm" acceptCharset="utf8">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Value to add</label>
+                                                                    <input class="form-control" type="text" placeholder="Enter first name" id="addBalanceValue" required pattern="[0-9]+">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button id="submitTopUpBalance" class="btn btn-success" type="submit">Submit</button>
+                                                                    <button id="resetTopUpBalance" class="btn btn-default" type="reset">Clear form</button>
                                                                 </div>
                                                             </form>
                                                         </div>
