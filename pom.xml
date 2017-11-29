@@ -12,5 +12,15 @@
   	<module>DeltaComApp</module>
 	<module>AdvertisingStand</module>
   </modules>
+  
+  <build>
+	<plugins>
+		<plugin>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
+            <version>1.2.0.Final</version>
+        </plugin>
+	</plugins>
+  </build>
  
  </project>

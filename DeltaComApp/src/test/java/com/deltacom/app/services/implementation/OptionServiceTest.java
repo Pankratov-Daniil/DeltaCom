@@ -74,4 +74,10 @@ public class OptionServiceTest {
         assertEquals(optionService.getAllOptions().size(), 5);
         assertEquals(optionService.getOptionById(1), null);
     }
+
+    @Test(expected = RepositoryException.class)
+    @Rollback
+    public void deleteOptionException() throws Exception {
+        optionService.deleteOption(1454564);
+    }
 }

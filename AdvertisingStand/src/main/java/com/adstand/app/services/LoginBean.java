@@ -76,7 +76,7 @@ public class LoginBean implements Serializable {
      * Logout
      * @return redirect to login page
      */
-    public String logout() throws IOException {
+    public String logout() {
         logger.info("User with email: " + user.getEmail() + " logged out.");
         user = null;
         return "login?faces-redirect=true";
