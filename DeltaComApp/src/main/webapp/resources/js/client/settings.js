@@ -118,7 +118,7 @@ function resizeMap() {
 
 function addMarkersToMap(locations) {
     locations.forEach(function (location) {
-        var marker = new google.maps.Marker({
+        new google.maps.Marker({
             position: {lat: location.latitude, lng: location.longitude},
             map: map
         });

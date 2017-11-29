@@ -2,10 +2,11 @@ package com.adstand.app.entity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import java.io.Serializable;
 
 @RequestScoped
 @Named
-public class Credentials {
+public class Credentials implements Serializable {
     private String email;
     private String password;
 
