@@ -57,7 +57,8 @@
         <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"/>
+    <bean id="tariffsWatcher" class="com.deltacom.app.services.implementation.TariffsWatcherImpl"
+          factory-method="aspectOf"/>
 
     <jee:jndi-lookup id="connectionFactory"
                      jndi-name="java:/activemq/deltacom/topic" proxy-interface="javax.jms.ConnectionFactory"

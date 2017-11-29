@@ -23,6 +23,7 @@ import java.util.UUID;
 /**
  * Operations with sending messages to message queue
  */
+
 @Service("MessageSenderService")
 public class MessageSenderServiceImpl implements MessageSenderService {
     private static final Logger logger = LogManager.getLogger(MessageSenderService.class);
