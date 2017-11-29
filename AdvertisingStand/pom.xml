@@ -145,7 +145,7 @@
             <version>2.20.1</version>
             <configuration>
                 <includes>
-                    <include>**/AllTestsSuite.java</include>
+                    <include>**/*Test*.java</include>
                 </includes>
             </configuration>
         </plugin>
