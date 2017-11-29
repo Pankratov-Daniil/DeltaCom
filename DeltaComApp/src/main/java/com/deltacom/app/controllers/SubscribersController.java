@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for processing websocket connections
+ */
 @Controller
 public class SubscribersController {
     @MessageMapping("/subscrToOptions")

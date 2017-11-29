@@ -21,16 +21,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Login bean
+ */
 @SessionScoped
 @Named
 public class LoginBean implements Serializable {
     private static final Logger logger = LogManager.getLogger(LoginBean.class);
     private static final String REMOTE_LOGIN_URI = "https://deltacomapp.com/DeltaCom/remoteLogin";
-
     private User user;
     @Inject
     private Credentials credentials;
 
+    /**
+     * Send request to main app for get user authorities,
+     * checks if user have manager or admin rights and if have, save user
+     * @return redirect to login page
+     */
     public String login() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(REMOTE_LOGIN_URI);
@@ -65,12 +72,20 @@ public class LoginBean implements Serializable {
         return "login?faces-redirect=true";
     }
 
+    /**
+     * Logout
+     * @return redirect to login page
+     */
     public String logout() throws IOException {
         logger.info("User with email: " + user.getEmail() + " logged out.");
         user = null;
         return "login?faces-redirect=true";
     }
 
+    /**
+     * Checks if user have manager or admin rights
+     * @return true if user have manager or admin rights, false otherwise
+     */
     public boolean isHaveManagerRights() {
         return user != null && (user.getRoles().contains("ROLE_MANAGER") || user.getRoles().contains("ROLE_ADMIN"));
     }

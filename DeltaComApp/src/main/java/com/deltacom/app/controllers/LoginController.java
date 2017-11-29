@@ -30,11 +30,19 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    /**
+     * redirects request to process-login
+     */
     @RequestMapping(value = "/")
     public ModelAndView rootProcessing(HttpServletRequest request, Principal principal) {
         return processLogin(request, principal);
     }
 
+    /**
+     * Processes login:
+     * checks client credentials and redirects him to his index page, or to login page if client is anonymous
+     * also, saves client location by his IP
+     */
     @RequestMapping(value = "/process-login")
     public ModelAndView processLogin(HttpServletRequest request, Principal principal){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -62,17 +70,30 @@ public class LoginController {
         return new ModelAndView("loginPage");
     }
 
+    /**
+     * Returns preAuth page
+     * @return preAuth page
+     */
     @RequestMapping(value = "/preAuth")
     public ModelAndView preAuth() {
         return new ModelAndView("preAuth");
     }
 
+    /**
+     * Processes request for send pre auth sms code
+     * @return "time" if time between sms less than 5 minutes, null if sms successfully sent or message from sms server
+     */
     @ResponseBody
     @RequestMapping(value = "/sendPreAuthCode", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String sendPreAuthCode(Principal principal) {
         return loginService.sendPreAuthCode(principal.getName());
     }
 
+    /**
+     * Checks if sms code is correct and if correct, grant authorities to client
+     * @param code entered sms code
+     * @return index page if check passed or login page if check failed
+     */
     @RequestMapping(value = "/checkPreAuthCode", method = RequestMethod.POST)
     public ModelAndView checkPreAuthCode(@RequestParam String code,
                                          HttpServletRequest request,
@@ -83,6 +104,11 @@ public class LoginController {
         return processLogin(request, principal);
     }
 
+    /**
+     * Get client authorities by his login and password
+     * @param credentialsDTO email and password
+     * @return list of client authorities
+     */
     @ResponseBody
     @RequestMapping(value = "/remoteLogin", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> remoteLogin(CredentialsDTO credentialsDTO) {

@@ -22,12 +22,15 @@ import java.net.URISyntaxException;
 @Path("/")
 public class MainController {
     private static final Logger logger = LogManager.getLogger(MainController.class);
-
     @EJB
     private TariffsLoader tariffsLoader;
     @Inject
     private LoginBean loginBean;
 
+    /**
+     * If user have manager or admin credentials, redirect to advertising stand, else redirect to login page
+     * @return If user have manager or admin credentials, returns advertising stand page, else - login page
+     */
     @GET
     @Path("/")
     public Response tariffsPage() throws URISyntaxException {

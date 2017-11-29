@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Operations with login
+ */
 @Service("LoginService")
 public class LoginServiceImpl implements LoginService {
     private static final Logger logger = LogManager.getLogger(LoginService.class);

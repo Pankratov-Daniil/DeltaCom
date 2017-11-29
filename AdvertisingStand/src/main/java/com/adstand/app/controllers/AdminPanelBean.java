@@ -15,6 +15,9 @@ import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Admin bean for JSF pages
+ */
 @ManagedBean(name = "adminPanelBean")
 @SessionScoped
 public class AdminPanelBean {
@@ -24,12 +27,18 @@ public class AdminPanelBean {
     private TariffsLoader tariffsLoader;
     private List<TariffsToShow> tariffsToShows;
 
+    /**
+     * Load tariffs on bean create
+     */
     @PostConstruct
     public void onCreate() {
         reloadTariffs();
     }
 
-    public void reloadTariffs() {
+    /**
+     * Loads tariffs from tariffsLoader
+     */
+    private void reloadTariffs() {
         List<TariffDTOwOpts> tariffs = tariffsLoader.getTariffs();
         tariffsToShows = new ArrayList<>();
         for(TariffDTOwOpts tariff : tariffs) {
@@ -45,6 +54,9 @@ public class AdminPanelBean {
         this.tariffsToShows = tariffsToShows;
     }
 
+    /**
+     * Send message with new tariffs to advertising stand
+     */
     public void sendMessage() {
         logger.info("Set new tariffs to show:" + tariffsToShows);
         tariffsLoader.setTariffsToShow(tariffsToShows);

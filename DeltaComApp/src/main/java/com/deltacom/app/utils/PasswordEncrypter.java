@@ -13,10 +13,21 @@ public class PasswordEncrypter {
         throw new IllegalAccessException();
     }
 
+    /**
+     * Encrypts password
+     * @param password plain password
+     * @return encrypted password
+     */
     public static String encryptPassword(String password) {
         return encoder.encode(password);
     }
 
+    /**
+     * Checks if passwords are equals
+     * @param rawPassword raw password
+     * @param encodedPassword encrypted password
+     * @return true if password matches, false otherwise
+     */
     public static boolean passwordsEquals(String rawPassword, String encodedPassword) {
         return encoder.matches(rawPassword, encodedPassword);
     }

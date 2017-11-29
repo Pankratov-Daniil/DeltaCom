@@ -1,6 +1,5 @@
 package com.adstand.app.services;
 
-import com.adstand.app.services.TariffsLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jboss.ejb3.annotation.ResourceAdapter;
@@ -13,6 +12,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+/**
+ * Class for receiving messages from MQ
+ */
 @MessageDriven(activationConfig =
         {
                 @ActivationConfigProperty(propertyName="destinationType", propertyValue="javax.jms.Topic"),

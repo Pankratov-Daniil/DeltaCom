@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation for a class that loads tariffs
+ * Class that loads tariffs
  */
 @Stateless(name = "tariffsLoader")
 @SessionScoped
@@ -69,6 +69,10 @@ public class TariffsLoader {
         return tariffs;
     }
 
+    /**
+     * Got shown tariffs for stand
+     * @return list of shown tariffs
+     */
     public List<TariffDTOwOpts> getTariffsForStand() {
         List<TariffDTOwOpts> tariffsForStand = new ArrayList<>();
         for(TariffsToShow tariff : tariffsToShow) {
@@ -79,6 +83,10 @@ public class TariffsLoader {
         return tariffsForStand;
     }
 
+    /**
+     * Saves tariffs to show and send show tariffs to stand by websockets
+     * @param tariffsToShows tariffs to show
+     */
     public void setTariffsToShow(List<TariffsToShow> tariffsToShows) {
         this.tariffsToShow = tariffsToShows;
         WebSocketService.sendMessage(getTariffsForStand());

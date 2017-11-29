@@ -213,6 +213,10 @@ public class ManagerController extends CommonController {
         return clientService.getClientsFromIndex(startIndex, countEntries);
     }
 
+    /**
+     * Processing request for getting clients count
+     * @return clients count
+     */
     @ResponseBody
     @RequestMapping(value = "/getClientsCount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public long getClientsCount() {

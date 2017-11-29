@@ -17,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for resetting password
+ */
 @Controller
 public class ResetPasswordController {
     @Autowired
