@@ -57,8 +57,7 @@
         <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
     </bean>
 
-<!--    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"
-          factory-method="aspectOf"/>-->
+    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"/>
 
     <jee:jndi-lookup id="connectionFactory"
                      jndi-name="java:/activemq/deltacom/topic" proxy-interface="javax.jms.ConnectionFactory"

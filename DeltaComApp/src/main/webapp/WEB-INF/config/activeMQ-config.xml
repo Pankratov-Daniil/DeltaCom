@@ -7,6 +7,8 @@
        http://www.springframework.org/schema/jee
        http://www.springframework.org/schema/jee/spring-jee.xsd">
 
+    <bean id="messageSenderService" class="com.deltacom.app.services.implementation.MessageSenderServiceImpl"/>
+
     <jee:jndi-lookup id="connectionFactory"
                      jndi-name="activemq/ConnectionFactory" proxy-interface="javax.jms.ConnectionFactory"
                      lookup-on-startup="true"/>
