@@ -231,7 +231,7 @@
                                                             <form id="addBalanceForm" acceptCharset="utf8">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Value to add</label>
-                                                                    <input class="form-control" type="text" placeholder="Enter first name" id="addBalanceValue" required pattern="[0-9]+">
+                                                                    <input class="form-control" type="text" placeholder="Enter value" id="addBalanceValue" required pattern="[0-9]+">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <button id="submitTopUpBalance" class="btn btn-success" type="submit">Submit</button>
